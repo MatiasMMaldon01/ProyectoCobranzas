@@ -4,6 +4,7 @@ using Infraestructura.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructura.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230103010005_MapeoInicial-0001")]
+    partial class MapeoInicial0001
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,10 +65,7 @@ namespace Infraestructura.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("MontoAbonado")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("MontoCuota")
+                    b.Property<decimal>("Monto")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Numero")
@@ -320,7 +320,7 @@ namespace Infraestructura.Migrations
             modelBuilder.Entity("Dominio.Entidades.Usuario", b =>
                 {
                     b.HasOne("Dominio.Entidades.Persona", "Persona")
-                        .WithMany()
+                        .WithMany("Usuarios")
                         .HasForeignKey("PersonaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -357,6 +357,11 @@ namespace Infraestructura.Migrations
             modelBuilder.Entity("Dominio.Entidades.Cuota", b =>
                 {
                     b.Navigation("Pagos");
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.Persona", b =>
+                {
+                    b.Navigation("Usuarios");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Alumno", b =>

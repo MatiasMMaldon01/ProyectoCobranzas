@@ -8,7 +8,7 @@ namespace Infraestructura.Repositorio
 {
     public class Repositorio<T> : IRepositorio<T> where T : EntidadBase
     {
-        private readonly DataContext _context;
+        protected readonly DataContext _context;
         public Repositorio(DataContext context)
         {   
             _context = context;
@@ -46,7 +46,7 @@ namespace Infraestructura.Repositorio
         #endregion
 
         #region Metodos Obtener
-        public async Task<T> Obtener(long id, string propiedadesNavegacion = "")
+        public virtual async Task<T> Obtener(long id, string propiedadesNavegacion = "")
         {
             var query = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                 .Aggregate<string, IQueryable<T>>(_context.Set<T>(), (current, include) => current.Include(include));
@@ -59,7 +59,7 @@ namespace Infraestructura.Repositorio
             return resultado;
         }
         
-        public async Task<IEnumerable<T>> Obtener(Expression<Func<T, bool>> filtro = null, string propiedadesNavegacion = "")
+        public virtual async Task<IEnumerable<T>> Obtener(Expression<Func<T, bool>> filtro = null, string propiedadesNavegacion = "")
         {
 
             var query = propiedadesNavegacion.Split(new[] { ',' },StringSplitOptions.RemoveEmptyEntries).
@@ -72,9 +72,9 @@ namespace Infraestructura.Repositorio
             return resultado;
         }
 
-        public async Task<IEnumerable<T>> ObtenerTodos(string propiedadesNavegacion = "")
+        public virtual async Task<IEnumerable<T>> ObtenerTodos(string propiedadesNavegacion = "")
         {
-            var query = propiedadesNavegacion.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).
+            var query = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).
                Aggregate<string, IQueryable<T>>(_context.Set<T>(), (current, include) => current.Include(include));
 
             return await query.ToListAsync();

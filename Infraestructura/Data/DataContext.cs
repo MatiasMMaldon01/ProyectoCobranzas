@@ -27,11 +27,14 @@ namespace Infraestructura.Data
         }
 
         DbSet<Carrera> Carreras { get; set; }
+        DbSet<Persona> Personas { get; set; }
+        DbSet<Empleado> Empleados { get; set; }
         DbSet<Alumno> Alumnos { get; set; }
         DbSet<Cuota> Cuotas { get; set; }
         DbSet<Pago> Pagos { get; set; }
         DbSet<Usuario> Usuarios { get; set; }
         DbSet<PrecioCuota> PrecioCuotas { get; set; }
+        DbSet<Proceso> Procesos { get; set; }
 
     }
 }

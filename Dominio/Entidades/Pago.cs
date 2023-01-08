@@ -13,6 +13,8 @@ namespace Dominio.Entidades
 
         public long CuotaId { get; set; }
 
+        public DateTime FechaPago { get; set; }
+
 
         // Propiedades de Navegacion
         public virtual Cuota Cuota { get; set; }

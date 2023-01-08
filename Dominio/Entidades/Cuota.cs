@@ -1,4 +1,4 @@
-﻿using Aplicacion.Constantes;
+﻿using Aplicacion.Constantes.Enums;
 using Dominio.Metadata;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,7 +11,9 @@ namespace Dominio.Entidades
     {
         public int Numero { get; set; }
 
-        public decimal Monto { get; set; }
+        public decimal MontoCuota { get; set; }
+
+        public decimal MontoAbonado { get; set; }
 
         public DateTime Fecha { get; set; }
 

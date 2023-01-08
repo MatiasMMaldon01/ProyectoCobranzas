@@ -12,7 +12,9 @@ namespace Dominio.Interfaces
         // Declaraciones de los Repositorios
 
         IRepositorio<Carrera> CarreraRepositorio { get; }
-        IRepositorio<Alumno> AlumnoRepositorio { get; }
+        IAlumnoRepositorio AlumnoRepositorio { get; }
+
+        IEmpleadoRepositorio EmpleadoRepositorio { get; }
         IRepositorio<Pago> PagoRepositorio { get; }
         IRepositorio<Cuota> CuotaRepositorio { get; }
         IRepositorio<PrecioCuota> PrecioCuotaRepositorio { get; }

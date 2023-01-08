@@ -1,5 +1,6 @@
 ﻿using IServicios.Carrera;
 using IServicios.Carrera.Carrera_DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -7,6 +8,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
     public class CarreraController : Controller
     {
         private readonly ICarreraServicio _carreraServicio;

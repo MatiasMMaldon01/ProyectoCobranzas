@@ -1,4 +1,4 @@
-﻿namespace Aplicacion.Constantes
+﻿namespace Aplicacion.Constantes.Enums
 {
     public enum EstadoCuota
     {

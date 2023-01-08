@@ -23,6 +23,7 @@ namespace Api.Controllers
                 Nombre = Usuario.Nombre,
                 Password = Usuario.Password,
                 Rol = Usuario.Rol,
+                PersonaId = Usuario.PersonaId,
                 Eliminado = false,
 
             };
@@ -41,6 +42,7 @@ namespace Api.Controllers
                 Nombre = Usuario.Nombre,
                 Password = Usuario.Password,
                 Rol = Usuario.Rol,
+                PersonaId=Usuario.PersonaId,
                 Eliminado = false,
 
             };

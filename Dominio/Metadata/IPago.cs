@@ -11,5 +11,8 @@ namespace Dominio.Metadata
         [DataType(DataType.Currency)]
         decimal Monto { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es Obligatorio")]
+        [DataType(DataType.DateTime)]
+        DateTime FechaPago { get; set; }
     }
 }

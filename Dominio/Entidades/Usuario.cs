@@ -1,7 +1,7 @@
 ﻿using Dominio.Metadata;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using Aplicacion.Constantes;
+using Aplicacion.Constantes.Enums;
 
 namespace Dominio.Entidades
 {
@@ -12,6 +12,10 @@ namespace Dominio.Entidades
         public string Nombre { get; set; }
         public string Password { get; set; }
         public Rol Rol { get; set; }
+        public long PersonaId { get; set; }
+
+        // Propiedades de Navegacion
+        public virtual Persona Persona { get; set; }
 
     }
 }

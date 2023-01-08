@@ -1,10 +1,15 @@
-﻿using Aplicacion.Constantes;
+﻿using Aplicacion.Constantes.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace Dominio.Metadata
 {
     public  interface IUsuario
     {
+
+        [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
+        [Display(Name = "Persona")]
+        long PersonaId { get; set; }
+
         [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
         [Display(Name = @"Nombre Usuario")]
         [StringLength(50, ErrorMessage = "El campo {0} debe ser menor a {1} caracteres.")]

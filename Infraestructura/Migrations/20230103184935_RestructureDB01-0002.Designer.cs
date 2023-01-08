@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructura.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221222195817_MapeoInicial0001")]
-    partial class MapeoInicial0001
+    [Migration("20230103184935_RestructureDB01-0002")]
+    partial class RestructureDB010002
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,56 +24,6 @@ namespace Infraestructura.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Dominio.Entidades.Alumno", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Apellido")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("CarreraId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Direccion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Dni")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EstaEliminado")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Mail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Telefono")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("UsuarioId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CarreraId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Alumno");
-                });
 
             modelBuilder.Entity("Dominio.Entidades.Carrera", b =>
                 {
@@ -145,6 +95,9 @@ namespace Infraestructura.Migrations
                     b.Property<bool>("EstaEliminado")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("FechaPago")
+                        .HasColumnType("datetime2");
+
                     b.Property<decimal>("Monto")
                         .HasColumnType("decimal(18,2)");
 
@@ -153,6 +106,48 @@ namespace Infraestructura.Migrations
                     b.HasIndex("CuotaId");
 
                     b.ToTable("Pago");
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.Persona", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Direccion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Dni")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EstaEliminado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Mail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Persona");
+
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Dominio.Entidades.PrecioCuota", b =>
@@ -182,6 +177,41 @@ namespace Infraestructura.Migrations
                     b.ToTable("PrecioCuota");
                 });
 
+            modelBuilder.Entity("Dominio.Entidades.Proceso", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("Codigo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EntidadMovimiento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EstaEliminado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UsuarioId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Proceso");
+                });
+
             modelBuilder.Entity("Dominio.Entidades.Usuario", b =>
                 {
                     b.Property<long>("Id")
@@ -201,31 +231,46 @@ namespace Infraestructura.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("PersonaId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("Rol")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PersonaId");
 
                     b.ToTable("Usuario");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Alumno", b =>
                 {
-                    b.HasOne("Dominio.Entidades.Carrera", "Carrera")
-                        .WithMany()
-                        .HasForeignKey("CarreraId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasBaseType("Dominio.Entidades.Persona");
 
-                    b.HasOne("Dominio.Entidades.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<long>("CarreraId")
+                        .HasColumnType("bigint");
 
-                    b.Navigation("Carrera");
+                    b.Property<DateTime>("FechaIngreso")
+                        .HasColumnType("datetime2");
 
-                    b.Navigation("Usuario");
+                    b.Property<int>("Legajo")
+                        .HasColumnType("int");
+
+                    b.HasIndex("CarreraId");
+
+                    b.ToTable("Persona_Alumno");
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.Empleado", b =>
+                {
+                    b.HasBaseType("Dominio.Entidades.Persona");
+
+                    b.Property<string>("AreaTrabajo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("Persona_Empleado");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Cuota", b =>
@@ -261,14 +306,62 @@ namespace Infraestructura.Migrations
                     b.Navigation("Carrera");
                 });
 
+            modelBuilder.Entity("Dominio.Entidades.Proceso", b =>
+                {
+                    b.HasOne("Dominio.Entidades.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.Usuario", b =>
+                {
+                    b.HasOne("Dominio.Entidades.Persona", "Persona")
+                        .WithMany()
+                        .HasForeignKey("PersonaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Persona");
+                });
+
             modelBuilder.Entity("Dominio.Entidades.Alumno", b =>
                 {
-                    b.Navigation("Cuotas");
+                    b.HasOne("Dominio.Entidades.Carrera", "Carrera")
+                        .WithMany()
+                        .HasForeignKey("CarreraId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Dominio.Entidades.Persona", null)
+                        .WithOne()
+                        .HasForeignKey("Dominio.Entidades.Alumno", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Carrera");
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.Empleado", b =>
+                {
+                    b.HasOne("Dominio.Entidades.Persona", null)
+                        .WithOne()
+                        .HasForeignKey("Dominio.Entidades.Empleado", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Cuota", b =>
                 {
                     b.Navigation("Pagos");
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.Alumno", b =>
+                {
+                    b.Navigation("Cuotas");
                 });
 #pragma warning restore 612, 618
         }
