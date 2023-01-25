@@ -4,6 +4,7 @@ using Infraestructura.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructura.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230124165253_ChangeDeleteBehavior-0004")]
+    partial class ChangeDeleteBehavior0004
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,26 +62,24 @@ namespace Infraestructura.Migrations
                     b.Property<bool>("EstaEliminado")
                         .HasColumnType("bit");
 
-                    b.Property<int>("EstadoCuota")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("MontoAbonado")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal>("MontoCuota")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("Numero")
                         .HasColumnType("int");
 
-                    b.Property<long>("PrecioCuotaId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Rol")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AlumnoId");
-
-                    b.HasIndex("PrecioCuotaId");
 
                     b.ToTable("Cuota");
                 });
@@ -283,15 +284,7 @@ namespace Infraestructura.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Dominio.Entidades.PrecioCuota", "PrecioCuota")
-                        .WithMany("Cuotas")
-                        .HasForeignKey("PrecioCuotaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Alumno");
-
-                    b.Navigation("PrecioCuota");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Pago", b =>
@@ -367,11 +360,6 @@ namespace Infraestructura.Migrations
             modelBuilder.Entity("Dominio.Entidades.Cuota", b =>
                 {
                     b.Navigation("Pagos");
-                });
-
-            modelBuilder.Entity("Dominio.Entidades.PrecioCuota", b =>
-                {
-                    b.Navigation("Cuotas");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Alumno", b =>

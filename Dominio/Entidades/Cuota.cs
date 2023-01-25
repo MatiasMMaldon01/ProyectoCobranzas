@@ -11,20 +11,22 @@ namespace Dominio.Entidades
     {
         public int Numero { get; set; }
 
-        public decimal MontoCuota { get; set; }
-
         public decimal MontoAbonado { get; set; }
 
         public DateTime Fecha { get; set; }
 
-        public Rol Rol { get; set; }
+        public EstadoCuota EstadoCuota { get; set; }
 
         public long AlumnoId { get; set; }
+
+        public long PrecioCuotaId { get; set; }
 
 
         //Propiedades de Navegacion
 
         public virtual Alumno Alumno { get; set; }
+
+        public virtual PrecioCuota PrecioCuota { get; set; }
 
         public virtual ICollection<Pago> Pagos { get; set; }
 

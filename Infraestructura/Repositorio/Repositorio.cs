@@ -49,7 +49,7 @@ namespace Infraestructura.Repositorio
         public virtual async Task<T> Obtener(long id, string propiedadesNavegacion = "")
         {
             var query = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
-                .Aggregate<string, IQueryable<T>>(_context.Set<T>(), (current, include) => current.Include(include));
+                .Aggregate<string, IQueryable<T>>(_context.Set<T>(), (current, include) => current.Include(include.Trim()));
 
             var resultado = await query.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -63,7 +63,7 @@ namespace Infraestructura.Repositorio
         {
 
             var query = propiedadesNavegacion.Split(new[] { ',' },StringSplitOptions.RemoveEmptyEntries).
-                Aggregate<string,IQueryable<T>>(_context.Set<T>(), (current, include) => current.Include(include));
+                Aggregate<string,IQueryable<T>>(_context.Set<T>(), (current, include) => current.Include(include.Trim()));
 
             if (filtro != null) query = query.Where(filtro);
 
@@ -75,7 +75,7 @@ namespace Infraestructura.Repositorio
         public virtual async Task<IEnumerable<T>> ObtenerTodos(string propiedadesNavegacion = "")
         {
             var query = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).
-               Aggregate<string, IQueryable<T>>(_context.Set<T>(), (current, include) => current.Include(include));
+               Aggregate<string, IQueryable<T>>(_context.Set<T>(), (current, include) => current.Include(include.Trim()));
 
             return await query.ToListAsync();
         }

@@ -13,10 +13,12 @@ namespace Dominio.Entidades
 
         public DateTime Fecha { get; set; }
 
-        public long CarreraId {get;set; } 
+        public long CarreraId { get; set; } 
 
         // Propiedades de Navegacion
         public virtual Carrera Carrera { get; set; }
+
+        public virtual ICollection<Cuota> Cuotas { get; set; }
 
     }
 }

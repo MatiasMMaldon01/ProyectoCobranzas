@@ -15,6 +15,10 @@ using IServicios.Seguridad;
 using Servicios.SeguridadServicio;
 using IServicios.Persona;
 using Servicios.PersonaServicio;
+using IServicios.PrecioCuota;
+using Servicios.PrecioCuotaServicio;
+using IServicios.Cuota;
+using Servicios.CuotaServicio;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,6 +63,10 @@ builder.Services.AddScoped<ISeguridadServicio, SeguridadServicio>();
 builder.Services.AddScoped<IAlumnoServicio, AlumnoServicio>();
 builder.Services.AddScoped<IEmpleadoServicio, EmpleadoServicio>();
 builder.Services.AddScoped<IPersonaServicio, PersonaServicio>();
+builder.Services.AddScoped<IPrecioCuotaServicio, PrecioCuotaServicio>();
+builder.Services.AddScoped<ICuotaServicio, CuotaServicio>();
+
+
 
 // DB Configuración
 builder.Services.AddDbContext<DataContext>(options =>
@@ -67,13 +75,13 @@ builder.Services.AddDbContext<DataContext>(options =>
 var app = builder.Build();
 
 // Esta porción de código crea la DB. Sólo usar una vez. (Reescribe la DB)
-using (var scope = app.Services.CreateScope())
-{
+//using (var scope = app.Services.CreateScope())
+//{
 
-    var _context = scope.ServiceProvider.GetRequiredService<DataContext>();
-    _context.Database.Migrate();
+//    var _context = scope.ServiceProvider.GetRequiredService<DataContext>();
+//    _context.Database.Migrate();
 
-}
+//}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
