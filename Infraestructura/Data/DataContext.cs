@@ -13,6 +13,13 @@ namespace Infraestructura.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Configuración para realizar las eliminaciones de forma RESTRICT
+
+            foreach(var foreignKey in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+            
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 var properties = entityType.ClrType.GetProperties().Where(p => p.PropertyType == typeof(decimal));

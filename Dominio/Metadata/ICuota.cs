@@ -30,5 +30,9 @@ namespace Dominio.Metadata
         [Display(Name = "Alumno")]
         long AlumnoId { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
+        [Display(Name = "PrecioCuota")]
+        long PrecioCuotaId { get; set; }
+
     }
 }
