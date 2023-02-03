@@ -21,7 +21,7 @@ namespace Infraestructura.Repositorio
 
             await _context.Set<T>().AddAsync(entidad);
 
-             return entidad.Id;
+            return entidad.Id;
         }
 
         public async Task Eliminar(long id)
@@ -32,6 +32,8 @@ namespace Infraestructura.Repositorio
             if (entidadEliminar == null) throw new Exception("La entidad a eliminar no existe");
 
             entidadEliminar.EstaEliminado = !entidadEliminar.EstaEliminado;
+
+            _context.Entry(entidadEliminar).State = EntityState.Modified;
 
         }
 

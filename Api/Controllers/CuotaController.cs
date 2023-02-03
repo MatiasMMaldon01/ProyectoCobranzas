@@ -25,9 +25,6 @@ namespace Api.Controllers
             {
                 Id = cuota.Id,
                 Numero = cuota.Numero,
-                MontoAbonado = cuota.MontoAbonado,
-                EstadoCuota = cuota.EstadoCuota,
-                Fecha = cuota.Fecha,
                 AlumnoId = cuota.AlumnoId,
                 PrecioCuotaId = cuota.PrecioCuotaId,
                 Eliminado = false,
@@ -46,9 +43,6 @@ namespace Api.Controllers
             {
                 Id = cuota.Id,
                 Numero = cuota.Numero,
-                MontoAbonado = cuota.MontoAbonado,
-                EstadoCuota = cuota.EstadoCuota,
-                Fecha = cuota.Fecha,
                 AlumnoId = cuota.AlumnoId,
                 PrecioCuotaId = cuota.PrecioCuotaId,
                 Eliminado = false,

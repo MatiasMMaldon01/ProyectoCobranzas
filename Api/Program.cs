@@ -19,6 +19,8 @@ using IServicios.PrecioCuota;
 using Servicios.PrecioCuotaServicio;
 using IServicios.Cuota;
 using Servicios.CuotaServicio;
+using IServicios.Pago;
+using Servicios.PagoServicio;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,8 +56,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// Inyección de Dependencias
 
+// Inyección de Dependencias
 builder.Services.AddScoped<IUnidadDeTrabajo, UnidadDeTrabajo>();
 builder.Services.AddScoped<ICarreraServicio, CarreraServicio>();
 builder.Services.AddScoped<IUsuarioServicio, UsuarioServicio>();
@@ -65,12 +67,15 @@ builder.Services.AddScoped<IEmpleadoServicio, EmpleadoServicio>();
 builder.Services.AddScoped<IPersonaServicio, PersonaServicio>();
 builder.Services.AddScoped<IPrecioCuotaServicio, PrecioCuotaServicio>();
 builder.Services.AddScoped<ICuotaServicio, CuotaServicio>();
-
+builder.Services.AddScoped<IPagoServicio, PagoServicio>();
 
 
 // DB Configuración
-builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CobranzasDB")));
+builder.Services.AddDbContext<DataContext>(options => {
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CobranzasDB"));
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    }
+);
 
 var app = builder.Build();
 
