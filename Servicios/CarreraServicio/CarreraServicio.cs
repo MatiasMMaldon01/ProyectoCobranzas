@@ -3,7 +3,6 @@ using Dominio.Interfaces;
 using IServicios.Base.Base_DTO;
 using IServicios.Carrera;
 using IServicios.Carrera.Carrera_DTO;
-using IServicios.Usuario.UsuarioDTO;
 using Servicios.Base;
 using System.Linq.Expressions;
 
@@ -92,7 +91,7 @@ namespace Servicios.CarreraServicio
                 .ToList();
         }
 
-        public async Task<IEnumerable<BaseDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = true)
+        public async Task<IEnumerable<BaseDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = false)
         {
             Expression<Func<Carrera, bool>> filtro = x => x.Descripcion.Contains(cadenaBuscar);
 
