@@ -42,7 +42,7 @@ namespace Servicios.PersonaServicio
             await persona.Eliminar(id);
         }
 
-        public async Task<IEnumerable<PersonaDTO>> Obtener(Type tipo, string cadenaBuscar, bool mostrarTodos = true)
+        public async Task<IEnumerable<PersonaDTO>> Obtener(Type tipo, string cadenaBuscar, bool mostrarTodos = false)
         {
             var persona = GenericInstance<Persona>.InstanciarEntidad(tipo, _diccionario, _unidadDeTrabajo);
 
@@ -56,7 +56,7 @@ namespace Servicios.PersonaServicio
             return  await persona.Obtener(id);
         }
 
-        public async Task<IEnumerable<PersonaDTO>> ObtenerTodos(Type tipo)
+        public async Task<IEnumerable<PersonaDTO>> ObtenerTodos(Type tipo, bool mostrarTodos = false)
         {
             var persona = GenericInstance<Persona>.InstanciarEntidad(tipo, _diccionario, _unidadDeTrabajo);
 

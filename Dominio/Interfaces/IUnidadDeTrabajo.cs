@@ -13,7 +13,6 @@ namespace Dominio.Interfaces
 
         IRepositorio<Carrera> CarreraRepositorio { get; }
         IAlumnoRepositorio AlumnoRepositorio { get; }
-
         IEmpleadoRepositorio EmpleadoRepositorio { get; }
         IRepositorio<Pago> PagoRepositorio { get; }
         IRepositorio<Cuota> CuotaRepositorio { get; }

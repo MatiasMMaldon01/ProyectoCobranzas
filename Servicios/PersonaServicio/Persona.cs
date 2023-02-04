@@ -36,7 +36,7 @@ namespace Servicios.PersonaServicio
             return null;
         }
 
-        public virtual Task<IEnumerable<PersonaDTO>> ObtenerTodos()
+        public virtual Task<IEnumerable<PersonaDTO>> ObtenerTodos(bool mostrarTodos = false)
         {
             return null;
         }

@@ -93,10 +93,17 @@ namespace Servicios.UsuarioServicio
 
         }
 
-        public async Task<IEnumerable<BaseDTO>> ObtenerTodos()
+        public async Task<IEnumerable<BaseDTO>> ObtenerTodos(bool mostrarTodos = false)
         {
 
-            var entidad = await _unidadDeTrabajo.UsuarioRepositorio.ObtenerTodos("Persona");
+            Expression<Func<Usuario, bool>> filtro = x => x.EstaEliminado;
+
+            if (!mostrarTodos)
+            {
+                filtro = x => !x.EstaEliminado;
+            }
+
+            var entidad = await _unidadDeTrabajo.UsuarioRepositorio.ObtenerTodos(filtro, "Persona");
 
             return entidad.Select(x => new UsuarioDTO
             {

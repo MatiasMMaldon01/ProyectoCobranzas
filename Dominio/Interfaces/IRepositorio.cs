@@ -16,9 +16,9 @@ namespace Dominio.Interfaces
 
         Task<T> Obtener(long id, string propiedadesNavegacion = "");
 
-        Task<IEnumerable<T>> ObtenerTodos(string propiedadesNavegacion = "");
-
         Task<IEnumerable<T>> Obtener(Expression<Func<T, bool>> filtro = null, string propiedadesNavegacion = "");
+
+        Task<IEnumerable<T>> ObtenerTodos(Expression<Func<T, bool>> filtro = null, string propiedadesNavegacion = "");
 
 
     }

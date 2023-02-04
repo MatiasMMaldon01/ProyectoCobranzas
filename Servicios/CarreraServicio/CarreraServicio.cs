@@ -75,10 +75,16 @@ namespace Servicios.CarreraServicio
 
         }
 
-        public async Task<IEnumerable<BaseDTO>> ObtenerTodos()
+        public async Task<IEnumerable<BaseDTO>> ObtenerTodos(bool mostrarTodos = false)
         {
+            Expression<Func<Carrera, bool>> filtro = x => x.EstaEliminado;
 
-            var entidad = await _unidadDeTrabajo.CarreraRepositorio.ObtenerTodos();
+            if (!mostrarTodos)
+            {
+                filtro = x => !x.EstaEliminado;
+            }
+
+            var entidad = await _unidadDeTrabajo.CarreraRepositorio.ObtenerTodos(filtro);
 
             return entidad.Select(x => new CarreraDto
             {

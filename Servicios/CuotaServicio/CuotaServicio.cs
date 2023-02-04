@@ -81,7 +81,7 @@ namespace Servicios.CuotaServicio
             {
                 Id = entidad.Id,
                 Numero = entidad.Numero,
-                MontoAbonado = CalcularMontoAbonado(entidad),
+                MontoAbonado = entidad.MontoAbonado,
                 Fecha = entidad.Fecha,
                 EstadoCuota = entidad.EstadoCuota,
                 PrecioCuotaId = entidad.PrecioCuotaId,
@@ -105,20 +105,13 @@ namespace Servicios.CuotaServicio
                     Carrera = entidad.Alumno.Carrera.Descripcion
 
                 },
-                NumeroDePagos = entidad.Pagos.Count(),
-                Pagos = entidad.Pagos.Select(p => new PagoDTO
-                {
-                    Id = p.Id,
-                    Monto = p.Monto,
-                    FechaPago = p.FechaPago,
-                    CuotaId = p.CuotaId,
-                    Eliminado = p.EstaEliminado
-                }).ToList(),
+                NumeroDePagos = entidad.Pagos.Count(x => !x.EstaEliminado),
+                Pagos = ManejoDePagos(entidad.Pagos.ToList()),
                 Eliminado = entidad.EstaEliminado,
             };
         }
 
-        public async Task<IEnumerable<BaseDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = true)
+        public async Task<IEnumerable<BaseDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = false)
         {
             Expression<Func<Cuota, bool>> filtro = x => x.Numero.ToString() == cadenaBuscar;
 
@@ -133,7 +126,7 @@ namespace Servicios.CuotaServicio
             {
                 Id = x.Id,
                 Numero = x.Numero,
-                MontoAbonado = CalcularMontoAbonado(x),
+                MontoAbonado = x.MontoAbonado,
                 Fecha = x.Fecha,
                 EstadoCuota = x.EstadoCuota,
                 PrecioCuotaId = x.PrecioCuotaId,
@@ -158,30 +151,31 @@ namespace Servicios.CuotaServicio
                     Carrera = x.Alumno.Carrera.Descripcion
 
                 },
-                NumeroDePagos = x.Pagos.Count(),
-                Pagos = x.Pagos.Select(p => new PagoDTO
-                {
-                    Id = p.Id,
-                    Monto = p.Monto,
-                    FechaPago = p.FechaPago,
-                    CuotaId = p.CuotaId,
-                    Eliminado = p.EstaEliminado
-                }).ToList(),
+                NumeroDePagos = x.Pagos.Count(x => !x.EstaEliminado),
+                Pagos = ManejoDePagos(x.Pagos.ToList()),
                 Eliminado = x.EstaEliminado,
             })
                 .OrderBy(x => x.Numero)
                 .ToList();
         }
 
-        public async Task<IEnumerable<BaseDTO>> ObtenerTodos()
+        public async Task<IEnumerable<BaseDTO>> ObtenerTodos(bool mostrarTodos = false)
         {
-            var entidad = await _unidadDeTrabajo.CuotaRepositorio.ObtenerTodos("PrecioCuota.Carrera, Alumno.Carrera, Pagos");
+
+            Expression<Func<Cuota, bool>> filtro = x => x.EstaEliminado;
+
+            if (!mostrarTodos)
+            {
+                filtro = x => !x.EstaEliminado;
+            }
+
+            var entidad = await _unidadDeTrabajo.CuotaRepositorio.ObtenerTodos(filtro, "PrecioCuota.Carrera, Alumno.Carrera, Pagos");
 
             return entidad.Select(x => new CuotaDTO
             {
                 Id = x.Id,
                 Numero = x.Numero,
-                MontoAbonado = CalcularMontoAbonado(x),
+                MontoAbonado = x.MontoAbonado,
                 Fecha = x.Fecha,
                 EstadoCuota = x.EstadoCuota,
                 PrecioCuotaId = x.PrecioCuotaId,
@@ -206,15 +200,8 @@ namespace Servicios.CuotaServicio
                     Carrera = x.Alumno.Carrera.Descripcion
 
                 },
-                NumeroDePagos = x.Pagos.Count(),
-                Pagos = x.Pagos.Select(p => new PagoDTO
-                {
-                    Id = p.Id,
-                    Monto = p.Monto,
-                    FechaPago = p.FechaPago,
-                    CuotaId = p.CuotaId,
-                    Eliminado = p.EstaEliminado
-                }).ToList(),
+                NumeroDePagos = x.Pagos.Count(x => !x.EstaEliminado),
+                Pagos = ManejoDePagos(x.Pagos.ToList()),
                 Eliminado = x.EstaEliminado,
             })
                 .OrderBy(x => x.Numero)
@@ -238,7 +225,7 @@ namespace Servicios.CuotaServicio
             {
                 Id = ultimaCuota.Id,
                 Numero = ultimaCuota.Numero,
-                MontoAbonado = CalcularMontoAbonado(ultimaCuota),
+                MontoAbonado = ultimaCuota.MontoAbonado,
                 Fecha = ultimaCuota.Fecha,
                 EstadoCuota = ultimaCuota.EstadoCuota,
                 PrecioCuotaId = ultimaCuota.PrecioCuotaId,
@@ -263,15 +250,8 @@ namespace Servicios.CuotaServicio
                     Carrera = ultimaCuota.Alumno.Carrera.Descripcion
 
                 },
-                NumeroDePagos = ultimaCuota.Pagos.Count(),
-                Pagos = ultimaCuota.Pagos.Select(p => new PagoDTO
-                {
-                    Id = p.Id,
-                    Monto = p.Monto,
-                    FechaPago = p.FechaPago,
-                    CuotaId = p.CuotaId,
-                    Eliminado = p.EstaEliminado
-                }).ToList(),
+                NumeroDePagos = ultimaCuota.Pagos.Count(x => !x.EstaEliminado),
+                Pagos = ManejoDePagos(ultimaCuota.Pagos.ToList()),
                 Eliminado = ultimaCuota.EstaEliminado,
             };
 
@@ -280,17 +260,42 @@ namespace Servicios.CuotaServicio
         }
 
         // =========================================== Metodos Privados =========================================== //
-        private decimal CalcularMontoAbonado(Cuota entidad)
+        private List<PagoDTO> ManejoDePagos(List<Pago> pagos)
         {
-            decimal montoAbonado = 0;
 
-            foreach(var pago in entidad.Pagos)
+            List<PagoDTO> pagosList = new List<PagoDTO>();
+
+            foreach(var p in pagos)
             {
-                montoAbonado += pago.Monto;
+                if (!p.EstaEliminado)
+                {
+                    var pago =  new PagoDTO
+                    {
+                        Id = p.Id,
+                        Monto = p.Monto,
+                        FechaPago = p.FechaPago,
+                        CuotaId = p.CuotaId,
+                        Eliminado = p.EstaEliminado
+                    };
+
+                    pagosList.Add(pago);
+                }
             }
 
-            return montoAbonado;
+            return pagosList;
         }
+
+        //private decimal CalcularMontoAbonado(Cuota entidad)
+        //{
+        //    decimal montoAbonado = 0;
+
+        //    foreach(var pago in entidad.Pagos)
+        //    {
+        //        montoAbonado += pago.Monto;
+        //    }
+
+        //    return montoAbonado;
+        //}
 
     }
 }

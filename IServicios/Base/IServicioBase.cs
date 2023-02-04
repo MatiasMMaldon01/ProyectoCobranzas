@@ -12,7 +12,7 @@ namespace IServicios.Base
 
         Task<BaseDTO> Obtener(long id);
 
-        Task<IEnumerable<BaseDTO>> ObtenerTodos();
+        Task<IEnumerable<BaseDTO>> ObtenerTodos(bool mostrarTodos = false);
 
         Task<IEnumerable<BaseDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = false);
     }
