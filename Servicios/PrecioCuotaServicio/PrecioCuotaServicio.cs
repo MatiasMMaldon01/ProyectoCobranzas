@@ -82,10 +82,16 @@ namespace Servicios.PrecioCuotaServicio
 
         }
 
-        public async Task<IEnumerable<BaseDTO>> ObtenerTodos()
+        public async Task<IEnumerable<BaseDTO>> ObtenerTodos(bool mostrarTodos = false)
         {
+            Expression<Func<PrecioCuota, bool>> filtro = x => x.EstaEliminado;
 
-            var entidad = await _unidadDeTrabajo.PrecioCuotaRepositorio.ObtenerTodos("Carrera");
+            if (!mostrarTodos)
+            {
+                filtro = x => !x.EstaEliminado;
+            }
+
+            var entidad = await _unidadDeTrabajo.PrecioCuotaRepositorio.ObtenerTodos(filtro, "Carrera");
 
             return entidad.Select(x => new PrecioCuotaDTO
             {

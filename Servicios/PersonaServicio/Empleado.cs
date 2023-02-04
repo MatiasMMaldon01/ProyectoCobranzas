@@ -1,4 +1,5 @@
-﻿using Dominio.Interfaces;
+﻿using Dominio.Entidades;
+using Dominio.Interfaces;
 using IServicios.Persona.DTO_s;
 using Servicios.Base;
 using System.Linq.Expressions;
@@ -111,10 +112,16 @@ namespace Servicios.PersonaServicio
             };
         }
 
-        public override async Task<IEnumerable<PersonaDTO>> ObtenerTodos()
+        public override async Task<IEnumerable<PersonaDTO>> ObtenerTodos(bool mostrarTodos = false)
         {
+            Expression<Func<Dominio.Entidades.Empleado, bool>> filtro = x => x.EstaEliminado;
 
-            var respuesta = await _unidadDeTrabajo.EmpleadoRepositorio.ObtenerTodos();
+            if (!mostrarTodos)
+            {
+                filtro = x => !x.EstaEliminado;
+            }
+
+            var respuesta = await _unidadDeTrabajo.EmpleadoRepositorio.ObtenerTodos(filtro);
 
             return respuesta
                     .Select(x => new EmpleadoDTO

@@ -12,9 +12,9 @@ namespace IServicios.Persona
 
         Task<PersonaDTO> Obtener(Type tipoEntidad, long id);
 
-        Task<IEnumerable<PersonaDTO>> Obtener(Type tipoEntidad, string cadenaBuscar, bool mostrarTodos);
+        Task<IEnumerable<PersonaDTO>> Obtener(Type tipoEntidad, string cadenaBuscar, bool mostrarTodos = false);
 
-        Task<IEnumerable<PersonaDTO>> ObtenerTodos(Type tipoEntidad);
+        Task<IEnumerable<PersonaDTO>> ObtenerTodos(Type tipoEntidad, bool mostrarTodos = false);
 
 
         // ==================================================================== //

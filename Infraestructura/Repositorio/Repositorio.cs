@@ -74,10 +74,12 @@ namespace Infraestructura.Repositorio
             return resultado;
         }
 
-        public virtual async Task<IEnumerable<T>> ObtenerTodos(string propiedadesNavegacion = "")
+        public virtual async Task<IEnumerable<T>> ObtenerTodos(Expression<Func<T, bool>> filtro = null, string propiedadesNavegacion = "")
         {
             var query = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).
                Aggregate<string, IQueryable<T>>(_context.Set<T>(), (current, include) => current.Include(include.Trim()));
+
+            if (filtro != null) query = query.Where(filtro);
 
             return await query.ToListAsync();
         }

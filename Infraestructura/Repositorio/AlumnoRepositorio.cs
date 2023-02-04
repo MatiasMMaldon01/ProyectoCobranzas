@@ -35,7 +35,7 @@ namespace Infraestructura.Repositorio
             return resultado.ToList();
         }
 
-        public override async Task<IEnumerable<Alumno>> ObtenerTodos(string propiedadesNavegacion = "")
+        public override async Task<IEnumerable<Alumno>> ObtenerTodos(Expression<Func<Alumno, bool>> filtro = null, string propiedadesNavegacion = "")
         {
             var query = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                 .Aggregate<string, IQueryable<Alumno>>(_context.Set<Persona>().OfType<Alumno>(), (current, include) => current.Include(include));

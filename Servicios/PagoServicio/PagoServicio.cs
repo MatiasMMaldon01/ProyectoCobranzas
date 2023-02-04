@@ -88,7 +88,7 @@ namespace Servicios.PagoServicio
                     return entidad.Id;
                     
                 }
-                catch 
+                catch
                 {
                     tran.Dispose();
                     throw new Exception("Ocurrio un error grave al grabar el Pago");
@@ -99,8 +99,49 @@ namespace Servicios.PagoServicio
 
         public async Task Eliminar(long id)
         {
-            await _unidadDeTrabajo.PagoRepositorio.Eliminar(id);
-            _unidadDeTrabajo.Commit();
+            using (var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                try
+                {
+                    var pago = await _unidadDeTrabajo.PagoRepositorio.Obtener(id);
+
+                    if (pago == null) throw new Exception("No se encotró el pago que quiere eliminar");
+
+                    var cuota = await _unidadDeTrabajo.CuotaRepositorio.Obtener(pago.CuotaId, "PrecioCuota.Carrera, Alumno.Carrera, Pagos");
+
+                    if (cuota == null) throw new Exception("No se encontro la cuota de referencia");
+
+                    if (!pago.EstaEliminado)
+                    {
+                        var montoActualAbonado = (cuota.MontoAbonado - pago.Monto);
+
+                        await _unidadDeTrabajo.PagoRepositorio.Eliminar(id);
+
+                        Cuota cuotaPagada;
+
+                        cuotaPagada = new Cuota
+                        {
+                            Id = cuota.Id,
+                            Numero = cuota.Numero,
+                            EstadoCuota = EstadoCuota.Pendiente,
+                            PrecioCuotaId = cuota.PrecioCuotaId,
+                            AlumnoId = cuota.AlumnoId,
+                            MontoAbonado = montoActualAbonado,
+                        };
+
+                        await _unidadDeTrabajo.CuotaRepositorio.Modificar(cuotaPagada);
+                        _unidadDeTrabajo.Commit();
+                    }
+
+
+                    tran.Complete();
+                }
+                catch
+                {
+                    tran.Dispose();
+                    throw new Exception("Ocurrio un error grave al modificar el Pago");
+                }
+            }
         }
 
         public async Task Modificar(BaseDTO dtoEntidad)
@@ -200,9 +241,16 @@ namespace Servicios.PagoServicio
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<BaseDTO>> ObtenerTodos()
+        public async Task<IEnumerable<BaseDTO>> ObtenerTodos(bool mostrarTodos = false)
         {
-            var entidad = await _unidadDeTrabajo.PagoRepositorio.ObtenerTodos("Cuota.Alumno, Cuota.PrecioCuota");
+            Expression<Func<Pago, bool>> filtro = x => x.EstaEliminado;
+
+            if (!mostrarTodos)
+            {
+                filtro = x => !x.EstaEliminado;
+            }
+
+            var entidad = await _unidadDeTrabajo.PagoRepositorio.ObtenerTodos(filtro, "Cuota.Alumno, Cuota.PrecioCuota");
 
             return entidad.Select(x => new PagoDTO
             {
