@@ -2,6 +2,9 @@
 using IServicios.Persona;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using IServicios.Carrera.Carrera_DTO;
+using Dominio.Entidades;
+using System.Collections.Generic;
 
 namespace Api.Controllers
 {
@@ -29,8 +32,8 @@ namespace Api.Controllers
                 Telefono = alumno.Telefono,
                 Mail = alumno.Mail,
                 FechaIngreso = alumno.FechaIngreso,
-                CarreraId = alumno.CarreraId,
                 Legajo = alumno.Legajo,
+                Carreras = ManejarCarreras(alumno.Carreras),
                 Eliminado = false,
 
             };
@@ -55,7 +58,6 @@ namespace Api.Controllers
                 Telefono = alumno.Telefono,
                 Mail = alumno.Mail,
                 FechaIngreso = alumno.FechaIngreso,
-                CarreraId = alumno.CarreraId,
                 Legajo = alumno.Legajo,
                 Eliminado = false,
 
@@ -122,6 +124,29 @@ namespace Api.Controllers
             {
                 return Results.Ok(Alumnos);
             }
+        }
+
+        // ==================================== METODOS PRIVADOS ==================================== //
+
+        private List<CarreraDto> ManejarCarreras(List<CarreraDto> carreras)
+        {
+
+            var listaCarrera = new List<CarreraDto>();
+
+            foreach (var carrera in carreras)
+            {
+                var item = new CarreraDto
+                {
+                    Id = carrera.Id,
+                    CantidadCuotas = carrera.CantidadCuotas,
+                    Descripcion = carrera.Descripcion,
+                    Eliminado = carrera.Eliminado,
+                };
+
+                listaCarrera.Add(item);
+            }
+
+            return listaCarrera;
         }
     }
 }

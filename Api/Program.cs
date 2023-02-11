@@ -21,6 +21,8 @@ using IServicios.Cuota;
 using Servicios.CuotaServicio;
 using IServicios.Pago;
 using Servicios.PagoServicio;
+using IServicios.AlumnoCarrera;
+using Servicios.AlumnoCarreraServicio;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,6 +70,8 @@ builder.Services.AddScoped<IPersonaServicio, PersonaServicio>();
 builder.Services.AddScoped<IPrecioCuotaServicio, PrecioCuotaServicio>();
 builder.Services.AddScoped<ICuotaServicio, CuotaServicio>();
 builder.Services.AddScoped<IPagoServicio, PagoServicio>();
+builder.Services.AddScoped<IAlumnoCarreraServicio, AlumnoCarreraServicio>();
+
 
 
 // DB Configuración

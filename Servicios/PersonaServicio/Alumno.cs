@@ -1,8 +1,11 @@
 ﻿using Dominio.Entidades;
 using Dominio.Interfaces;
+using Dominio.Metadata;
+using IServicios.Carrera.Carrera_DTO;
 using IServicios.Persona.DTO_s;
 using Servicios.Base;
 using System.Linq.Expressions;
+using System.Transactions;
 
 namespace Servicios.PersonaServicio
 {
@@ -14,30 +17,59 @@ namespace Servicios.PersonaServicio
 
         public override async Task<long> Crear(PersonaDTO entidad)
         {
-            if (entidad == null)
-                throw new Exception("Ocurrio un error al Insertar el Alumno");
-
-            var entidadNueva = (AlumnoDTO)entidad;
-
-            var entidadId = await _unidadDeTrabajo.AlumnoRepositorio.Crear(new Dominio.Entidades.Alumno
+            using (var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                EstaEliminado = false,
-                Legajo = entidadNueva.Legajo,
-                Apellido = entidadNueva.Apellido,
-                Nombre = entidadNueva.Nombre,
-                Dni = entidadNueva.Dni,
-                Direccion = entidadNueva.Direccion,
-                Mail = entidadNueva.Mail,
-                Telefono = entidadNueva.Telefono,
-                FechaIngreso = entidadNueva.FechaIngreso,
-                CarreraId = entidadNueva.CarreraId,
-            });
+                try
+                {
+                    if (entidad == null)
+                        throw new Exception("Ocurrio un error al Insertar el Alumno");
 
-            _unidadDeTrabajo.Commit();
+                    var entidadNueva = (AlumnoDTO)entidad;
 
-            return entidadId;
+                    var alumno = new Dominio.Entidades.Alumno
+                    {
+                        EstaEliminado = false,
+                        Legajo = entidadNueva.Legajo,
+                        Apellido = entidadNueva.Apellido,
+                        Nombre = entidadNueva.Nombre,
+                        Dni = entidadNueva.Dni,
+                        Direccion = entidadNueva.Direccion,
+                        Mail = entidadNueva.Mail,
+                        Telefono = entidadNueva.Telefono,
+                        FechaIngreso = entidadNueva.FechaIngreso,
+                    };
+
+                    await _unidadDeTrabajo.AlumnoRepositorio.Crear(alumno);
+
+                    _unidadDeTrabajo.Commit();
+
+
+                    foreach(var c in entidadNueva.Carreras)
+                    {
+                        var alumnoCarrera = new AlumnoCarrera
+                        {
+                            AlumnoId = alumno.Id,
+                            CarreraId = c.Id,
+                        };
+
+                       await _unidadDeTrabajo.AlumnoCarreraRepositorio.Crear(alumnoCarrera);
+                    }
+
+                    _unidadDeTrabajo.Commit();
+                    
+                    tran.Complete();
+
+                    return alumno.Id;
+                }
+                catch
+                {
+                    tran.Dispose();
+                    throw new Exception("Ocurrió un error grave al grabar el Alumno");
+                }
+            }               
         }
 
+        // TODO : Modificar Alumno
         public override async Task Modificar(PersonaDTO entidad)
         {
             if (entidad == null)
@@ -57,16 +89,35 @@ namespace Servicios.PersonaServicio
                 Nombre = entidadModificar.Nombre,
                 Telefono = entidadModificar.Telefono,
                 FechaIngreso = entidadModificar.FechaIngreso,
-                CarreraId = entidadModificar.CarreraId,
             });
-
-            _unidadDeTrabajo.Commit();
         }
 
         public override async Task Eliminar(long id)
         {
-            await _unidadDeTrabajo.AlumnoRepositorio.Eliminar(id);
-            _unidadDeTrabajo.Commit();
+            using (var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                try
+                {
+                    var entidadEliminar = await _unidadDeTrabajo.AlumnoRepositorio.Obtener(id, "AlumnoCarreras");
+
+                    if (entidadEliminar == null) throw new Exception("No se encontro el Alumno a eliminar");
+
+                    await _unidadDeTrabajo.AlumnoRepositorio.Eliminar(id);
+
+                    foreach(var alumnoCarrera in entidadEliminar.AlumnoCarreras)
+                    {
+                        await _unidadDeTrabajo.AlumnoCarreraRepositorio.Eliminar(alumnoCarrera.Id);
+                    }
+
+                    _unidadDeTrabajo.Commit();
+                    tran.Complete();
+                }
+                catch
+                {
+                    tran.Dispose();
+                    throw new Exception("Ocurrió un error grave al eliminar el Alumno");
+                }
+            }
         }
 
         public override async Task<IEnumerable<PersonaDTO>> Obtener(string cadenaBuscar, bool mostrarTodos)
@@ -81,7 +132,7 @@ namespace Servicios.PersonaServicio
                 filtro = filtro.And(x => !x.EstaEliminado);
             }
 
-            var respuesta = await _unidadDeTrabajo.AlumnoRepositorio.Obtener(filtro, "Carrera");
+            var respuesta = await _unidadDeTrabajo.AlumnoRepositorio.Obtener(filtro, "AlumnoCarreras.Carrera");
 
             return respuesta
                     .Select(x => new AlumnoDTO
@@ -95,8 +146,7 @@ namespace Servicios.PersonaServicio
                         Nombre = x.Nombre,
                         Telefono = x.Telefono,
                         FechaIngreso = x.FechaIngreso,
-                        CarreraId = x.CarreraId,
-                        Carrera = x.Carrera.Descripcion,
+                        Carreras = ManejarCarreras(x.AlumnoCarreras.ToList()),
                         Eliminado = x.EstaEliminado,
                     }).OrderBy(x => x.Apellido).ThenBy(x => x.Nombre)
                     .ToList();
@@ -104,7 +154,7 @@ namespace Servicios.PersonaServicio
 
         public override async Task<PersonaDTO> Obtener(long id)
         {
-            var entidad = await _unidadDeTrabajo.AlumnoRepositorio.Obtener(id, "Carrera");
+            var entidad = await _unidadDeTrabajo.AlumnoRepositorio.Obtener(id, "AlumnoCarreras.Carrera");
 
             return new AlumnoDTO
             {
@@ -117,22 +167,21 @@ namespace Servicios.PersonaServicio
                 Nombre = entidad.Nombre,
                 Telefono = entidad.Telefono,
                 FechaIngreso = entidad.FechaIngreso,
-                CarreraId = entidad.CarreraId,
-                Carrera = entidad.Carrera.Descripcion,
+                Carreras = ManejarCarreras(entidad.AlumnoCarreras.ToList()),
                 Eliminado = entidad.EstaEliminado,
             };
         }
 
         public override async Task<IEnumerable<PersonaDTO>> ObtenerTodos(bool mostrarTodos = false)
         {
-            Expression<Func<Dominio.Entidades.Alumno, bool>> filtro = x => x.EstaEliminado;
+            Expression<Func<Dominio.Entidades.Alumno, bool>> filtro = x => x.EstaEliminado || !x.EstaEliminado;
 
             if (!mostrarTodos)
             {
                 filtro = x => !x.EstaEliminado;
             }
 
-            var respuesta = await _unidadDeTrabajo.AlumnoRepositorio.ObtenerTodos(filtro, "Carrera");
+            var respuesta = await _unidadDeTrabajo.AlumnoRepositorio.ObtenerTodos(filtro, "AlumnoCarreras.Carrera");
 
             return respuesta
                     .Select(x => new AlumnoDTO
@@ -146,11 +195,31 @@ namespace Servicios.PersonaServicio
                         Nombre = x.Nombre,
                         Telefono = x.Telefono,
                         FechaIngreso = x.FechaIngreso,
-                        CarreraId = x.CarreraId,
-                        Carrera = x.Carrera.Descripcion,
+                        Carreras = ManejarCarreras(x.AlumnoCarreras.ToList()),
                         Eliminado = x.EstaEliminado,
                     }).OrderBy(x => x.Apellido).ThenBy(x => x.Nombre)
                     .ToList();
+        }
+
+        // ==================================== METODOS PRIVADOS ==================================== //
+
+        private List<CarreraDto> ManejarCarreras(List<AlumnoCarrera> alumnoCarreras)
+        {
+
+            List<CarreraDto> carrerasList = new List<CarreraDto>();
+            foreach(var carrera in alumnoCarreras)
+            {
+                var carreraAlumno = new CarreraDto
+                {
+                    Id = carrera.Carrera.Id,
+                    Descripcion = carrera.Carrera.Descripcion,
+                    CantidadCuotas = carrera.Carrera.CantidadCuotas,
+                };
+
+                carrerasList.Add(carreraAlumno);
+            }
+
+            return carrerasList;
         }
     }
 }
