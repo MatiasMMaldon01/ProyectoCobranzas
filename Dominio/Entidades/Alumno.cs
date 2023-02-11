@@ -11,10 +11,9 @@ namespace Dominio.Entidades
     {
         public int Legajo { get; set; }
         public DateTime FechaIngreso { get; set; }
-        public long CarreraId { get; set; }
 
         // Propiedades de Navegacion
-        public virtual Carrera Carrera { get; set; }
+        public virtual ICollection<AlumnoCarrera> AlumnoCarreras { get; set; }
         public virtual ICollection<Cuota> Cuotas { get; set; }
     }
 }

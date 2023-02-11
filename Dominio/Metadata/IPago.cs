@@ -14,5 +14,9 @@ namespace Dominio.Metadata
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [DataType(DataType.DateTime)]
         DateTime FechaPago { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es Obligatorio")]
+        [Display(Name = @"Cuota")]
+        long CuotaId { get; set; }
     }
 }

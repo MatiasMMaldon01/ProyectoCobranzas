@@ -73,7 +73,7 @@ namespace Servicios.CuotaServicio
 
         public async Task<BaseDTO> Obtener(long id)
         {
-            var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(id, "PrecioCuota.Carrera, Alumno.Carrera, Pagos");
+            var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(id, "PrecioCuota.Carrera, Alumno, Pagos");
 
             if (entidad == null) throw new Exception("No se encotró la cuota que esta buscando");
 
@@ -102,7 +102,6 @@ namespace Servicios.CuotaServicio
                     Dni = entidad.Alumno.Dni,
                     Mail = entidad.Alumno.Mail,
                     FechaIngreso = entidad.Alumno.FechaIngreso,
-                    Carrera = entidad.Alumno.Carrera.Descripcion
 
                 },
                 NumeroDePagos = entidad.Pagos.Count(x => !x.EstaEliminado),
@@ -120,7 +119,7 @@ namespace Servicios.CuotaServicio
                 filtro = filtro.And(x => !x.EstaEliminado);
             }
 
-            var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(filtro, "PrecioCuota.Carrera, Alumno.Carrera, Pagos");
+            var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(filtro, "PrecioCuota.Carrera, Alumno, Pagos");
 
             return entidad.Select(x => new CuotaDTO
             {
@@ -148,7 +147,6 @@ namespace Servicios.CuotaServicio
                     Dni = x.Alumno.Dni,
                     Mail = x.Alumno.Mail,
                     FechaIngreso = x.Alumno.FechaIngreso,
-                    Carrera = x.Alumno.Carrera.Descripcion
 
                 },
                 NumeroDePagos = x.Pagos.Count(x => !x.EstaEliminado),
@@ -169,7 +167,7 @@ namespace Servicios.CuotaServicio
                 filtro = x => !x.EstaEliminado;
             }
 
-            var entidad = await _unidadDeTrabajo.CuotaRepositorio.ObtenerTodos(filtro, "PrecioCuota.Carrera, Alumno.Carrera, Pagos");
+            var entidad = await _unidadDeTrabajo.CuotaRepositorio.ObtenerTodos(filtro, "PrecioCuota.Carrera, Alumno, Pagos");
 
             return entidad.Select(x => new CuotaDTO
             {
@@ -197,7 +195,6 @@ namespace Servicios.CuotaServicio
                     Dni = x.Alumno.Dni,
                     Mail = x.Alumno.Mail,
                     FechaIngreso = x.Alumno.FechaIngreso,
-                    Carrera = x.Alumno.Carrera.Descripcion
 
                 },
                 NumeroDePagos = x.Pagos.Count(x => !x.EstaEliminado),
@@ -217,7 +214,7 @@ namespace Servicios.CuotaServicio
                 filtro = filtro.And(x => !x.EstaEliminado);
             }
 
-            var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(filtro, "PrecioCuota.Carrera, Alumno.Carrera, Pagos");
+            var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(filtro, "PrecioCuota.Carrera, Alumno, Pagos");
 
             Cuota ultimaCuota = entidad.OrderBy(x => x.Fecha).LastOrDefault();
 
@@ -247,7 +244,6 @@ namespace Servicios.CuotaServicio
                     Dni = ultimaCuota.Alumno.Dni,
                     Mail = ultimaCuota.Alumno.Mail,
                     FechaIngreso = ultimaCuota.Alumno.FechaIngreso,
-                    Carrera = ultimaCuota.Alumno.Carrera.Descripcion
 
                 },
                 NumeroDePagos = ultimaCuota.Pagos.Count(x => !x.EstaEliminado),
@@ -285,17 +281,6 @@ namespace Servicios.CuotaServicio
             return pagosList;
         }
 
-        //private decimal CalcularMontoAbonado(Cuota entidad)
-        //{
-        //    decimal montoAbonado = 0;
-
-        //    foreach(var pago in entidad.Pagos)
-        //    {
-        //        montoAbonado += pago.Monto;
-        //    }
-
-        //    return montoAbonado;
-        //}
 
     }
 }

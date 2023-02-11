@@ -40,6 +40,12 @@ namespace Infraestructura.UnidadDeTrabajo
 
         // ====================================================================================================================================== //
         
+        public IRepositorio<AlumnoCarrera> _alumnoCarreraRepositorio;
+
+        public IRepositorio<AlumnoCarrera> AlumnoCarreraRepositorio => _alumnoCarreraRepositorio ?? (_alumnoCarreraRepositorio = new Repositorio<AlumnoCarrera>(_context));
+
+        // ====================================================================================================================================== //
+
         public IEmpleadoRepositorio _empleadoRepositorio;
 
         public IEmpleadoRepositorio EmpleadoRepositorio => _empleadoRepositorio ?? (_empleadoRepositorio = new EmpleadoRepositorio(_context));

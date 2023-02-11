@@ -1,10 +1,19 @@
-﻿namespace IServicios.Persona.DTO_s
+﻿using IServicios.Carrera.Carrera_DTO;
+
+namespace IServicios.Persona.DTO_s
 {
     public class AlumnoDTO : PersonaDTO
     {
+        public AlumnoDTO()
+        {
+            if (Carreras == null)
+                Carreras = new List<CarreraDto>();
+        }
+
         public int Legajo { get; set; }
         public DateTime FechaIngreso { get; set; }
-        public long CarreraId { get; set; }
-        public string Carrera { get; set; }
+        public List<long>? AlumnoCarreraId { get; set; }
+        public List<CarreraDto> Carreras { get; set; }
+
     }
 }

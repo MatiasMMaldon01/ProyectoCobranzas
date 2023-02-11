@@ -28,7 +28,7 @@ namespace Servicios.PagoServicio
 
                     if (dto.Monto == 0) throw new Exception("El valor del Pago no puede ser CERO");
 
-                    var cuota = await _unidadDeTrabajo.CuotaRepositorio.Obtener(dto.CuotaId, "PrecioCuota.Carrera, Alumno.Carrera, Pagos");
+                    var cuota = await _unidadDeTrabajo.CuotaRepositorio.Obtener(dto.CuotaId, "PrecioCuota.Carrera, Alumno, Pagos");
 
                     if (cuota.EstadoCuota == EstadoCuota.Pagada)
                     {
@@ -273,9 +273,9 @@ namespace Servicios.PagoServicio
             {
                 filtro = filtro.And(x => !x.EstaEliminado);
             }
-            var entidad = await _unidadDeTrabajo.PagoRepositorio.Obtener();
+            var entidad = await _unidadDeTrabajo.PagoRepositorio.Obtener(filtro, "Cuota");
 
-            if (entidad == null) throw new Exception("No se encotro ningún pago del Alumno");
+            if (!entidad.Any()) throw new Exception("No se encotro ningún pago del Alumno");
 
             return entidad.Select(x => new PagoDTO
             {

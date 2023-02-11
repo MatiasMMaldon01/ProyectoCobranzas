@@ -11,9 +11,5 @@ namespace Dominio.Metadata
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [DataType(DataType.DateTime)]
         DateTime FechaIngreso { get; set; }
-
-        [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
-        [Display(Name = "Carrera")]
-        long CarreraId { get; set; }
     }
 }
