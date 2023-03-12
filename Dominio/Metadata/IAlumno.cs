@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dominio.Metadata
 {
@@ -11,5 +13,9 @@ namespace Dominio.Metadata
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [DataType(DataType.DateTime)]
         DateTime FechaIngreso { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es Obligatorio")]
+        [Column(TypeName = "decimal(18,2)")]
+        decimal PorcBeca { get; set; }
     }
 }

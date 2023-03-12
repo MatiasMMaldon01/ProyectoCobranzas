@@ -3,8 +3,6 @@ using IServicios.Persona;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using IServicios.Carrera.Carrera_DTO;
-using Dominio.Entidades;
-using System.Collections.Generic;
 
 namespace Api.Controllers
 {
@@ -31,6 +29,7 @@ namespace Api.Controllers
                 Direccion = alumno.Direccion,
                 Telefono = alumno.Telefono,
                 Mail = alumno.Mail,
+                PorcBeca = alumno.PorcBeca, 
                 FechaIngreso = alumno.FechaIngreso,
                 Legajo = alumno.Legajo,
                 Carreras = ManejarCarreras(alumno.Carreras),
@@ -57,6 +56,7 @@ namespace Api.Controllers
                 Direccion = alumno.Direccion,
                 Telefono = alumno.Telefono,
                 Mail = alumno.Mail,
+                PorcBeca = alumno.PorcBeca,
                 FechaIngreso = alumno.FechaIngreso,
                 Legajo = alumno.Legajo,
                 Eliminado = false,

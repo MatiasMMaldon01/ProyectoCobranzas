@@ -30,11 +30,13 @@ namespace Servicios.PagoServicio
 
                     var cuota = await _unidadDeTrabajo.CuotaRepositorio.Obtener(dto.CuotaId, "PrecioCuota.Carrera, Alumno, Pagos");
 
+                    decimal montoRestante = (((cuota.PorcAbonado - 1) * -1) * cuota.PrecioCuota.Monto);
+
                     if (cuota.EstadoCuota == EstadoCuota.Pagada)
                     {
                         throw new Exception("Esta cuota esta abonada de forma integra");
                     }
-                    else if ((cuota.MontoAbonado + dto.Monto) > cuota.PrecioCuota.Monto)
+                    else if (montoRestante < dto.Monto)
                     {
                         throw new Exception("Esta pagando de mas");
                     }
@@ -44,6 +46,7 @@ namespace Servicios.PagoServicio
                     var entidad = new Pago
                     {
                         Monto = dto.Monto,
+                        PorcPago = dto.Monto / cuota.PrecioCuota.Monto,
                         FechaPago = fecha,
                         CuotaId = dto.CuotaId,
                         EstaEliminado = false
@@ -53,7 +56,7 @@ namespace Servicios.PagoServicio
 
                     Cuota cuotaPagada;
 
-                    if ((cuota.MontoAbonado + entidad.Monto) == cuota.PrecioCuota.Monto)
+                    if ((montoRestante - entidad.Monto) == 0)
                     {
                         cuotaPagada = new Cuota
                         {
@@ -62,7 +65,7 @@ namespace Servicios.PagoServicio
                             EstadoCuota = EstadoCuota.Pagada,
                             PrecioCuotaId = cuota.PrecioCuotaId,
                             AlumnoId = cuota.AlumnoId,
-                            MontoAbonado = cuota.MontoAbonado + entidad.Monto,
+                            PorcAbonado = CalcularPorcentajeAbonado(cuota.PorcAbonado, cuota.PrecioCuota.Monto, entidad.Monto),
                         };
                     }
                     else
@@ -74,7 +77,7 @@ namespace Servicios.PagoServicio
                             EstadoCuota = EstadoCuota.Pendiente,
                             PrecioCuotaId = cuota.PrecioCuotaId,
                             AlumnoId = cuota.AlumnoId,
-                            MontoAbonado = cuota.MontoAbonado + entidad.Monto,
+                            PorcAbonado = CalcularPorcentajeAbonado(cuota.PorcAbonado, cuota.PrecioCuota.Monto, entidad.Monto),
                         };
 
                     }
@@ -113,7 +116,7 @@ namespace Servicios.PagoServicio
 
                     if (!pago.EstaEliminado)
                     {
-                        var montoActualAbonado = (cuota.MontoAbonado - pago.Monto);
+                        var montoActualAbonado = (cuota.PorcAbonado - pago.PorcPago) * cuota.PrecioCuota.Monto;
 
                         await _unidadDeTrabajo.PagoRepositorio.Eliminar(id);
 
@@ -126,7 +129,7 @@ namespace Servicios.PagoServicio
                             EstadoCuota = EstadoCuota.Pendiente,
                             PrecioCuotaId = cuota.PrecioCuotaId,
                             AlumnoId = cuota.AlumnoId,
-                            MontoAbonado = montoActualAbonado,
+                            PorcAbonado = montoActualAbonado / cuota.PrecioCuota.Monto,
                         };
 
                         await _unidadDeTrabajo.CuotaRepositorio.Modificar(cuotaPagada);
@@ -163,7 +166,7 @@ namespace Servicios.PagoServicio
 
                     if (cuota == null) throw new Exception("No se encontro la cuota de referencia");
 
-                    var montoActualAbonado = (cuota.MontoAbonado - pago.Monto) + dto.Monto;
+                    var montoActualAbonado = (cuota.PorcAbonado - pago.PorcPago) * cuota.PrecioCuota.Monto;
 
                     if (montoActualAbonado > cuota.PrecioCuota.Monto)
                     {
@@ -172,6 +175,7 @@ namespace Servicios.PagoServicio
 
 
                     pago.Monto = dto.Monto;
+                    pago.PorcPago = pago.Monto / cuota.PrecioCuota.Monto;
 
                     await _unidadDeTrabajo.PagoRepositorio.Modificar(pago);
 
@@ -187,7 +191,7 @@ namespace Servicios.PagoServicio
                             EstadoCuota = EstadoCuota.Pagada,
                             PrecioCuotaId = cuota.PrecioCuotaId,
                             AlumnoId = cuota.AlumnoId,
-                            MontoAbonado = montoActualAbonado,
+                            PorcAbonado = montoActualAbonado / cuota.PrecioCuota.Monto,
                         };
                     }
                     else
@@ -199,7 +203,7 @@ namespace Servicios.PagoServicio
                             EstadoCuota = EstadoCuota.Pendiente,
                             PrecioCuotaId = cuota.PrecioCuotaId,
                             AlumnoId = cuota.AlumnoId,
-                            MontoAbonado = montoActualAbonado,
+                            PorcAbonado = montoActualAbonado / cuota.PrecioCuota.Monto,
                         };
 
                     }
@@ -287,6 +291,15 @@ namespace Servicios.PagoServicio
             })
                .OrderBy(x => x.CuotaId)
                .ToList();
+        }
+
+        // =================================================== METODOS PRIVADOS =================================================== //
+
+        private decimal CalcularPorcentajeAbonado(decimal porcAbonado, decimal montoCuota, decimal montoAbonado)
+        {
+            decimal pago = porcAbonado * montoCuota;
+            decimal pagoActualizado = pago + montoAbonado;
+            return pagoActualizado / montoCuota; 
         }
     }
     

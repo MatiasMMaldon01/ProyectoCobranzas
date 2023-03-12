@@ -66,6 +66,9 @@ namespace Infraestructura.Migrations
                     b.Property<bool>("EstaEliminado")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("Carrera");
@@ -91,11 +94,11 @@ namespace Infraestructura.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("MontoAbonado")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("Numero")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("PorcAbonado")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<long>("PrecioCuotaId")
                         .HasColumnType("bigint");
@@ -127,6 +130,9 @@ namespace Infraestructura.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("Monto")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PorcPago")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -251,6 +257,9 @@ namespace Infraestructura.Migrations
                     b.Property<bool>("EstaEliminado")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -270,6 +279,18 @@ namespace Infraestructura.Migrations
                     b.HasIndex("PersonaId");
 
                     b.ToTable("Usuario");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            EstaEliminado = false,
+                            Fecha = new DateTime(2023, 3, 11, 22, 10, 16, 491, DateTimeKind.Local).AddTicks(9477),
+                            Nombre = "Admin",
+                            Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+                            PersonaId = 1L,
+                            Rol = 1
+                        });
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Alumno", b =>
@@ -281,6 +302,9 @@ namespace Infraestructura.Migrations
 
                     b.Property<int>("Legajo")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("PorcBeca")
+                        .HasColumnType("decimal(18,2)");
 
                     b.ToTable("Persona_Alumno");
                 });
@@ -294,6 +318,20 @@ namespace Infraestructura.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("Persona_Empleado");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Apellido = "admin",
+                            Direccion = "Rivadavia 1050",
+                            Dni = "99999999",
+                            EstaEliminado = false,
+                            Mail = "admin@gmail.com",
+                            Nombre = "Usuario",
+                            Telefono = "9999999",
+                            AreaTrabajo = "Cobranzas"
+                        });
                 });
 
             modelBuilder.Entity("Dominio.Entidades.AlumnoCarrera", b =>

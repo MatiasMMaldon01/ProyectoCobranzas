@@ -31,6 +31,10 @@ namespace Infraestructura.Data
                 }
             }
 
+            // Inicializamos la Base de Datos con Algunos Registros
+
+            modelBuilder.Seed();
+
         }
 
         DbSet<Carrera> Carreras { get; set; }

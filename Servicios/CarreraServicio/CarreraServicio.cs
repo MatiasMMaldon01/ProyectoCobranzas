@@ -31,6 +31,7 @@ namespace Servicios.CarreraServicio
             {
                 Descripcion = dto.Descripcion,
                 CantidadCuotas = dto.CantidadCuotas,
+                Fecha = DateTime.Now,
                 EstaEliminado = false,
             };
 
@@ -69,6 +70,7 @@ namespace Servicios.CarreraServicio
                 Id = entidad.Id,
                 Descripcion = entidad.Descripcion,
                 CantidadCuotas =  entidad.CantidadCuotas,
+                Fecha = entidad.Fecha,
                 Eliminado = entidad.EstaEliminado
             };
 
@@ -91,6 +93,7 @@ namespace Servicios.CarreraServicio
                 Id = x.Id,
                 Descripcion = x.Descripcion,
                 CantidadCuotas = x.CantidadCuotas,
+                Fecha = x.Fecha,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)
@@ -113,6 +116,7 @@ namespace Servicios.CarreraServicio
                 Id = x.Id,
                 Descripcion = x.Descripcion,
                 CantidadCuotas = x.CantidadCuotas,
+                Fecha = x.Fecha,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)

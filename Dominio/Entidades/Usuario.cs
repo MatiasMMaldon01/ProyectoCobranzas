@@ -10,9 +10,14 @@ namespace Dominio.Entidades
     public  class Usuario : EntidadBase
     {
         public string Nombre { get; set; }
+
         public string Password { get; set; }
+
         public Rol Rol { get; set; }
+
         public long PersonaId { get; set; }
+
+        public DateTime Fecha { get; set; }
 
         // Propiedades de Navegacion
         public virtual Persona Persona { get; set; }

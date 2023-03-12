@@ -15,6 +15,10 @@ namespace Dominio.Metadata
         [StringLength(50, ErrorMessage = "El campo {0} debe ser menor a {1} caracteres.")]
         string Nombre { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es Obligatorio")]
+        [DataType(DataType.DateTime)]
+        DateTime Fecha { get; set; }
+
         [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
         [Display(Name = @"Contraseña")]
         [StringLength(400, ErrorMessage = "El campo {0} debe ser menor a {1} caracteres.")]

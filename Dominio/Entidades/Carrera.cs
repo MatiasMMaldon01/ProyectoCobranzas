@@ -12,6 +12,8 @@ namespace Dominio.Entidades
 
         public decimal CantidadCuotas { get; set; }
 
+        public DateTime Fecha { get; set; }
+
         // Propiedades de Navegacion
 
         public ICollection<AlumnoCarrera> AlumnoCarreras { get; set; }

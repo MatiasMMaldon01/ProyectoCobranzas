@@ -13,6 +13,10 @@ namespace Dominio.Metadata
         string Descripcion { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
+        [DataType(DataType.DateTime)]
+        DateTime Fecha { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [Column(TypeName = "decimal(18,2)")]
         decimal CantidadCuotas { get; set; }
     }
