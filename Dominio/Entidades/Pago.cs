@@ -11,6 +11,8 @@ namespace Dominio.Entidades
 
         public decimal Monto { get; set; }
 
+        public decimal PorcPago { get; set; }
+
         public long CuotaId { get; set; }
 
         public DateTime FechaPago { get; set; }

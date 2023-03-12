@@ -17,8 +17,7 @@ namespace Dominio.Metadata
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [Column(TypeName = "decimal(18,2)")]
-        [DataType(DataType.Currency)]
-        decimal MontoAbonado { get; set; }
+        decimal PorcAbonado { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [DataType(DataType.DateTime)]

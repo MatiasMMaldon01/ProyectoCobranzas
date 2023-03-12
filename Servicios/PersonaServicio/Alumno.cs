@@ -1,6 +1,5 @@
 ﻿using Dominio.Entidades;
 using Dominio.Interfaces;
-using Dominio.Metadata;
 using IServicios.Carrera.Carrera_DTO;
 using IServicios.Persona.DTO_s;
 using Servicios.Base;
@@ -35,6 +34,7 @@ namespace Servicios.PersonaServicio
                         Dni = entidadNueva.Dni,
                         Direccion = entidadNueva.Direccion,
                         Mail = entidadNueva.Mail,
+                        PorcBeca = entidadNueva.PorcBeca,
                         Telefono = entidadNueva.Telefono,
                         FechaIngreso = entidadNueva.FechaIngreso,
                     };
@@ -69,7 +69,6 @@ namespace Servicios.PersonaServicio
             }               
         }
 
-        // TODO : Modificar Alumno
         public override async Task Modificar(PersonaDTO entidad)
         {
             if (entidad == null)
@@ -86,6 +85,7 @@ namespace Servicios.PersonaServicio
                 Direccion = entidadModificar.Direccion,
                 Dni = entidadModificar.Dni,
                 Mail = entidadModificar.Mail,
+                PorcBeca = entidadModificar.PorcBeca,
                 Nombre = entidadModificar.Nombre,
                 Telefono = entidadModificar.Telefono,
                 FechaIngreso = entidadModificar.FechaIngreso,
@@ -146,6 +146,7 @@ namespace Servicios.PersonaServicio
                         Nombre = x.Nombre,
                         Telefono = x.Telefono,
                         FechaIngreso = x.FechaIngreso,
+                        PorcBeca = x.PorcBeca,
                         Carreras = ManejarCarreras(x.AlumnoCarreras.ToList()),
                         Eliminado = x.EstaEliminado,
                     }).OrderBy(x => x.Apellido).ThenBy(x => x.Nombre)
@@ -166,6 +167,7 @@ namespace Servicios.PersonaServicio
                 Mail = entidad.Mail,
                 Nombre = entidad.Nombre,
                 Telefono = entidad.Telefono,
+                PorcBeca = entidad.PorcBeca,
                 FechaIngreso = entidad.FechaIngreso,
                 Carreras = ManejarCarreras(entidad.AlumnoCarreras.ToList()),
                 Eliminado = entidad.EstaEliminado,
@@ -194,6 +196,7 @@ namespace Servicios.PersonaServicio
                         Mail = x.Mail,
                         Nombre = x.Nombre,
                         Telefono = x.Telefono,
+                        PorcBeca = x.PorcBeca,
                         FechaIngreso = x.FechaIngreso,
                         Carreras = ManejarCarreras(x.AlumnoCarreras.ToList()),
                         Eliminado = x.EstaEliminado,

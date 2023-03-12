@@ -10,7 +10,10 @@ namespace Dominio.Entidades
     public class Alumno : Persona
     {
         public int Legajo { get; set; }
+
         public DateTime FechaIngreso { get; set; }
+
+        public decimal PorcBeca { get; set; }
 
         // Propiedades de Navegacion
         public virtual ICollection<AlumnoCarrera> AlumnoCarreras { get; set; }

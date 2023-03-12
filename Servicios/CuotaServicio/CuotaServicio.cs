@@ -36,7 +36,7 @@ namespace Servicios.CuotaServicio
             var entidad = new Cuota
             {
                 Numero = dto.Numero,
-                MontoAbonado = 0,
+                PorcAbonado = 0,
                 Fecha = fecha,
                 EstadoCuota = EstadoCuota.Pendiente,
                 PrecioCuotaId = dto.PrecioCuotaId,
@@ -81,7 +81,7 @@ namespace Servicios.CuotaServicio
             {
                 Id = entidad.Id,
                 Numero = entidad.Numero,
-                MontoAbonado = entidad.MontoAbonado,
+                PorcAbonado = entidad.PorcAbonado,
                 Fecha = entidad.Fecha,
                 EstadoCuota = entidad.EstadoCuota,
                 PrecioCuotaId = entidad.PrecioCuotaId,
@@ -125,7 +125,7 @@ namespace Servicios.CuotaServicio
             {
                 Id = x.Id,
                 Numero = x.Numero,
-                MontoAbonado = x.MontoAbonado,
+                PorcAbonado = x.PorcAbonado,
                 Fecha = x.Fecha,
                 EstadoCuota = x.EstadoCuota,
                 PrecioCuotaId = x.PrecioCuotaId,
@@ -173,7 +173,7 @@ namespace Servicios.CuotaServicio
             {
                 Id = x.Id,
                 Numero = x.Numero,
-                MontoAbonado = x.MontoAbonado,
+                PorcAbonado = x.PorcAbonado,
                 Fecha = x.Fecha,
                 EstadoCuota = x.EstadoCuota,
                 PrecioCuotaId = x.PrecioCuotaId,
@@ -222,7 +222,7 @@ namespace Servicios.CuotaServicio
             {
                 Id = ultimaCuota.Id,
                 Numero = ultimaCuota.Numero,
-                MontoAbonado = ultimaCuota.MontoAbonado,
+                PorcAbonado = ultimaCuota.PorcAbonado,
                 Fecha = ultimaCuota.Fecha,
                 EstadoCuota = ultimaCuota.EstadoCuota,
                 PrecioCuotaId = ultimaCuota.PrecioCuotaId,

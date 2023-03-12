@@ -17,7 +17,7 @@ namespace IServicios.Cuota.CuotaDTO
 
         public int Numero { get; set; }
 
-        public decimal MontoAbonado { get; set; }
+        public decimal PorcAbonado { get; set; }
 
         public DateTime Fecha { get; set; }
 

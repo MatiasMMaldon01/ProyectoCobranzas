@@ -12,6 +12,10 @@ namespace Dominio.Metadata
         decimal Monto { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
+        [Column(TypeName = "decimal(18,2)")]
+        decimal PorcPago { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [DataType(DataType.DateTime)]
         DateTime FechaPago { get; set; }
 
