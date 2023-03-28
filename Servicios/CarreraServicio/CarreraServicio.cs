@@ -87,7 +87,7 @@ namespace Servicios.CarreraServicio
                 filtro = x => !x.EstaEliminado;
             }
 
-            var entidad = await _unidadDeTrabajo.CarreraRepositorio.ObtenerTodos(filtro);
+            var entidad = await _unidadDeTrabajo.CarreraRepositorio.ObtenerTodos(filtro, "PrecioCuota");
 
             return entidad.Select(x => new CarreraDto
             {
@@ -95,6 +95,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = x.Descripcion,
                 CantidadCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
+                PrecioCuo = x.PrecioCuota != null ? x.PrecioCuota.Monto : 0 ,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)
@@ -110,7 +111,7 @@ namespace Servicios.CarreraServicio
                 filtro = filtro.And(x => !x.EstaEliminado);
             }
 
-            var entidad = await _unidadDeTrabajo.CarreraRepositorio.Obtener(filtro);
+            var entidad = await _unidadDeTrabajo.CarreraRepositorio.Obtener(filtro, "PrecioCuota");
 
             return entidad.Select(x => new CarreraDto
             {
@@ -118,6 +119,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = x.Descripcion,
                 CantidadCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
+                PrecioCuo = x.PrecioCuota.Monto,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)

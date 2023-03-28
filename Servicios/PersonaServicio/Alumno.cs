@@ -120,7 +120,7 @@ namespace Servicios.PersonaServicio
             }
         }
 
-        public override async Task<IEnumerable<PersonaDTO>> Obtener(string cadenaBuscar, bool mostrarTodos)
+        public override async Task<IEnumerable<PersonaDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = false)
         {
             Expression<Func<Dominio.Entidades.Alumno, bool>> filtro = alumno => (alumno.Apellido.Contains(cadenaBuscar)
                     || alumno.Nombre.Contains(cadenaBuscar)
@@ -132,7 +132,7 @@ namespace Servicios.PersonaServicio
                 filtro = filtro.And(x => !x.EstaEliminado);
             }
 
-            var respuesta = await _unidadDeTrabajo.AlumnoRepositorio.Obtener(filtro, "AlumnoCarreras.Carrera");
+            var respuesta = await _unidadDeTrabajo.AlumnoRepositorio.Obtener(filtro, "AlumnoCarreras.Carrera, AlumnoCarreras.Carrera.PrecioCuota");
 
             return respuesta
                     .Select(x => new AlumnoDTO
@@ -155,7 +155,7 @@ namespace Servicios.PersonaServicio
 
         public override async Task<PersonaDTO> Obtener(long id)
         {
-            var entidad = await _unidadDeTrabajo.AlumnoRepositorio.Obtener(id, "AlumnoCarreras.Carrera");
+            var entidad = await _unidadDeTrabajo.AlumnoRepositorio.Obtener(id, "AlumnoCarreras.Carrera, AlumnoCarreras.Carrera.PrecioCuota");
 
             return new AlumnoDTO
             {
@@ -183,7 +183,7 @@ namespace Servicios.PersonaServicio
                 filtro = x => !x.EstaEliminado;
             }
 
-            var respuesta = await _unidadDeTrabajo.AlumnoRepositorio.ObtenerTodos(filtro, "AlumnoCarreras.Carrera");
+            var respuesta = await _unidadDeTrabajo.AlumnoRepositorio.ObtenerTodos(filtro, "AlumnoCarreras.Carrera, AlumnoCarreras.Carrera.PrecioCuota");
 
             return respuesta
                     .Select(x => new AlumnoDTO
@@ -216,6 +216,7 @@ namespace Servicios.PersonaServicio
                 {
                     Id = carrera.Carrera.Id,
                     Descripcion = carrera.Carrera.Descripcion,
+                    PrecioCuo = carrera.Carrera.PrecioCuota.Monto,
                     CantidadCuotas = carrera.Carrera.CantidadCuotas,
                 };
 

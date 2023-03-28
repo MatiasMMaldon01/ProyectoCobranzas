@@ -10,6 +10,8 @@ namespace IServicios.Pago.PagoDTO
         
         public DateTime FechaPago { get; set; }
 
+        public decimal PorcPago { get; set; }
+
         public long CuotaId { get; set; }
 
     }

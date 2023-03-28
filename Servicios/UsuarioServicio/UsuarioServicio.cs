@@ -127,7 +127,7 @@ namespace Servicios.UsuarioServicio
                 .ToList();
         }
 
-        public async Task<IEnumerable<BaseDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = true)
+        public async Task<IEnumerable<BaseDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = false)
         {
             Expression<Func<Usuario, bool>> filtro = x => x.Nombre.Contains(cadenaBuscar);
 

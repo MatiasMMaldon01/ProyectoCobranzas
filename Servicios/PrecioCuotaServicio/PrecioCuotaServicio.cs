@@ -106,7 +106,7 @@ namespace Servicios.PrecioCuotaServicio
                 .ToList();
         }
 
-        public async Task<IEnumerable<BaseDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = true)
+        public async Task<IEnumerable<BaseDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = false)
         {
             Expression<Func<PrecioCuota, bool>> filtro = x => x.Fecha.ToString().Contains(cadenaBuscar);
 
@@ -130,7 +130,7 @@ namespace Servicios.PrecioCuotaServicio
                 .ToList();
         }
 
-        public async Task<IEnumerable<BaseDTO>> ObtenerPorCarreraId(long carreraId, bool mostrarTodos = true)
+        public async Task<IEnumerable<BaseDTO>> ObtenerPorCarreraId(long carreraId, bool mostrarTodos = false)
         {
             Expression<Func<PrecioCuota, bool>> filtro = x => x.CarreraId == carreraId;
 

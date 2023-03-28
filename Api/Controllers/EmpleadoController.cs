@@ -85,7 +85,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IResult> Obtener(string cadenaBuscar, bool mostrarTodos = true )
+        public async Task<IResult> Obtener(string? cadenaBuscar, bool mostrarTodos = false )
         {
             var empleados = await _empleadoServicio.Obtener(typeof(EmpleadoDTO),cadenaBuscar, mostrarTodos);
 

@@ -15,7 +15,7 @@ namespace Infraestructura.Repositorio
         public override async Task<Alumno> Obtener(long id, string propiedadesNavegacion = "")
         {
             var query = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
-                 .Aggregate<string, IQueryable<Alumno>>(_context.Set<Persona>().OfType<Alumno>(), (current, include) => current.Include(include));
+                 .Aggregate<string, IQueryable<Alumno>>(_context.Set<Persona>().OfType<Alumno>(), (current, include) => current.Include(include.Trim()));
 
             var resultado = await query.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -28,7 +28,7 @@ namespace Infraestructura.Repositorio
         public override async Task<IEnumerable<Alumno>> Obtener(Expression<Func<Alumno, bool>> filtro = null, string propiedadesNavegacion = "")
         {
             var resultado = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
-                .Aggregate<string, IQueryable<Alumno>>(_context.Set<Persona>().OfType<Alumno>(), (current, include) => current.Include(include));
+                .Aggregate<string, IQueryable<Alumno>>(_context.Set<Persona>().OfType<Alumno>(), (current, include) => current.Include(include.Trim()));
 
             if (filtro != null) resultado = resultado.Where(filtro);
 
@@ -38,7 +38,7 @@ namespace Infraestructura.Repositorio
         public override async Task<IEnumerable<Alumno>> ObtenerTodos(Expression<Func<Alumno, bool>> filtro = null, string propiedadesNavegacion = "")
         {
             var query = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
-                .Aggregate<string, IQueryable<Alumno>>(_context.Set<Persona>().OfType<Alumno>(), (current, include) => current.Include(include));
+                .Aggregate<string, IQueryable<Alumno>>(_context.Set<Persona>().OfType<Alumno>(), (current, include) => current.Include(include.Trim()));
 
             return await query.ToListAsync();
         }
