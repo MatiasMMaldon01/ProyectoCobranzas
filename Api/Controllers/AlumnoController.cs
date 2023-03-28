@@ -95,7 +95,7 @@ namespace Api.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin, Directivo")]
-        public async Task<IResult> Obtener(string cadenaBuscar, bool mostrarTodos = true)
+        public async Task<IResult> Obtener(string? cadenaBuscar, bool mostrarTodos = false)
         {
             var Alumnos = await _alumnoServicio.Obtener(typeof(AlumnoDTO), cadenaBuscar, mostrarTodos);
 

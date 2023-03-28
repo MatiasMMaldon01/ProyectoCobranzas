@@ -92,9 +92,24 @@ namespace Api.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("ObtenerPorAlumnoYCarrera")]
+        public async Task<IResult> ObtenerPorAlumnoYCarrera(long alumnoId, long carreraId)
+        {
+            var cuota = await _cuotaServicio.ObtenerPorCarreraIdAlumnoId(alumnoId, carreraId);
+
+            if (cuota == null)
+            {
+                return Results.NotFound();
+            }
+            else
+            {
+                return Results.Ok(cuota);
+            }
+        }
 
         [HttpGet]
-        public async Task<IResult> Obtener(string cadenaBuscar)
+        public async Task<IResult> Obtener(string? cadenaBuscar)
         {
             var cuota = await _cuotaServicio.Obtener(cadenaBuscar);
 

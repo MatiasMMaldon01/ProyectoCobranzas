@@ -91,7 +91,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IResult> Obtener(string cadenaBuscar)
+        public async Task<IResult> Obtener(string? cadenaBuscar)
         {
             var carreras = await _carreraServicio.Obtener(cadenaBuscar);
 

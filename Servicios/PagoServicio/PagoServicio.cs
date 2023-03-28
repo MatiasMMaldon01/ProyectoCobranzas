@@ -30,7 +30,7 @@ namespace Servicios.PagoServicio
 
                     var cuota = await _unidadDeTrabajo.CuotaRepositorio.Obtener(dto.CuotaId, "PrecioCuota.Carrera, Alumno, Pagos");
 
-                    decimal montoRestante = (((cuota.PorcAbonado - 1) * -1) * cuota.PrecioCuota.Monto);
+                    decimal montoRestante = Math.Round((((cuota.PorcAbonado - 100) * -1) * cuota.PrecioCuota.Monto) / 100);
 
                     if (cuota.EstadoCuota == EstadoCuota.Pagada)
                     {
@@ -46,7 +46,7 @@ namespace Servicios.PagoServicio
                     var entidad = new Pago
                     {
                         Monto = dto.Monto,
-                        PorcPago = dto.Monto / cuota.PrecioCuota.Monto,
+                        PorcPago = (dto.Monto / cuota.PrecioCuota.Monto) * 100,
                         FechaPago = fecha,
                         CuotaId = dto.CuotaId,
                         EstaEliminado = false
@@ -56,12 +56,13 @@ namespace Servicios.PagoServicio
 
                     Cuota cuotaPagada;
 
-                    if ((montoRestante - entidad.Monto) == 0)
+                    if ((montoRestante - entidad.Monto) == 0 || cuota.PorcAbonado + entidad.PorcPago == 100)
                     {
                         cuotaPagada = new Cuota
                         {
                             Id = cuota.Id,
                             Numero = cuota.Numero,
+                            Fecha = cuota.Fecha,
                             EstadoCuota = EstadoCuota.Pagada,
                             PrecioCuotaId = cuota.PrecioCuotaId,
                             AlumnoId = cuota.AlumnoId,
@@ -74,6 +75,7 @@ namespace Servicios.PagoServicio
                         {
                             Id = cuota.Id,
                             Numero = cuota.Numero,
+                            Fecha = cuota.Fecha,
                             EstadoCuota = EstadoCuota.Pendiente,
                             PrecioCuotaId = cuota.PrecioCuotaId,
                             AlumnoId = cuota.AlumnoId,
@@ -188,6 +190,7 @@ namespace Servicios.PagoServicio
                         {
                             Id = cuota.Id,
                             Numero = cuota.Numero,
+                            Fecha = cuota.Fecha,
                             EstadoCuota = EstadoCuota.Pagada,
                             PrecioCuotaId = cuota.PrecioCuotaId,
                             AlumnoId = cuota.AlumnoId,
@@ -200,6 +203,7 @@ namespace Servicios.PagoServicio
                         {
                             Id = cuota.Id,
                             Numero = cuota.Numero,
+                            Fecha = cuota.Fecha,
                             EstadoCuota = EstadoCuota.Pendiente,
                             PrecioCuotaId = cuota.PrecioCuotaId,
                             AlumnoId = cuota.AlumnoId,
@@ -240,7 +244,7 @@ namespace Servicios.PagoServicio
             };
         }
 
-        public async Task<IEnumerable<BaseDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = true)
+        public Task<IEnumerable<BaseDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = false)
         {
             throw new NotImplementedException();
         }
@@ -261,6 +265,7 @@ namespace Servicios.PagoServicio
                 Id = x.Id,
                 Monto = x.Monto,
                 CuotaId = x.CuotaId,
+                PorcPago = x.PorcPago,
                 FechaPago = x.FechaPago,
                 
                 Eliminado = x.EstaEliminado,
@@ -269,7 +274,7 @@ namespace Servicios.PagoServicio
                 .ToList();
         }
 
-        public async Task<IEnumerable<BaseDTO>> ObtenerPorAlumnoId(long alumnoId, bool mostrarTodos)
+        public async Task<IEnumerable<BaseDTO>> ObtenerPorAlumnoId(long alumnoId, bool mostrarTodos = false)
         {
             Expression<Func<Pago, bool>> filtro = x => x.Cuota.AlumnoId == alumnoId;
 
@@ -286,6 +291,7 @@ namespace Servicios.PagoServicio
                 Id = x.Id,
                 Monto = x.Monto,
                 CuotaId = x.CuotaId,
+                PorcPago = x.PorcPago,
                 FechaPago = x.FechaPago,
                 Eliminado = x.EstaEliminado,
             })
@@ -297,9 +303,9 @@ namespace Servicios.PagoServicio
 
         private decimal CalcularPorcentajeAbonado(decimal porcAbonado, decimal montoCuota, decimal montoAbonado)
         {
-            decimal pago = porcAbonado * montoCuota;
+            decimal pago = Math.Round((porcAbonado * montoCuota) / 100);
             decimal pagoActualizado = pago + montoAbonado;
-            return pagoActualizado / montoCuota; 
+            return (pagoActualizado / montoCuota) * 100; 
         }
     }
     

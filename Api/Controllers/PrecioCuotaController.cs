@@ -109,7 +109,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IResult> Obtener(string cadenaBuscar)
+        public async Task<IResult> Obtener(string? cadenaBuscar)
         {
             var precioCuota = await _precioCuotaServicio.Obtener(cadenaBuscar);
 

@@ -8,7 +8,6 @@ using IServicios.Pago.PagoDTO;
 using IServicios.Persona.DTO_s;
 using IServicios.PrecioCuota.PrecioCuotaDTO;
 using Servicios.Base;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Servicios.CuotaServicio
@@ -33,9 +32,11 @@ namespace Servicios.CuotaServicio
 
             DateTime fecha = DateTime.Now;
 
+            var ultimaCuotaAlumno = (CuotaDTO?) await UltimaCuotaAlumno(dto.AlumnoId, dto.PrecioCuotaId);
+
             var entidad = new Cuota
             {
-                Numero = dto.Numero,
+                Numero = ultimaCuotaAlumno != null ? ultimaCuotaAlumno.Numero + 1 : 1,
                 PorcAbonado = 0,
                 Fecha = fecha,
                 EstadoCuota = EstadoCuota.Pendiente,
@@ -205,9 +206,9 @@ namespace Servicios.CuotaServicio
                 .ToList();
         }
 
-        public async Task<BaseDTO> UltumaCuotaAlumno(long alumnoId, bool mostrarTodos = false)
+        public async Task<BaseDTO> UltimaCuotaAlumno(long alumnoId, long precioCuotaId, bool mostrarTodos = false)
         {
-            Expression<Func<Cuota, bool>> filtro = x => x.AlumnoId == alumnoId & x.EstadoCuota == EstadoCuota.Pendiente;
+            Expression<Func<Cuota, bool>> filtro = x => x.AlumnoId == alumnoId & x.PrecioCuotaId == precioCuotaId;
 
             if (!mostrarTodos)
             {
@@ -215,6 +216,11 @@ namespace Servicios.CuotaServicio
             }
 
             var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(filtro, "PrecioCuota.Carrera, Alumno, Pagos");
+
+            if (entidad.Count() == 0)
+            {
+                return null;
+            }
 
             Cuota ultimaCuota = entidad.OrderBy(x => x.Fecha).LastOrDefault();
 
@@ -251,11 +257,57 @@ namespace Servicios.CuotaServicio
                 Eliminado = ultimaCuota.EstaEliminado,
             };
 
+        }
 
+        public async Task<IEnumerable<BaseDTO>> ObtenerPorCarreraIdAlumnoId(long alumnoId, long carreraId, bool mostrarTodos = false)
+        {
+            Expression<Func<Cuota, bool>> filtro = x => x.AlumnoId == alumnoId & x.PrecioCuota.CarreraId == carreraId;
 
+            if (!mostrarTodos)
+            {
+                filtro = filtro.And(x => !x.EstaEliminado);
+            }
+
+            var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(filtro, "PrecioCuota.Carrera, Alumno, Pagos");
+
+            return entidad.Select(x => new CuotaDTO
+            {
+                Id = x.Id,
+                Numero = x.Numero,
+                PorcAbonado = x.PorcAbonado,
+                Fecha = x.Fecha,
+                EstadoCuota = x.EstadoCuota,
+                PrecioCuotaId = x.PrecioCuotaId,
+                PrecioCuota = new PrecioCuotaDTO
+                {
+                    Id = x.PrecioCuota.Id,
+                    Monto = x.PrecioCuota.Monto,
+                    Fecha = x.PrecioCuota.Fecha,
+                    CarreraId = x.PrecioCuota.CarreraId,
+                    Carrera = x.PrecioCuota.Carrera.Descripcion,
+                },
+                AlumnoId = x.AlumnoId,
+                Alumno = new AlumnoDTO
+                {
+                    Id = x.Alumno.Id,
+                    Legajo = x.Alumno.Legajo,
+                    Nombre = x.Alumno.Nombre,
+                    Apellido = x.Alumno.Apellido,
+                    Dni = x.Alumno.Dni,
+                    Mail = x.Alumno.Mail,
+                    FechaIngreso = x.Alumno.FechaIngreso,
+
+                },
+                NumeroDePagos = x.Pagos.Count(x => !x.EstaEliminado),
+                Pagos = ManejoDePagos(x.Pagos.ToList()),
+                Eliminado = x.EstaEliminado,
+            })
+               .OrderBy(x => x.Numero)
+               .ToList();
         }
 
         // =========================================== Metodos Privados =========================================== //
+
         private List<PagoDTO> ManejoDePagos(List<Pago> pagos)
         {
 
@@ -270,6 +322,7 @@ namespace Servicios.CuotaServicio
                         Id = p.Id,
                         Monto = p.Monto,
                         FechaPago = p.FechaPago,
+                        PorcPago = p.PorcPago,
                         CuotaId = p.CuotaId,
                         Eliminado = p.EstaEliminado
                     };
@@ -280,7 +333,6 @@ namespace Servicios.CuotaServicio
 
             return pagosList;
         }
-
 
     }
 }

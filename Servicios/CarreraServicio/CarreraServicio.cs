@@ -61,7 +61,7 @@ namespace Servicios.CarreraServicio
 
         public async Task<BaseDTO> Obtener(long id)
         {
-            var entidad =  await _unidadDeTrabajo.CarreraRepositorio.Obtener(id);
+            var entidad =  await _unidadDeTrabajo.CarreraRepositorio.Obtener(id, "PrecioCuota");
 
             if (entidad == null) throw new Exception("No se encotró la carrera que esta buscando");
 
@@ -71,6 +71,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = entidad.Descripcion,
                 CantidadCuotas =  entidad.CantidadCuotas,
                 Fecha = entidad.Fecha,
+                PrecioCuo = entidad.PrecioCuota.Monto,
                 Eliminado = entidad.EstaEliminado
             };
 
@@ -86,7 +87,7 @@ namespace Servicios.CarreraServicio
                 filtro = x => !x.EstaEliminado;
             }
 
-            var entidad = await _unidadDeTrabajo.CarreraRepositorio.ObtenerTodos(filtro);
+            var entidad = await _unidadDeTrabajo.CarreraRepositorio.ObtenerTodos(filtro, "PrecioCuota");
 
             return entidad.Select(x => new CarreraDto
             {
@@ -94,6 +95,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = x.Descripcion,
                 CantidadCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
+                PrecioCuo = x.PrecioCuota != null ? x.PrecioCuota.Monto : 0 ,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)
@@ -109,7 +111,7 @@ namespace Servicios.CarreraServicio
                 filtro = filtro.And(x => !x.EstaEliminado);
             }
 
-            var entidad = await _unidadDeTrabajo.CarreraRepositorio.Obtener(filtro);
+            var entidad = await _unidadDeTrabajo.CarreraRepositorio.Obtener(filtro, "PrecioCuota");
 
             return entidad.Select(x => new CarreraDto
             {
@@ -117,6 +119,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = x.Descripcion,
                 CantidadCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
+                PrecioCuo = x.PrecioCuota.Monto,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)
