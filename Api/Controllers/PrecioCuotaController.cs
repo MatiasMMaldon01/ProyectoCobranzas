@@ -7,7 +7,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class PrecioCuotaController : Controller
     {
         private readonly IPrecioCuotaServicio _precioCuotaServicio;
