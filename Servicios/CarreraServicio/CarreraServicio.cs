@@ -30,7 +30,7 @@ namespace Servicios.CarreraServicio
             var entidad = new Carrera
             {
                 Descripcion = dto.Descripcion,
-                CantidadCuotas = dto.CantidadCuotas,
+                CantidadCuotas = dto.CantCuotas,
                 Fecha = DateTime.Now,
                 EstaEliminado = false,
             };
@@ -52,7 +52,7 @@ namespace Servicios.CarreraServicio
             if (entidad == null) throw new Exception("No se encotró la carrera que quiere modificar");
 
             entidad.Descripcion = dto.Descripcion;
-            entidad.CantidadCuotas = dto.CantidadCuotas;
+            entidad.CantidadCuotas = dto.CantCuotas;
 
             await _unidadDeTrabajo.CarreraRepositorio.Modificar(entidad);
 
@@ -69,7 +69,7 @@ namespace Servicios.CarreraServicio
             {
                 Id = entidad.Id,
                 Descripcion = entidad.Descripcion,
-                CantidadCuotas =  entidad.CantidadCuotas,
+                CantCuotas =  entidad.CantidadCuotas,
                 Fecha = entidad.Fecha,
                 PrecioCuo = entidad.PrecioCuota.Monto,
                 Eliminado = entidad.EstaEliminado
@@ -93,7 +93,7 @@ namespace Servicios.CarreraServicio
             {
                 Id = x.Id,
                 Descripcion = x.Descripcion,
-                CantidadCuotas = x.CantidadCuotas,
+                CantCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
                 PrecioCuo = x.PrecioCuota != null ? x.PrecioCuota.Monto : 0 ,
                 Eliminado = x.EstaEliminado
@@ -117,7 +117,7 @@ namespace Servicios.CarreraServicio
             {
                 Id = x.Id,
                 Descripcion = x.Descripcion,
-                CantidadCuotas = x.CantidadCuotas,
+                CantCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
                 PrecioCuo = x.PrecioCuota.Monto,
                 Eliminado = x.EstaEliminado

@@ -1,0 +1,30 @@
+version: '3.9'
+
+networks:
+  proyectocobranzas:
+
+services:
+  api:
+    container_name: web-api
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: Api\Dockerfile
+    ports:
+       - "8080:80"
+    networks:
+       - proyectocobranzas
+    depends_on:
+       - dbapp
+
+  dbapp:
+    container_name: sql_server
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: always
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Pa$$word2023
+    networks:
+      - proyectocobranzas

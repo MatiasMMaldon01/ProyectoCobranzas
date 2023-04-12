@@ -8,7 +8,7 @@ namespace Api.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class EmpleadoController : Controller
     {
         private readonly IEmpleadoServicio _empleadoServicio;
