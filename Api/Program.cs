@@ -72,25 +72,14 @@ builder.Services.AddScoped<ICuotaServicio, CuotaServicio>();
 builder.Services.AddScoped<IPagoServicio, PagoServicio>();
 builder.Services.AddScoped<IAlumnoCarreraServicio, AlumnoCarreraServicio>();
 
-
-
 // DB Configuración
 builder.Services.AddDbContext<DataContext>(options => {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CobranzasDB"));
-    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+     options.UseSqlServer(builder.Configuration.GetConnectionString("CobranzasDB"));
+     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
 );
 
 var app = builder.Build();
-
-// Esta porción de código crea la DB. Sólo usar una vez. (Reescribe la DB)
-//using (var scope = app.Services.CreateScope())
-//{
-
-//    var _context = scope.ServiceProvider.GetRequiredService<DataContext>();
-//    _context.Database.Migrate();
-
-//}
 
 // Configure the HTTP request pipeline.
 
