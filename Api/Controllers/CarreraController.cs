@@ -8,11 +8,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-<<<<<<< HEAD
-    //[Authorize(Roles = "Admin")]
-=======
    // [Authorize(Roles = "Admin")]
->>>>>>> c93c81a7e39c87ed3f0991f6d7efee3457d96202
     public class CarreraController : Controller
     {
         private readonly ICarreraServicio _carreraServicio;
@@ -28,11 +24,7 @@ namespace Api.Controllers
             var entidad = new CarreraDto
             {
                 Descripcion = carrera.Descripcion,
-<<<<<<< HEAD
-                CantCuotas = carrera.CantCuotas,
-=======
                 cantCuotas = carrera.cantCuotas,
->>>>>>> c93c81a7e39c87ed3f0991f6d7efee3457d96202
                 Eliminado = false,
 
             };
@@ -50,11 +42,7 @@ namespace Api.Controllers
             {
                 Id = carrera.Id,
                 Descripcion = carrera.Descripcion,
-<<<<<<< HEAD
-                CantCuotas = carrera.CantCuotas,
-=======
                 cantCuotas = carrera.cantCuotas,
->>>>>>> c93c81a7e39c87ed3f0991f6d7efee3457d96202
                 Eliminado = false,
 
             };

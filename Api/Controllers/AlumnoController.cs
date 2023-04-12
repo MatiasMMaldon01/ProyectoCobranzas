@@ -138,11 +138,7 @@ namespace Api.Controllers
                 var item = new CarreraDto
                 {
                     Id = carrera.Id,
-<<<<<<< HEAD
-                    CantCuotas = carrera.CantCuotas,
-=======
                     cantCuotas = carrera.cantCuotas,
->>>>>>> c93c81a7e39c87ed3f0991f6d7efee3457d96202
                     Descripcion = carrera.Descripcion,
                     Eliminado = carrera.Eliminado,
                 };

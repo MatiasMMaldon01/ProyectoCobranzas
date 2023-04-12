@@ -30,11 +30,7 @@ namespace Servicios.CarreraServicio
             var entidad = new Carrera
             {
                 Descripcion = dto.Descripcion,
-<<<<<<< HEAD
-                CantidadCuotas = dto.CantCuotas,
-=======
                 CantidadCuotas = dto.cantCuotas,
->>>>>>> c93c81a7e39c87ed3f0991f6d7efee3457d96202
                 Fecha = DateTime.Now,
                 EstaEliminado = false,
             };
@@ -56,11 +52,7 @@ namespace Servicios.CarreraServicio
             if (entidad == null) throw new Exception("No se encotró la carrera que quiere modificar");
 
             entidad.Descripcion = dto.Descripcion;
-<<<<<<< HEAD
-            entidad.CantidadCuotas = dto.CantCuotas;
-=======
             entidad.CantidadCuotas = dto.cantCuotas;
->>>>>>> c93c81a7e39c87ed3f0991f6d7efee3457d96202
 
             await _unidadDeTrabajo.CarreraRepositorio.Modificar(entidad);
 
@@ -77,15 +69,9 @@ namespace Servicios.CarreraServicio
             {
                 Id = entidad.Id,
                 Descripcion = entidad.Descripcion,
-<<<<<<< HEAD
-                CantCuotas =  entidad.CantidadCuotas,
-                Fecha = entidad.Fecha,
-                PrecioCuo = entidad.PrecioCuota.Monto,
-=======
                 cantCuotas =  entidad.CantidadCuotas,
                // Fecha = entidad.Fecha,
                 precioCuo = entidad.PrecioCuota.Monto,
->>>>>>> c93c81a7e39c87ed3f0991f6d7efee3457d96202
                 Eliminado = entidad.EstaEliminado
             };
 
@@ -107,15 +93,9 @@ namespace Servicios.CarreraServicio
             {
                 Id = x.Id,
                 Descripcion = x.Descripcion,
-<<<<<<< HEAD
-                CantCuotas = x.CantidadCuotas,
-                Fecha = x.Fecha,
-                PrecioCuo = x.PrecioCuota != null ? x.PrecioCuota.Monto : 0 ,
-=======
                 cantCuotas = x.CantidadCuotas,
                // Fecha = x.Fecha,
                 precioCuo = x.PrecioCuota != null ? x.PrecioCuota.Monto : 0 ,
->>>>>>> c93c81a7e39c87ed3f0991f6d7efee3457d96202
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)
@@ -137,11 +117,7 @@ namespace Servicios.CarreraServicio
             {
                 Id = x.Id,
                 Descripcion = x.Descripcion,
-<<<<<<< HEAD
-                CantCuotas = x.CantidadCuotas,
-=======
                 cantCuotas = x.CantidadCuotas,
->>>>>>> c93c81a7e39c87ed3f0991f6d7efee3457d96202
                 Fecha = x.Fecha,
                 precioCuo = x.PrecioCuota.Monto,
                 Eliminado = x.EstaEliminado

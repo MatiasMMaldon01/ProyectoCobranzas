@@ -216,13 +216,8 @@ namespace Servicios.PersonaServicio
                 {
                     Id = carrera.Carrera.Id,
                     Descripcion = carrera.Carrera.Descripcion,
-<<<<<<< HEAD
-                    PrecioCuo = carrera.Carrera.PrecioCuota.Monto,
-                    CantCuotas = carrera.Carrera.CantidadCuotas,
-=======
                     precioCuo = carrera.Carrera.PrecioCuota.Monto,
                     cantCuotas = carrera.Carrera.CantidadCuotas,
->>>>>>> c93c81a7e39c87ed3f0991f6d7efee3457d96202
                 };
 
                 carrerasList.Add(carreraAlumno);
