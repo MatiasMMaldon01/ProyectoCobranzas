@@ -8,7 +8,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin")]
+   // [Authorize(Roles = "Admin")]
     public class CarreraController : Controller
     {
         private readonly ICarreraServicio _carreraServicio;
@@ -24,7 +24,7 @@ namespace Api.Controllers
             var entidad = new CarreraDto
             {
                 Descripcion = carrera.Descripcion,
-                CantidadCuotas = carrera.CantidadCuotas,
+                cantCuotas = carrera.cantCuotas,
                 Eliminado = false,
 
             };
@@ -40,8 +40,9 @@ namespace Api.Controllers
         {
             var entidad = new CarreraDto
             {
+                Id = carrera.Id,
                 Descripcion = carrera.Descripcion,
-                CantidadCuotas = carrera.CantidadCuotas,
+                cantCuotas = carrera.cantCuotas,
                 Eliminado = false,
 
             };

@@ -8,7 +8,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AlumnoController : Controller
     {
         private readonly IAlumnoServicio _alumnoServicio;
@@ -138,7 +138,7 @@ namespace Api.Controllers
                 var item = new CarreraDto
                 {
                     Id = carrera.Id,
-                    CantidadCuotas = carrera.CantidadCuotas,
+                    cantCuotas = carrera.cantCuotas,
                     Descripcion = carrera.Descripcion,
                     Eliminado = carrera.Eliminado,
                 };

@@ -30,7 +30,7 @@ namespace Servicios.CarreraServicio
             var entidad = new Carrera
             {
                 Descripcion = dto.Descripcion,
-                CantidadCuotas = dto.CantidadCuotas,
+                CantidadCuotas = dto.cantCuotas,
                 Fecha = DateTime.Now,
                 EstaEliminado = false,
             };
@@ -52,7 +52,7 @@ namespace Servicios.CarreraServicio
             if (entidad == null) throw new Exception("No se encotró la carrera que quiere modificar");
 
             entidad.Descripcion = dto.Descripcion;
-            entidad.CantidadCuotas = dto.CantidadCuotas;
+            entidad.CantidadCuotas = dto.cantCuotas;
 
             await _unidadDeTrabajo.CarreraRepositorio.Modificar(entidad);
 
@@ -69,9 +69,9 @@ namespace Servicios.CarreraServicio
             {
                 Id = entidad.Id,
                 Descripcion = entidad.Descripcion,
-                CantidadCuotas =  entidad.CantidadCuotas,
-                Fecha = entidad.Fecha,
-                PrecioCuo = entidad.PrecioCuota.Monto,
+                cantCuotas =  entidad.CantidadCuotas,
+               // Fecha = entidad.Fecha,
+                precioCuo = entidad.PrecioCuota.Monto,
                 Eliminado = entidad.EstaEliminado
             };
 
@@ -93,9 +93,9 @@ namespace Servicios.CarreraServicio
             {
                 Id = x.Id,
                 Descripcion = x.Descripcion,
-                CantidadCuotas = x.CantidadCuotas,
-                Fecha = x.Fecha,
-                PrecioCuo = x.PrecioCuota != null ? x.PrecioCuota.Monto : 0 ,
+                cantCuotas = x.CantidadCuotas,
+               // Fecha = x.Fecha,
+                precioCuo = x.PrecioCuota != null ? x.PrecioCuota.Monto : 0 ,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)
@@ -117,9 +117,9 @@ namespace Servicios.CarreraServicio
             {
                 Id = x.Id,
                 Descripcion = x.Descripcion,
-                CantidadCuotas = x.CantidadCuotas,
+                cantCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
-                PrecioCuo = x.PrecioCuota.Monto,
+                precioCuo = x.PrecioCuota.Monto,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)

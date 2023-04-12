@@ -8,8 +8,8 @@ namespace IServicios.Carrera.Carrera_DTO
 
         public DateTime Fecha { get; set; }
         
-        public decimal CantidadCuotas { get; set; }
+        public decimal cantCuotas { get; set; }
 
-        public decimal PrecioCuo { get; set; }
+        public decimal precioCuo { get; set; }
     }
 }
