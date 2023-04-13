@@ -59,7 +59,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 
-// Inyección de Dependencias
+// Inyecciï¿½n de Dependencias
 builder.Services.AddScoped<IUnidadDeTrabajo, UnidadDeTrabajo>();
 builder.Services.AddScoped<ICarreraServicio, CarreraServicio>();
 builder.Services.AddScoped<IUsuarioServicio, UsuarioServicio>();
@@ -72,7 +72,7 @@ builder.Services.AddScoped<ICuotaServicio, CuotaServicio>();
 builder.Services.AddScoped<IPagoServicio, PagoServicio>();
 builder.Services.AddScoped<IAlumnoCarreraServicio, AlumnoCarreraServicio>();
 
-// DB Configuración
+// DB Configuraciï¿½n
 builder.Services.AddDbContext<DataContext>(options => {
      options.UseSqlServer(builder.Configuration.GetConnectionString("CobranzasDB"));
      options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
@@ -82,6 +82,13 @@ builder.Services.AddDbContext<DataContext>(options => {
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseCors(x =>
+{
+    x.AllowAnyHeader();
+    x.AllowAnyMethod();
+    x.AllowAnyOrigin();
+});
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
