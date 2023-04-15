@@ -3,6 +3,7 @@ using IServicios.Persona;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using IServicios.Carrera.Carrera_DTO;
+using Api.PersistenceModels;
 
 namespace Api.Controllers
 {
@@ -18,8 +19,8 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IResult> Crear(AlumnoDTO alumno)
+        //[Authorize(Roles = "Admin")]
+        public async Task<IResult> Crear(AlumnoModel alumno)
         {
             var entidad = new AlumnoDTO
             {
@@ -32,7 +33,7 @@ namespace Api.Controllers
                 PorcBeca = alumno.PorcBeca, 
                 FechaIngreso = alumno.FechaIngreso,
                 Legajo = alumno.Legajo,
-                Carreras = ManejarCarreras(alumno.Carreras),
+                Carreras = ManejarCarreras(alumno.CarrerasId),
                 Eliminado = false,
 
             };
@@ -44,8 +45,8 @@ namespace Api.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin")]
-        public async Task<IResult> Modificar(AlumnoDTO alumno)
+        //[Authorize(Roles = "Admin")]
+        public async Task<IResult> Modificar(AlumnoModel alumno)
         {
             var entidad = new AlumnoDTO
             {
@@ -69,7 +70,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IResult> Eliminar(long id)
         {
             await _alumnoServicio.Eliminar(typeof(AlumnoDTO), id);
@@ -78,7 +79,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IResult> Obtener(long id)
         {
             var Alumno = await _alumnoServicio.Obtener(typeof(AlumnoDTO), id);
@@ -94,7 +95,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin, Directivo")]
+        //[Authorize(Roles = "Admin, Directivo")]
         public async Task<IResult> Obtener(string? cadenaBuscar, bool mostrarTodos = false)
         {
             var Alumnos = await _alumnoServicio.Obtener(typeof(AlumnoDTO), cadenaBuscar, mostrarTodos);
@@ -111,7 +112,7 @@ namespace Api.Controllers
 
         [HttpGet]
         [Route("ObtenerTodos")]
-        [Authorize(Roles = "Admin, Directivo")]
+        //[Authorize(Roles = "Admin, Directivo")]
         public async Task<IResult> ObtenerTodos()
         {
             var Alumnos = await _alumnoServicio.ObtenerTodos(typeof(AlumnoDTO));
@@ -128,7 +129,7 @@ namespace Api.Controllers
 
         // ==================================== METODOS PRIVADOS ==================================== //
 
-        private List<CarreraDto> ManejarCarreras(List<CarreraDto> carreras)
+        private List<CarreraDto> ManejarCarreras(List<long> carreras)
         {
 
             var listaCarrera = new List<CarreraDto>();
@@ -137,10 +138,10 @@ namespace Api.Controllers
             {
                 var item = new CarreraDto
                 {
-                    Id = carrera.Id,
-                    CantCuotas = carrera.CantCuotas,
-                    Descripcion = carrera.Descripcion,
-                    Eliminado = carrera.Eliminado,
+                    Id = carrera,
+                    CantCuotas = 0,
+                    Descripcion = "",
+                    Eliminado = false,
                 };
 
                 listaCarrera.Add(item);

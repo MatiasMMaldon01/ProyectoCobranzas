@@ -62,7 +62,7 @@ namespace Servicios.CuotaServicio
 
             entidad.Id = dto.Id;
             entidad.Numero = dto.Numero;
-            entidad.EstadoCuota = dto.EstadoCuota;
+            entidad.EstadoCuota = dto.EstadoCuo;
             entidad.PrecioCuotaId = dto.PrecioCuotaId;
             entidad.AlumnoId = dto.AlumnoId;
 
@@ -84,7 +84,7 @@ namespace Servicios.CuotaServicio
                 Numero = entidad.Numero,
                 PorcAbonado = entidad.PorcAbonado,
                 Fecha = entidad.Fecha,
-                EstadoCuota = entidad.EstadoCuota,
+                EstadoCuo = entidad.EstadoCuota,
                 PrecioCuotaId = entidad.PrecioCuotaId,
                 PrecioCuota = new PrecioCuotaDTO {
                     Id = entidad.PrecioCuota.Id,
@@ -128,7 +128,7 @@ namespace Servicios.CuotaServicio
                 Numero = x.Numero,
                 PorcAbonado = x.PorcAbonado,
                 Fecha = x.Fecha,
-                EstadoCuota = x.EstadoCuota,
+                EstadoCuo = x.EstadoCuota,
                 PrecioCuotaId = x.PrecioCuotaId,
                 PrecioCuota = new PrecioCuotaDTO
                 {
@@ -176,7 +176,7 @@ namespace Servicios.CuotaServicio
                 Numero = x.Numero,
                 PorcAbonado = x.PorcAbonado,
                 Fecha = x.Fecha,
-                EstadoCuota = x.EstadoCuota,
+                EstadoCuo = x.EstadoCuota,
                 PrecioCuotaId = x.PrecioCuotaId,
                 PrecioCuota = new PrecioCuotaDTO
                 {
@@ -230,7 +230,7 @@ namespace Servicios.CuotaServicio
                 Numero = ultimaCuota.Numero,
                 PorcAbonado = ultimaCuota.PorcAbonado,
                 Fecha = ultimaCuota.Fecha,
-                EstadoCuota = ultimaCuota.EstadoCuota,
+                EstadoCuo = ultimaCuota.EstadoCuota,
                 PrecioCuotaId = ultimaCuota.PrecioCuotaId,
                 PrecioCuota = new PrecioCuotaDTO
                 {
@@ -276,7 +276,7 @@ namespace Servicios.CuotaServicio
                 Numero = x.Numero,
                 PorcAbonado = x.PorcAbonado,
                 Fecha = x.Fecha,
-                EstadoCuota = x.EstadoCuota,
+                EstadoCuo = x.EstadoCuota,
                 PrecioCuotaId = x.PrecioCuotaId,
                 PrecioCuota = new PrecioCuotaDTO
                 {

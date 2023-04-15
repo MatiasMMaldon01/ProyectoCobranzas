@@ -21,9 +21,9 @@ namespace IServicios.Cuota.CuotaDTO
 
         public DateTime Fecha { get; set; }
 
-        public EstadoCuota EstadoCuota { get; set; }
+        public EstadoCuota EstadoCuo { get; set; }
 
-        public string EstadoCuotaStr => EstadoCuota == EstadoCuota.Pagada ? "PAGADA" : "PENDIENTE";
+        public string EstadoCuotaStr => EstadoCuo == EstadoCuota.Pagada ? "PAGADA" : "PENDIENTE";
 
         public long AlumnoId { get; set; }
 

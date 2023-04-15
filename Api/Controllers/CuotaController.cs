@@ -1,4 +1,5 @@
-﻿using IServicios.Cuota;
+﻿using Api.PersistenceModels;
+using IServicios.Cuota;
 using IServicios.Cuota.CuotaDTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IResult> Crear(CuotaDTO cuota)
+        public async Task<IResult> Crear(CuotaModel cuota)
         {
             var entidad = new CuotaDTO
             {
@@ -30,14 +31,14 @@ namespace Api.Controllers
                 Eliminado = false,
             };
 
-            await _cuotaServicio.Crear(entidad);
+            long id = await _cuotaServicio.Crear(entidad);
 
-            return Results.Ok(entidad);
+            return Results.Ok(id);
 
         }
 
         [HttpPut]
-        public async Task<IResult> Modificar(CuotaDTO cuota)
+        public async Task<IResult> Modificar(CuotaModel cuota)
         {
             var entidad = new CuotaDTO
             {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using IServicios.PrecioCuota;
 using IServicios.PrecioCuota.PrecioCuotaDTO;
+using Api.PersistenceModels;
 
 namespace Api.Controllers
 {
@@ -18,7 +19,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IResult> Crear(PrecioCuotaDTO precioCuota)
+        public async Task<IResult> Crear(PrecioCuotaModel precioCuota)
         {
             var entidad = new PrecioCuotaDTO
             {
@@ -30,14 +31,14 @@ namespace Api.Controllers
 
             };
 
-            await _precioCuotaServicio.Crear(entidad);
+            long id = await _precioCuotaServicio.Crear(entidad);
 
-            return Results.Ok(entidad);
+            return Results.Ok(id);
 
         }
 
         [HttpPut]
-        public async Task<IResult> Modificar(PrecioCuotaDTO precioCuota)
+        public async Task<IResult> Modificar(PrecioCuotaModel precioCuota)
         {
             var entidad = new PrecioCuotaDTO
             {

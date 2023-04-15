@@ -1,6 +1,7 @@
 ﻿using IServicios.Usuario;
 using Microsoft.AspNetCore.Mvc;
 using IServicios.Usuario.UsuarioDTO;
+using Api.PersistenceModels;
 
 namespace Api.Controllers
 {
@@ -16,7 +17,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IResult> Crear(UsuarioDTO Usuario)
+        public async Task<IResult> Crear(UsuarioModel Usuario)
         {
             var entidad = new UsuarioDTO
             {
@@ -28,17 +29,18 @@ namespace Api.Controllers
 
             };
 
-            await _UsuarioServicio.Crear(Usuario);
+            long id = await _UsuarioServicio.Crear(entidad);
 
-            return Results.Ok(Usuario);
+            return Results.Ok(id);
 
         }
 
         [HttpPut]
-        public async Task<IResult> Modificar(UsuarioDTO Usuario)
+        public async Task<IResult> Modificar(UsuarioModel Usuario)
         {
             var entidad = new UsuarioDTO
             {
+                Id = Usuario.Id,
                 Nombre = Usuario.Nombre,
                 Password = Usuario.Password,
                 Rol = Usuario.Rol,
@@ -47,9 +49,9 @@ namespace Api.Controllers
 
             };
 
-            await _UsuarioServicio.Modificar(Usuario);
+            await _UsuarioServicio.Modificar(entidad);
 
-            return Results.Ok(Usuario);
+            return Results.Ok(entidad);
         }
 
         [HttpDelete("{id}")]

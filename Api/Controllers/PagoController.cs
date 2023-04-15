@@ -1,4 +1,5 @@
-﻿using IServicios.Cuota.CuotaDTO;
+﻿using Api.PersistenceModels;
+using IServicios.Cuota.CuotaDTO;
 using IServicios.Pago;
 using IServicios.Pago.PagoDTO;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +20,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IResult> Crear(PagoDTO pago)
+        public async Task<IResult> Crear(PagoModel pago)
         {
             var entidad = new PagoDTO
             {
@@ -34,7 +35,7 @@ namespace Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IResult> Modificar(PagoDTO pago)
+        public async Task<IResult> Modificar(PagoModel pago)
         {
             var entidad = new PagoDTO
             {
