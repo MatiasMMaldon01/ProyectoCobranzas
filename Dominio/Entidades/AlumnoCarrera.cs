@@ -8,9 +8,9 @@ namespace Dominio.Entidades
     [MetadataType(typeof(IAlumnoCarrera))]
     public class AlumnoCarrera : EntidadBase
     {
-        public long AlumnoId { get; set; }
+        public int AlumnoId { get; set; }
 
-        public long CarreraId { get; set; }
+        public int CarreraId { get; set; }
 
         // Propiedades De Navegacion
 

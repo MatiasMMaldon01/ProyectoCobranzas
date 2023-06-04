@@ -13,7 +13,7 @@ namespace Dominio.Entidades
         public string Descripcion { get; set; }
         public string EntidadMovimiento { get; set; }
         public DateTime Fecha { get; set; }
-        public long UsuarioId { get; set; }
+        public int UsuarioId { get; set; }
 
 
         // Propiedades de Navegacion

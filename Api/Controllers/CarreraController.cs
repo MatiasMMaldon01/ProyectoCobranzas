@@ -1,7 +1,6 @@
 ﻿using Api.PersistenceModels;
 using IServicios.Carrera;
 using IServicios.Carrera.Carrera_DTO;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -54,7 +53,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IResult> Eliminar(long id)
+        public async Task<IResult> Eliminar(int id)
         {
             await _carreraServicio.Eliminar(id);
 
@@ -62,7 +61,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IResult> Obtener(long id)
+        public async Task<IResult> Obtener(int id)
         {
             var carrera =  await _carreraServicio.Obtener(id);
 

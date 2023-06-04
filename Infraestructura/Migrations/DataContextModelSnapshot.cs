@@ -24,17 +24,17 @@ namespace Infraestructura.Migrations
 
             modelBuilder.Entity("Dominio.Entidades.AlumnoCarrera", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<long>("AlumnoId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("AlumnoId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("CarreraId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("CarreraId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("EstaEliminado")
                         .HasColumnType("bit");
@@ -50,11 +50,11 @@ namespace Infraestructura.Migrations
 
             modelBuilder.Entity("Dominio.Entidades.Carrera", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("CantidadCuotas")
                         .HasColumnType("decimal(18,2)");
@@ -76,14 +76,14 @@ namespace Infraestructura.Migrations
 
             modelBuilder.Entity("Dominio.Entidades.Cuota", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<long>("AlumnoId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("AlumnoId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("EstaEliminado")
                         .HasColumnType("bit");
@@ -100,8 +100,8 @@ namespace Infraestructura.Migrations
                     b.Property<decimal>("PorcAbonado")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<long>("PrecioCuotaId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("PrecioCuotaId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -114,14 +114,14 @@ namespace Infraestructura.Migrations
 
             modelBuilder.Entity("Dominio.Entidades.Pago", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<long>("CuotaId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("CuotaId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("EstaEliminado")
                         .HasColumnType("bit");
@@ -144,11 +144,11 @@ namespace Infraestructura.Migrations
 
             modelBuilder.Entity("Dominio.Entidades.Persona", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Apellido")
                         .IsRequired()
@@ -186,14 +186,14 @@ namespace Infraestructura.Migrations
 
             modelBuilder.Entity("Dominio.Entidades.PrecioCuota", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<long>("CarreraId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("CarreraId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("EstaEliminado")
                         .HasColumnType("bit");
@@ -214,11 +214,11 @@ namespace Infraestructura.Migrations
 
             modelBuilder.Entity("Dominio.Entidades.Proceso", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Codigo")
                         .HasColumnType("int");
@@ -237,8 +237,8 @@ namespace Infraestructura.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("UsuarioId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -249,11 +249,11 @@ namespace Infraestructura.Migrations
 
             modelBuilder.Entity("Dominio.Entidades.Usuario", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("EstaEliminado")
                         .HasColumnType("bit");
@@ -269,8 +269,8 @@ namespace Infraestructura.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("PersonaId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("PersonaId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Rol")
                         .HasColumnType("int");
@@ -284,12 +284,12 @@ namespace Infraestructura.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1L,
+                            Id = 1,
                             EstaEliminado = false,
-                            Fecha = new DateTime(2023, 3, 17, 21, 5, 20, 331, DateTimeKind.Local).AddTicks(8338),
+                            Fecha = new DateTime(2023, 5, 21, 15, 14, 6, 251, DateTimeKind.Local).AddTicks(2303),
                             Nombre = "Admin",
                             Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
-                            PersonaId = 1L,
+                            PersonaId = 1,
                             Rol = 1
                         });
                 });
@@ -301,8 +301,9 @@ namespace Infraestructura.Migrations
                     b.Property<DateTime>("FechaIngreso")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Legajo")
-                        .HasColumnType("int");
+                    b.Property<string>("Legajo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("PorcBeca")
                         .HasColumnType("decimal(18,2)");
@@ -323,7 +324,7 @@ namespace Infraestructura.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1L,
+                            Id = 1,
                             Apellido = "admin",
                             Direccion = "Rivadavia 1050",
                             Dni = "99999999",

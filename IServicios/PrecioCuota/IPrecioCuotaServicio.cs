@@ -5,6 +5,6 @@ namespace IServicios.PrecioCuota
 {
     public interface IPrecioCuotaServicio : IServicioBase
     {
-        public Task<IEnumerable<BaseDTO>> ObtenerPorCarreraId(long carreraId, bool mostrarTodos = true);
+        public Task<IEnumerable<BaseDTO>> ObtenerPorCarreraId(int carreraId, bool mostrarTodos = true);
     }
 }

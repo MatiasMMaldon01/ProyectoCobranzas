@@ -4,8 +4,8 @@ namespace IServicios.AlumnoCarrera
 {
     public interface IAlumnoCarreraServicio
     {
-        Task<long> Crear(BaseDTO dtoEntidad);
+        Task<int> Crear(BaseDTO dtoEntidad);
         Task Modificar(BaseDTO dtoEntidad);
-        Task Eliminar(long id);
+        Task Eliminar(int id);
     }
 }

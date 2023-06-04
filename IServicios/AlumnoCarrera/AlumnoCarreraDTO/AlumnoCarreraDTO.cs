@@ -6,11 +6,11 @@ namespace IServicios.AlumnoCarrera.AlumnoCarreraDTO
 {
     public class AlumnoCarreraDTO : BaseDTO
     {
-        public long CarreraId { get; set; }
+        public int CarreraId { get; set; }
 
         public CarreraDto Carrera { get; set; }
 
-        public long AlumnoId { get; set; }
+        public int AlumnoId { get; set; }
 
         public AlumnoDTO Alumno { get; set; }
     }

@@ -8,7 +8,7 @@ namespace IServicios.PrecioCuota.PrecioCuotaDTO
 
         public DateTime Fecha { get; set; }
 
-        public long CarreraId { get; set; }
+        public int CarreraId { get; set; }
 
         public string Carrera { get; set; }
     }

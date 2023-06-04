@@ -14,7 +14,7 @@ namespace Servicios.PersonaServicio
         {
         }
 
-        public override async Task<long> Crear(PersonaDTO entidad)
+        public override async Task<int> Crear(PersonaDTO entidad)
         {
             using (var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -92,7 +92,7 @@ namespace Servicios.PersonaServicio
             });
         }
 
-        public override async Task Eliminar(long id)
+        public override async Task Eliminar(int id)
         {
             using (var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -125,7 +125,7 @@ namespace Servicios.PersonaServicio
             Expression<Func<Dominio.Entidades.Alumno, bool>> filtro = alumno => (alumno.Apellido.Contains(cadenaBuscar)
                     || alumno.Nombre.Contains(cadenaBuscar)
                     || alumno.Dni == cadenaBuscar
-                    || alumno.Legajo == int.Parse(cadenaBuscar));
+                    || alumno.Legajo == (cadenaBuscar));
 
             if (!mostrarTodos)
             {
@@ -153,7 +153,7 @@ namespace Servicios.PersonaServicio
                     .ToList();
         }
 
-        public override async Task<PersonaDTO> Obtener(long id)
+        public override async Task<PersonaDTO> Obtener(int id)
         {
             var entidad = await _unidadDeTrabajo.AlumnoRepositorio.Obtener(id, "AlumnoCarreras.Carrera, AlumnoCarreras.Carrera.PrecioCuota");
 

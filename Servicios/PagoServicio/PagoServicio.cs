@@ -18,7 +18,7 @@ namespace Servicios.PagoServicio
             _unidadDeTrabajo = unidadDeTrabajo;
         }
 
-        public async Task<long> Crear(BaseDTO dtoEntidad)
+        public async Task<int> Crear(BaseDTO dtoEntidad)
         {
             using (var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -102,7 +102,7 @@ namespace Servicios.PagoServicio
 
         }
 
-        public async Task Eliminar(long id)
+        public async Task Eliminar(int id)
         {
             using (var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -227,7 +227,7 @@ namespace Servicios.PagoServicio
             }
         }
 
-        public async Task<BaseDTO> Obtener(long id)
+        public async Task<BaseDTO> Obtener(int id)
         {
             var entidad = await _unidadDeTrabajo.PagoRepositorio.Obtener(id, "Cuota.Alumno, Cuota.PrecioCuota");
 
@@ -274,7 +274,7 @@ namespace Servicios.PagoServicio
                 .ToList();
         }
 
-        public async Task<IEnumerable<BaseDTO>> ObtenerPorAlumnoId(long alumnoId, bool mostrarTodos = false)
+        public async Task<IEnumerable<BaseDTO>> ObtenerPorAlumnoId(int alumnoId, bool mostrarTodos = false)
         {
             Expression<Func<Pago, bool>> filtro = x => x.Cuota.AlumnoId == alumnoId;
 

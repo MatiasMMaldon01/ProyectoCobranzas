@@ -25,11 +25,11 @@ namespace IServicios.Cuota.CuotaDTO
 
         public string EstadoCuotaStr => EstadoCuo == EstadoCuota.Pagada ? "PAGADA" : "PENDIENTE";
 
-        public long AlumnoId { get; set; }
+        public int AlumnoId { get; set; }
 
         public AlumnoDTO? Alumno { get; set; }
 
-        public long PrecioCuotaId { get; set; }
+        public int PrecioCuotaId { get; set; }
 
         public PrecioCuotaDTO? PrecioCuota { get; set; }
 

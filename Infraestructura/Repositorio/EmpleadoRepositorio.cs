@@ -14,7 +14,7 @@ namespace Infraestructura.Repositorio
 
         }
 
-        public override async Task<Empleado> Obtener(long id, string propiedadesNavegacion = "")
+        public override async Task<Empleado> Obtener(int id, string propiedadesNavegacion = "")
         {
             var query = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                  .Aggregate<string, IQueryable<Empleado>>(_context.Set<Persona>().OfType<Empleado>(), (current, include) => current.Include(include.Trim()));

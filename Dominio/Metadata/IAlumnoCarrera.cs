@@ -6,10 +6,10 @@ namespace Dominio.Metadata
     {
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [Display(Name = @"Alumno")]
-        long AlumnoId { get; set; }
+        int AlumnoId { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [Display(Name = @"Carrera")]
-        long CarreraId { get; set; }
+        int CarreraId { get; set; }
     }
 }

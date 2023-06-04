@@ -9,7 +9,7 @@ namespace Dominio.Entidades
     [MetadataType(typeof(IAlumno))]
     public class Alumno : Persona
     {
-        public int Legajo { get; set; }
+        public string Legajo { get; set; }
 
         public DateTime FechaIngreso { get; set; }
 

@@ -6,6 +6,6 @@
 
         public DateTime Fecha { get; set; }
 
-        public long CarreraId { get; set; }
+        public int CarreraId { get; set; }
     }
 }

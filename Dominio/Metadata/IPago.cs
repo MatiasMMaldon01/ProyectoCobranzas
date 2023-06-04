@@ -21,6 +21,6 @@ namespace Dominio.Metadata
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [Display(Name = @"Cuota")]
-        long CuotaId { get; set; }
+        int CuotaId { get; set; }
     }
 }

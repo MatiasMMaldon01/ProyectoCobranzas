@@ -17,9 +17,9 @@ namespace Dominio.Entidades
 
         public EstadoCuota EstadoCuota { get; set; }
 
-        public long AlumnoId { get; set; }
+        public int AlumnoId { get; set; }
 
-        public long PrecioCuotaId { get; set; }
+        public int PrecioCuotaId { get; set; }
 
 
         //Propiedades de Navegacion

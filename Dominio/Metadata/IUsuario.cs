@@ -8,7 +8,7 @@ namespace Dominio.Metadata
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
         [Display(Name = "Persona")]
-        long PersonaId { get; set; }
+        int PersonaId { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
         [Display(Name = @"Nombre Usuario")]

@@ -29,14 +29,14 @@ namespace Servicios.PersonaServicio
             _diccionario.Add(type, value);
         }
 
-        public async Task<long> Crear(PersonaDTO entidad)
+        public async Task<int> Crear(PersonaDTO entidad)
         {
             var persona =  GenericInstance<Persona>.InstanciarEntidad(entidad, _diccionario, _unidadDeTrabajo);
             var id = await persona.Crear(entidad);
             return id;
         }
 
-        public async Task Eliminar(Type tipoEntidad, long id)
+        public async Task Eliminar(Type tipoEntidad, int id)
         {
             var persona = GenericInstance<Persona>.InstanciarEntidad(tipoEntidad, _diccionario, _unidadDeTrabajo);
             await persona.Eliminar(id);
@@ -49,7 +49,7 @@ namespace Servicios.PersonaServicio
             return await persona.Obtener(cadenaBuscar, mostrarTodos);
         }
 
-        public async Task<PersonaDTO> Obtener(Type tipo, long id)
+        public async Task<PersonaDTO> Obtener(Type tipo, int id)
         {
             var persona = GenericInstance<Persona>.InstanciarEntidad(tipo, _diccionario, _unidadDeTrabajo);
 

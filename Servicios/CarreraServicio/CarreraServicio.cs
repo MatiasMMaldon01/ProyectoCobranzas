@@ -16,13 +16,13 @@ namespace Servicios.CarreraServicio
            _unidadDeTrabajo = unidadDeTrabajo;
         }
 
-        public async Task Eliminar(long id)
+        public async Task Eliminar(int id)
         {
             await _unidadDeTrabajo.CarreraRepositorio.Eliminar(id);
             _unidadDeTrabajo.Commit();
         }
 
-        public async Task<long> Crear(BaseDTO dtoEntidad)
+        public async Task<int> Crear(BaseDTO dtoEntidad)
         {
 
             var dto = (CarreraDto)dtoEntidad;
@@ -59,7 +59,7 @@ namespace Servicios.CarreraServicio
             _unidadDeTrabajo.Commit();
         }
 
-        public async Task<BaseDTO> Obtener(long id)
+        public async Task<BaseDTO> Obtener(int id)
         {
             var entidad =  await _unidadDeTrabajo.CarreraRepositorio.Obtener(id, "PrecioCuota");
 
@@ -71,7 +71,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = entidad.Descripcion,
                 CantCuotas =  entidad.CantidadCuotas,
                 Fecha = entidad.Fecha,
-                PrecioCuo = entidad.PrecioCuota.Monto,
+               // PrecioCuo = entidad.PrecioCuota.Monto,
                 Eliminado = entidad.EstaEliminado
             };
 

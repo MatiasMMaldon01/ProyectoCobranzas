@@ -55,7 +55,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IResult> Eliminar(long id)
+        public async Task<IResult> Eliminar(int id)
         {
             await _precioCuotaServicio.Eliminar(id);
 
@@ -63,7 +63,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IResult> Obtener(long id)
+        public async Task<IResult> Obtener(int id)
         {
             var precioCuota = await _precioCuotaServicio.Obtener(id);
 
@@ -95,7 +95,7 @@ namespace Api.Controllers
 
         [HttpGet]
         [Route("ObtenerPorCarreraId")]
-        public async Task<IResult> ObtenerPorCarreraId(long carreraId)
+        public async Task<IResult> ObtenerPorCarreraId(int carreraId)
         {
             var precioCuota = await _precioCuotaServicio.ObtenerPorCarreraId(carreraId);
 

@@ -12,7 +12,7 @@ namespace Servicios.PersonaServicio
         {
         }
 
-        public override async Task<long> Crear(PersonaDTO entidad)
+        public override async Task<int> Crear(PersonaDTO entidad)
         {
             if (entidad == null)
                 throw new Exception("Ocurrio un error al Insertar el Empleado");
@@ -59,7 +59,7 @@ namespace Servicios.PersonaServicio
             _unidadDeTrabajo.Commit();
         }
 
-        public override async Task Eliminar(long id)
+        public override async Task Eliminar(int id)
         {
             await _unidadDeTrabajo.EmpleadoRepositorio.Eliminar(id);
             _unidadDeTrabajo.Commit();
@@ -94,7 +94,7 @@ namespace Servicios.PersonaServicio
                     .ToList();
         }
 
-        public override async Task<PersonaDTO> Obtener(long id)
+        public override async Task<PersonaDTO> Obtener(int id)
         {
             var entidad = await _unidadDeTrabajo.EmpleadoRepositorio.Obtener(id);
 

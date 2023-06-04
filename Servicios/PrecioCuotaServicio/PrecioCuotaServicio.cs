@@ -16,13 +16,13 @@ namespace Servicios.PrecioCuotaServicio
            _unidadDeTrabajo = unidadDeTrabajo;
         }
 
-        public async Task Eliminar(long id)
+        public async Task Eliminar(int id)
         {
             await _unidadDeTrabajo.PrecioCuotaRepositorio.Eliminar(id);
             _unidadDeTrabajo.Commit();
         }
 
-        public async Task<long> Crear(BaseDTO dtoEntidad)
+        public async Task<int> Crear(BaseDTO dtoEntidad)
         {
 
             var dto = (PrecioCuotaDTO)dtoEntidad;
@@ -63,7 +63,7 @@ namespace Servicios.PrecioCuotaServicio
             _unidadDeTrabajo.Commit();
         }
 
-        public async Task<BaseDTO> Obtener(long id)
+        public async Task<BaseDTO> Obtener(int id)
         {
             var entidad = await _unidadDeTrabajo.PrecioCuotaRepositorio.Obtener(id, "Carrera");
 
@@ -130,7 +130,7 @@ namespace Servicios.PrecioCuotaServicio
                 .ToList();
         }
 
-        public async Task<IEnumerable<BaseDTO>> ObtenerPorCarreraId(long carreraId, bool mostrarTodos = false)
+        public async Task<IEnumerable<BaseDTO>> ObtenerPorCarreraId(int carreraId, bool mostrarTodos = false)
         {
             Expression<Func<PrecioCuota, bool>> filtro = x => x.CarreraId == carreraId;
 

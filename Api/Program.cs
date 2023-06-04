@@ -45,18 +45,18 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // JWT
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-    });
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddJwtBearer(options =>
+//    {
+//        options.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            ValidateIssuerSigningKey = true,
+//            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+//                .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
+//            ValidateIssuer = false,
+//            ValidateAudience = false
+//        };
+//    });
 
 
 // Inyección de Dependencias
@@ -74,7 +74,7 @@ builder.Services.AddScoped<IAlumnoCarreraServicio, AlumnoCarreraServicio>();
 
 // DB Configuración
 builder.Services.AddDbContext<DataContext>(options => {
-     options.UseSqlServer(builder.Configuration.GetConnectionString("CobranzasDB"));
+     options.UseSqlServer(builder.Configuration.GetConnectionString("ProyectTesisMod"));
      options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
 );
@@ -82,11 +82,17 @@ builder.Services.AddDbContext<DataContext>(options => {
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+
+app.UseCors(x =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    x.AllowAnyHeader();
+    x.AllowAnyMethod();
+    x.AllowAnyOrigin();
+});
+
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 
 app.UseHttpsRedirection();

@@ -11,7 +11,7 @@ namespace Api.PersistenceModels
 
         public Rol Rol { get; set; }
 
-        public long PersonaId { get; set; }
+        public int PersonaId { get; set; }
 
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infraestructura.Migrations
 {
     /// <inheritdoc />
-    public partial class MapeoInicial0001 : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +15,7 @@ namespace Infraestructura.Migrations
                 name: "Carrera",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CantidadCuotas = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -31,7 +31,7 @@ namespace Infraestructura.Migrations
                 name: "Persona",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Apellido = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -50,11 +50,11 @@ namespace Infraestructura.Migrations
                 name: "PrecioCuota",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Monto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CarreraId = table.Column<long>(type: "bigint", nullable: false),
+                    CarreraId = table.Column<int>(type: "int", nullable: false),
                     EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -72,8 +72,8 @@ namespace Infraestructura.Migrations
                 name: "Persona_Alumno",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    Legajo = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Legajo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FechaIngreso = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PorcBeca = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
@@ -92,7 +92,7 @@ namespace Infraestructura.Migrations
                 name: "Persona_Empleado",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     AreaTrabajo = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -110,12 +110,12 @@ namespace Infraestructura.Migrations
                 name: "Usuario",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rol = table.Column<int>(type: "int", nullable: false),
-                    PersonaId = table.Column<long>(type: "bigint", nullable: false),
+                    PersonaId = table.Column<int>(type: "int", nullable: false),
                     Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -134,10 +134,10 @@ namespace Infraestructura.Migrations
                 name: "AlumnoCarrera",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AlumnoId = table.Column<long>(type: "bigint", nullable: false),
-                    CarreraId = table.Column<long>(type: "bigint", nullable: false),
+                    AlumnoId = table.Column<int>(type: "int", nullable: false),
+                    CarreraId = table.Column<int>(type: "int", nullable: false),
                     EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -161,14 +161,14 @@ namespace Infraestructura.Migrations
                 name: "Cuota",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Numero = table.Column<int>(type: "int", nullable: false),
                     PorcAbonado = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EstadoCuota = table.Column<int>(type: "int", nullable: false),
-                    AlumnoId = table.Column<long>(type: "bigint", nullable: false),
-                    PrecioCuotaId = table.Column<long>(type: "bigint", nullable: false),
+                    AlumnoId = table.Column<int>(type: "int", nullable: false),
+                    PrecioCuotaId = table.Column<int>(type: "int", nullable: false),
                     EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -192,13 +192,13 @@ namespace Infraestructura.Migrations
                 name: "Proceso",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Codigo = table.Column<int>(type: "int", nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EntidadMovimiento = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UsuarioId = table.Column<long>(type: "bigint", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
                     EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -216,11 +216,11 @@ namespace Infraestructura.Migrations
                 name: "Pago",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Monto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     PorcPago = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CuotaId = table.Column<long>(type: "bigint", nullable: false),
+                    CuotaId = table.Column<int>(type: "int", nullable: false),
                     FechaPago = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -238,17 +238,17 @@ namespace Infraestructura.Migrations
             migrationBuilder.InsertData(
                 table: "Persona",
                 columns: new[] { "Id", "Apellido", "Direccion", "Dni", "EstaEliminado", "Mail", "Nombre", "Telefono" },
-                values: new object[] { 1L, "admin", "Rivadavia 1050", "99999999", false, "admin@gmail.com", "Usuario", "9999999" });
+                values: new object[] { 1, "admin", "Rivadavia 1050", "99999999", false, "admin@gmail.com", "Usuario", "9999999" });
 
             migrationBuilder.InsertData(
                 table: "Persona_Empleado",
                 columns: new[] { "Id", "AreaTrabajo" },
-                values: new object[] { 1L, "Cobranzas" });
+                values: new object[] { 1, "Cobranzas" });
 
             migrationBuilder.InsertData(
                 table: "Usuario",
                 columns: new[] { "Id", "EstaEliminado", "Fecha", "Nombre", "Password", "PersonaId", "Rol" },
-                values: new object[] { 1L, false, new DateTime(2023, 3, 11, 22, 10, 16, 491, DateTimeKind.Local).AddTicks(9477), "Admin", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", 1L, 1 });
+                values: new object[] { 1, false, new DateTime(2023, 5, 21, 15, 14, 6, 251, DateTimeKind.Local).AddTicks(2303), "Admin", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AlumnoCarrera_AlumnoId",
@@ -278,7 +278,8 @@ namespace Infraestructura.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_PrecioCuota_CarreraId",
                 table: "PrecioCuota",
-                column: "CarreraId");
+                column: "CarreraId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Proceso_UsuarioId",

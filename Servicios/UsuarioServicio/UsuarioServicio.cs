@@ -18,13 +18,13 @@ namespace Servicios.UsuarioServicio
             _unidadDeTrabajo = unidadDeTrabajo;
         }
 
-        public async Task Eliminar(long id)
+        public async Task Eliminar(int id)
         {
             await _unidadDeTrabajo.UsuarioRepositorio.Eliminar(id);
             _unidadDeTrabajo.Commit();
         }
 
-        public async Task<long> Crear(BaseDTO dtoEntidad)
+        public async Task<int> Crear(BaseDTO dtoEntidad)
         {
 
             var dto = (UsuarioDTO)dtoEntidad;
@@ -64,7 +64,7 @@ namespace Servicios.UsuarioServicio
             _unidadDeTrabajo.Commit();
         }
 
-        public async Task<BaseDTO> Obtener(long id)
+        public async Task<BaseDTO> Obtener(int id)
         {
             var entidad = await _unidadDeTrabajo.UsuarioRepositorio.Obtener(id, "Persona");
 
