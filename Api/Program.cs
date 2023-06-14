@@ -74,7 +74,7 @@ builder.Services.AddScoped<IAlumnoCarreraServicio, AlumnoCarreraServicio>();
 
 // DB Configuración
 builder.Services.AddDbContext<DataContext>(options => {
-     options.UseSqlServer(builder.Configuration.GetConnectionString("ProyectTesisMod"));
+     options.UseSqlServer(builder.Configuration.GetConnectionString("CobranzasDB"));
      options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
 );

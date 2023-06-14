@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructura.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230521181409_Initial")]
-    partial class Initial
+    [Migration("20230614181333_FirstMigration-0001")]
+    partial class FirstMigration0001
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -289,7 +289,7 @@ namespace Infraestructura.Migrations
                         {
                             Id = 1,
                             EstaEliminado = false,
-                            Fecha = new DateTime(2023, 5, 21, 15, 14, 6, 251, DateTimeKind.Local).AddTicks(2303),
+                            Fecha = new DateTime(2023, 6, 14, 15, 13, 28, 484, DateTimeKind.Local).AddTicks(8682),
                             Nombre = "Admin",
                             Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
                             PersonaId = 1,

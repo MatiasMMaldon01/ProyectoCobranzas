@@ -40,7 +40,9 @@ namespace Infraestructura.Repositorio
             var resultado = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                 .Aggregate<string, IQueryable<Alumno>>(_context.Set<Persona>().OfType<Alumno>(), (current, include) => current.Include(include.Trim()));
 
-            return await query.ToListAsync();
+            if (filtro != null) resultado = resultado.Where(filtro);
+
+            return await resultado.ToListAsync();
         }
     }
 }

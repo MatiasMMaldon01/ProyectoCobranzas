@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infraestructura.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class FirstMigration0001 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -248,7 +248,7 @@ namespace Infraestructura.Migrations
             migrationBuilder.InsertData(
                 table: "Usuario",
                 columns: new[] { "Id", "EstaEliminado", "Fecha", "Nombre", "Password", "PersonaId", "Rol" },
-                values: new object[] { 1, false, new DateTime(2023, 5, 21, 15, 14, 6, 251, DateTimeKind.Local).AddTicks(2303), "Admin", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", 1, 1 });
+                values: new object[] { 1, false, new DateTime(2023, 6, 14, 15, 13, 28, 484, DateTimeKind.Local).AddTicks(8682), "Admin", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AlumnoCarrera_AlumnoId",

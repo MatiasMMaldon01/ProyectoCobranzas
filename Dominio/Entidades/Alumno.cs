@@ -16,7 +16,6 @@ namespace Dominio.Entidades
         public decimal PorcBeca { get; set; }
 
         // Propiedades de Navegacion
-        public virtual ICollection<AlumnoCarrera> AlumnoCarreras { get; set; }
-        public virtual ICollection<Cuota> Cuotas { get; set; }
+        public virtual ICollection<Pago> Pagos { get; set; }
     }
 }

@@ -4,12 +4,14 @@ using Dominio.Metadata;
 
 namespace Dominio.Entidades
 {
-    [Table("PrecioCuota")]
-    [MetadataType(typeof(IPrecioCuota))]
+    [Table("PrecioCarrera")]
+    [MetadataType(typeof(IPrecioCarrera))]
     public class PrecioCuota : EntidadBase
     {
 
         public decimal Monto { get; set; }
+
+        public decimal Matricula { get; set; }
 
         public DateTime Fecha { get; set; }
 

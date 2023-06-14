@@ -16,18 +16,10 @@ namespace Dominio.Metadata
         decimal MontoCuota { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
-        [Column(TypeName = "decimal(18,2)")]
-        decimal PorcAbonado { get; set; }
-
-        [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [DataType(DataType.DateTime)]
         DateTime Fecha { get; set; }
 
         EstadoCuota EstadoCuota { get; set; }
-
-        [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
-        [Display(Name = "Alumno")]
-        int AlumnoId { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
         [Display(Name = "PrecioCuota")]

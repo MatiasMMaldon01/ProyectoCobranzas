@@ -11,20 +11,17 @@ namespace Dominio.Entidades
     {
         public int Numero { get; set; }
 
-        public decimal PorcAbonado { get; set; }
+        public decimal MontoCuota { get; set; }
 
         public DateTime Fecha { get; set; }
 
         public EstadoCuota EstadoCuota { get; set; }
-
-        public int AlumnoId { get; set; }
 
         public int PrecioCuotaId { get; set; }
 
 
         //Propiedades de Navegacion
 
-        public virtual Alumno Alumno { get; set; }
 
         public virtual PrecioCuota PrecioCuota { get; set; }
 
