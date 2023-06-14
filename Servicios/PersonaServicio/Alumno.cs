@@ -122,10 +122,13 @@ namespace Servicios.PersonaServicio
 
         public override async Task<IEnumerable<PersonaDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = false)
         {
+            int legajo;
+            bool legajoValido = int.TryParse(cadenaBuscar, out legajo);
+
             Expression<Func<Dominio.Entidades.Alumno, bool>> filtro = alumno => (alumno.Apellido.Contains(cadenaBuscar)
                     || alumno.Nombre.Contains(cadenaBuscar)
                     || alumno.Dni == cadenaBuscar
-                    || alumno.Legajo == int.Parse(cadenaBuscar));
+                    || alumno.Legajo == legajo);
 
             if (!mostrarTodos)
             {
@@ -176,12 +179,7 @@ namespace Servicios.PersonaServicio
 
         public override async Task<IEnumerable<PersonaDTO>> ObtenerTodos(bool mostrarTodos = false)
         {
-            Expression<Func<Dominio.Entidades.Alumno, bool>> filtro = x => x.EstaEliminado || !x.EstaEliminado;
-
-            if (!mostrarTodos)
-            {
-                filtro = x => !x.EstaEliminado;
-            }
+            Expression<Func<Dominio.Entidades.Alumno, bool>> filtro = x => !x.EstaEliminado;
 
             var respuesta = await _unidadDeTrabajo.AlumnoRepositorio.ObtenerTodos(filtro, "AlumnoCarreras.Carrera, AlumnoCarreras.Carrera.PrecioCuota");
 

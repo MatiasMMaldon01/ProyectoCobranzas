@@ -27,7 +27,6 @@ namespace Api.Controllers
                 Descripcion = carrera.Descripcion,
                 CantCuotas = carrera.CantCuotas,
                 Eliminado = false,
-
             };
 
             long id = await _carreraServicio.Crear(entidad);

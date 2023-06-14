@@ -164,7 +164,7 @@ namespace Servicios.PagoServicio
 
                     if (pago == null) throw new Exception("No se encotró el pago que quiere modificar");
 
-                    var cuota = await _unidadDeTrabajo.CuotaRepositorio.Obtener(dto.CuotaId, "PrecioCuota.Carrera, Alumno.Carrera, Pagos");
+                    var cuota = await _unidadDeTrabajo.CuotaRepositorio.Obtener(dto.CuotaId, "PrecioCuota.Carrera, Pagos");
 
                     if (cuota == null) throw new Exception("No se encontro la cuota de referencia");
 
