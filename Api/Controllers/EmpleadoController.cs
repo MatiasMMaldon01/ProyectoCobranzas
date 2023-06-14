@@ -62,7 +62,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IResult> Eliminar(long id)
+        public async Task<IResult> Eliminar(int id)
         {
             await _empleadoServicio.Eliminar(typeof(EmpleadoDTO),id);
 
@@ -70,7 +70,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IResult> Obtener(long id)
+        public async Task<IResult> Obtener(int id)
         {
             var empleado = await _empleadoServicio.Obtener(typeof(EmpleadoDTO),id);
 

@@ -10,10 +10,10 @@ namespace IServicios.Persona.DTO_s
                 Carreras = new List<CarreraDto>();
         }
 
-        public int Legajo { get; set; }
+        public string Legajo { get; set; }
         public decimal PorcBeca { get; set; }
         public DateTime FechaIngreso { get; set; }
-        public List<long>? AlumnoCarreraId { get; set; }
+        public List<int>? AlumnoCarreraId { get; set; }
         public List<CarreraDto> Carreras { get; set; }
 
     }

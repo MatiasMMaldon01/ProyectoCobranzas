@@ -29,7 +29,7 @@ namespace Api.Controllers
 
             };
 
-            long id = await _UsuarioServicio.Crear(entidad);
+            int id = await _UsuarioServicio.Crear(entidad);
 
             return Results.Ok(id);
 
@@ -55,7 +55,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IResult> Eliminar(long id)
+        public async Task<IResult> Eliminar(int id)
         {
             await _UsuarioServicio.Eliminar(id);
 
@@ -63,7 +63,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IResult> Obtener(long id)
+        public async Task<IResult> Obtener(int id)
         {
             var Usuario = await _UsuarioServicio.Obtener(id);
 

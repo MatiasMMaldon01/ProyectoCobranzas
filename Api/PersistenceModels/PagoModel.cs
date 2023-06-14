@@ -4,6 +4,6 @@
     {
         public decimal Monto { get; set; }
 
-        public long CuotaId { get; set; }
+        public int CuotaId { get; set; }
     }
 }

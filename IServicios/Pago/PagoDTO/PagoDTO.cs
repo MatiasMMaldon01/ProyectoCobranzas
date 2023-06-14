@@ -12,7 +12,7 @@ namespace IServicios.Pago.PagoDTO
 
         public decimal PorcPago { get; set; }
 
-        public long CuotaId { get; set; }
+        public int CuotaId { get; set; }
 
     }
 }

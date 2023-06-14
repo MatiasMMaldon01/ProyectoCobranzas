@@ -55,7 +55,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IResult> Eliminar(long id)
+        public async Task<IResult> Eliminar(int id)
         {
             await _cuotaServicio.Eliminar(id);
 
@@ -63,7 +63,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IResult> Obtener(long id)
+        public async Task<IResult> Obtener(int id)
         {
             var cuota = await _cuotaServicio.Obtener(id);
 
@@ -95,7 +95,7 @@ namespace Api.Controllers
 
         [HttpGet]
         [Route("ObtenerPorAlumnoYCarrera")]
-        public async Task<IResult> ObtenerPorAlumnoYCarrera(long alumnoId, long carreraId)
+        public async Task<IResult> ObtenerPorAlumnoYCarrera(int alumnoId, int carreraId)
         {
             var cuota = await _cuotaServicio.ObtenerPorCarreraIdAlumnoId(alumnoId, carreraId);
 

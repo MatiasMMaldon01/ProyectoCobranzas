@@ -6,7 +6,7 @@ namespace Dominio.Entidades
     public class EntidadBase
     {
         [Key] // AutoIncremental - Unico
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio.")] // EL campo sea Obligatorio.
         [Display(Name = "esta Eliminado")] // Nombre que se va a mostrar

@@ -14,12 +14,12 @@
 
         public string Mail { get; set; }
 
-        public int Legajo { get; set; }
+        public string Legajo { get; set; }
 
         public decimal PorcBeca { get; set; }
 
         public DateTime FechaIngreso { get; set; }
 
-        public List<long> CarrerasId { get; set; }
+        public List<int> CarrerasId { get; set; }
     }
 }

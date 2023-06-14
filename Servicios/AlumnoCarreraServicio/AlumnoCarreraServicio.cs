@@ -14,7 +14,7 @@ namespace Servicios.AlumnoCarreraServicio
             _unidadDeTrabajo = unidadDeTrabajo;
         }
 
-        public async Task<long> Crear(BaseDTO dtoEntidad)
+        public async Task<int> Crear(BaseDTO dtoEntidad)
         {
             var dto = (AlumnoCarreraDTO)dtoEntidad;
 
@@ -48,7 +48,7 @@ namespace Servicios.AlumnoCarreraServicio
             _unidadDeTrabajo.Commit();
         }
 
-        public async Task Eliminar(long id)
+        public async Task Eliminar(int id)
         {
             await _unidadDeTrabajo.AlumnoCarreraRepositorio.Eliminar(id);
             _unidadDeTrabajo.Commit();

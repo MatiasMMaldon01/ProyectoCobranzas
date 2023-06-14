@@ -60,6 +60,7 @@ namespace Api.Controllers
                 PorcBeca = alumno.PorcBeca,
                 FechaIngreso = alumno.FechaIngreso,
                 Legajo = alumno.Legajo,
+                Carreras = ManejarCarreras(alumno.CarrerasId),
                 Eliminado = false,
 
             };
@@ -71,7 +72,7 @@ namespace Api.Controllers
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "Admin")]
-        public async Task<IResult> Eliminar(long id)
+        public async Task<IResult> Eliminar(int id)
         {
             await _alumnoServicio.Eliminar(typeof(AlumnoDTO), id);
 
@@ -80,7 +81,7 @@ namespace Api.Controllers
 
         [HttpGet("{id}")]
         //[Authorize(Roles = "Admin")]
-        public async Task<IResult> Obtener(long id)
+        public async Task<IResult> Obtener(int id)
         {
             var Alumno = await _alumnoServicio.Obtener(typeof(AlumnoDTO), id);
 
@@ -129,7 +130,7 @@ namespace Api.Controllers
 
         // ==================================== METODOS PRIVADOS ==================================== //
 
-        private List<CarreraDto> ManejarCarreras(List<long> carreras)
+        private List<CarreraDto> ManejarCarreras(List<int> carreras)
         {
 
             var listaCarrera = new List<CarreraDto>();

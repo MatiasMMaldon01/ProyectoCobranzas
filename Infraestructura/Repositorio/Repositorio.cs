@@ -14,7 +14,7 @@ namespace Infraestructura.Repositorio
             _context = context;
         }
         #region Metodos Persistencia
-        public async Task<long> Crear(T entidad)
+        public async Task<int> Crear(T entidad)
         {
 
             if(entidad == null) throw new Exception("La entidad que quiere crear no tiene valores");
@@ -24,7 +24,7 @@ namespace Infraestructura.Repositorio
             return entidad.Id;
         }
 
-        public async Task Eliminar(long id)
+        public async Task Eliminar(int id)
         {
 
             var entidadEliminar = _context.Set<T>().FirstOrDefault(x => x.Id == id);
@@ -48,7 +48,7 @@ namespace Infraestructura.Repositorio
         #endregion
 
         #region Metodos Obtener
-        public virtual async Task<T> Obtener(long id, string propiedadesNavegacion = "")
+        public virtual async Task<T> Obtener(int id, string propiedadesNavegacion = "")
         {
             var query = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                 .Aggregate<string, IQueryable<T>>(_context.Set<T>(), (current, include) => current.Include(include.Trim()));

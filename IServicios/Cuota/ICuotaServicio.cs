@@ -5,8 +5,8 @@ namespace IServicios.Cuota
 {
     public interface ICuotaServicio : IServicioBase
     {
-        Task<BaseDTO> UltimaCuotaAlumno(long alumnoId, long precioCuotaId, bool mostrarTodos = false);
+        Task<BaseDTO> UltimaCuotaAlumno(int alumnoId, int precioCuotaId, bool mostrarTodos = false);
 
-        Task<IEnumerable<BaseDTO>> ObtenerPorCarreraIdAlumnoId(long alumnoId, long carreraId, bool mostrarTodos = false);
+        Task<IEnumerable<BaseDTO>> ObtenerPorCarreraIdAlumnoId(int alumnoId, int carreraId, bool mostrarTodos = false);
     }
 }

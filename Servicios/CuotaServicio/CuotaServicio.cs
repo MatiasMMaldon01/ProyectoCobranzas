@@ -20,13 +20,13 @@ namespace Servicios.CuotaServicio
             _unidadDeTrabajo = unidadDeTrabajo;
         }
 
-        public async Task Eliminar(long id)
+        public async Task Eliminar(int id)
         {
             await _unidadDeTrabajo.CuotaRepositorio.Eliminar(id);
             _unidadDeTrabajo.Commit();
         }
 
-        public async Task<long> Crear(BaseDTO dtoEntidad)
+        public async Task<int> Crear(BaseDTO dtoEntidad)
         {
             var dto = (CuotaDTO)dtoEntidad;
 
@@ -42,7 +42,6 @@ namespace Servicios.CuotaServicio
                 EstadoCuota = EstadoCuota.Pendiente,
                 PrecioCuotaId = dto.PrecioCuotaId,
                 AlumnoId = dto.AlumnoId,
-                EstaEliminado = false,
             };
 
             await _unidadDeTrabajo.CuotaRepositorio.Crear(entidad);
@@ -72,7 +71,7 @@ namespace Servicios.CuotaServicio
             _unidadDeTrabajo.Commit();
         }
 
-        public async Task<BaseDTO> Obtener(long id)
+        public async Task<BaseDTO> Obtener(int id)
         {
             var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(id, "PrecioCuota.Carrera, Alumno, Pagos");
 
@@ -206,7 +205,7 @@ namespace Servicios.CuotaServicio
                 .ToList();
         }
 
-        public async Task<BaseDTO> UltimaCuotaAlumno(long alumnoId, long precioCuotaId, bool mostrarTodos = false)
+        public async Task<BaseDTO> UltimaCuotaAlumno(int alumnoId, int precioCuotaId, bool mostrarTodos = false)
         {
             Expression<Func<Cuota, bool>> filtro = x => x.AlumnoId == alumnoId & x.PrecioCuotaId == precioCuotaId;
 
@@ -259,7 +258,7 @@ namespace Servicios.CuotaServicio
 
         }
 
-        public async Task<IEnumerable<BaseDTO>> ObtenerPorCarreraIdAlumnoId(long alumnoId, long carreraId, bool mostrarTodos = false)
+        public async Task<IEnumerable<BaseDTO>> ObtenerPorCarreraIdAlumnoId(int alumnoId, int carreraId, bool mostrarTodos = false)
         {
             Expression<Func<Cuota, bool>> filtro = x => x.AlumnoId == alumnoId & x.PrecioCuota.CarreraId == carreraId;
 

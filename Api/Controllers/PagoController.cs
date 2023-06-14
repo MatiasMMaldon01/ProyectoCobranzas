@@ -51,7 +51,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IResult> Eliminar(long id)
+        public async Task<IResult> Eliminar(int id)
         {
             await _pagoServicio.Eliminar(id);
 
@@ -59,7 +59,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IResult> Obtener(long id)
+        public async Task<IResult> Obtener(int id)
         {
             var pago = await _pagoServicio.Obtener(id);
 
@@ -91,7 +91,7 @@ namespace Api.Controllers
 
         [HttpGet]
         [Route("ObtenerPorAlumnoId")]
-        public async Task<IResult> ObtenerPorAlumnoId(long alumnoId)
+        public async Task<IResult> ObtenerPorAlumnoId(int alumnoId)
         {
             var pago = await _pagoServicio.ObtenerPorAlumnoId(alumnoId);
 
