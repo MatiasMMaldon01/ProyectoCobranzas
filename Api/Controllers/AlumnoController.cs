@@ -1,8 +1,6 @@
 ﻿using IServicios.Persona.DTO_s;
 using IServicios.Persona;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using IServicios.Carrera.Carrera_DTO;
 using Api.PersistenceModels;
 
 namespace Api.Controllers
@@ -24,18 +22,18 @@ namespace Api.Controllers
         {
             var entidad = new AlumnoDTO
             {
-                Nombre = alumno.Nombre,
-                Apellido = alumno.Apellido,
-                Dni = alumno.Dni,
+                Legajo = alumno.Legajo,
+                Apynom = alumno.Apynom,
+                TipoDoc = alumno.TipoDoc,
+                NroDoc = alumno.NroDoc,
+                FechaNacimiento = alumno.FechaNacimiento,
                 Direccion = alumno.Direccion,
                 Telefono = alumno.Telefono,
                 Mail = alumno.Mail,
-                PorcBeca = alumno.PorcBeca, 
                 FechaIngreso = alumno.FechaIngreso,
-                Legajo = alumno.Legajo,
-                Carreras = ManejarCarreras(alumno.CarrerasId),
+                CiudadId = alumno.CiudadId,
+                ExtensionId = alumno.ExtensionId,
                 Eliminado = false,
-
             };
 
             var id = await _alumnoServicio.Crear(entidad);
@@ -51,18 +49,18 @@ namespace Api.Controllers
             var entidad = new AlumnoDTO
             {
                 Id = alumno.Id,
-                Nombre = alumno.Nombre,
-                Apellido = alumno.Apellido,
-                Dni = alumno.Dni,
+                Legajo = alumno.Legajo,
+                Apynom = alumno.Apynom,
+                TipoDoc = alumno.TipoDoc,
+                NroDoc = alumno.NroDoc,
+                FechaNacimiento = alumno.FechaNacimiento,
                 Direccion = alumno.Direccion,
                 Telefono = alumno.Telefono,
                 Mail = alumno.Mail,
-                PorcBeca = alumno.PorcBeca,
                 FechaIngreso = alumno.FechaIngreso,
-                Legajo = alumno.Legajo,
-                Carreras = ManejarCarreras(alumno.CarrerasId),
+                CiudadId = alumno.CiudadId,
+                ExtensionId = alumno.ExtensionId,
                 Eliminado = false,
-
             };
 
             await _alumnoServicio.Modificar(entidad);
@@ -130,25 +128,5 @@ namespace Api.Controllers
 
         // ==================================== METODOS PRIVADOS ==================================== //
 
-        private List<CarreraDto> ManejarCarreras(List<int> carreras)
-        {
-
-            var listaCarrera = new List<CarreraDto>();
-
-            foreach (var carrera in carreras)
-            {
-                var item = new CarreraDto
-                {
-                    Id = carrera,
-                    CantCuotas = 0,
-                    Descripcion = "",
-                    Eliminado = false,
-                };
-
-                listaCarrera.Add(item);
-            }
-
-            return listaCarrera;
-        }
     }
 }

@@ -15,15 +15,12 @@ namespace Dominio.Entidades
 
         public DateTime Fecha { get; set; }
 
-        public EstadoCuota EstadoCuota { get; set; }
-
-        public int PrecioCuotaId { get; set; }
+        public int PrecioCarreraId { get; set; }
 
 
         //Propiedades de Navegacion
 
-
-        public virtual PrecioCuota PrecioCuota { get; set; }
+        public virtual PrecioCarrera PrecioCarrera { get; set; }
 
         public virtual ICollection<Pago> Pagos { get; set; }
 

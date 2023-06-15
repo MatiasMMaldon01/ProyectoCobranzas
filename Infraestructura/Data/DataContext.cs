@@ -58,8 +58,10 @@ namespace Infraestructura.Data
         DbSet<Cuota> Cuotas { get; set; }
         DbSet<Pago> Pagos { get; set; }
         DbSet<Usuario> Usuarios { get; set; }
-        DbSet<PrecioCuota> PrecioCuotas { get; set; }
-        DbSet<Proceso> Procesos { get; set; }
+        DbSet<PrecioCarrera> PrecioCuotas { get; set; }
+        DbSet<Ciudad> Ciudades { get; set; }
+        DbSet<Extension> Extensiones { get; set; }
+
 
     }
 }

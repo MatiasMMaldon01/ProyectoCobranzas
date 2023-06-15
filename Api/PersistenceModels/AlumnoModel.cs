@@ -1,12 +1,18 @@
-﻿namespace Api.PersistenceModels
+﻿using Aplicacion.Constantes.Enums;
+
+namespace Api.PersistenceModels
 {
     public class AlumnoModel : BaseModel
     {
-        public string Apellido { get; set; }
+        public string Legajo { get; set; }
 
-        public string Nombre { get; set; }
+        public string Apynom { get; set; }
 
-        public string Dni { get; set; }
+        public TipoDocumento TipoDoc { get; set; }
+
+        public string NroDoc { get; set; }
+
+        public DateTime FechaNacimiento { get; set; }
 
         public string Direccion { get; set; }
 
@@ -14,12 +20,11 @@
 
         public string Mail { get; set; }
 
-        public string Legajo { get; set; }
-
-        public decimal PorcBeca { get; set; }
-
         public DateTime FechaIngreso { get; set; }
 
-        public List<int> CarrerasId { get; set; }
+        public int ExtensionId { get; set; }
+
+        public int CiudadId { get; set; }
+
     }
 }

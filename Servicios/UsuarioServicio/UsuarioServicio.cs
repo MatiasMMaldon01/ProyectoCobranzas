@@ -80,9 +80,9 @@ namespace Servicios.UsuarioServicio
                 Persona = new PersonaDTO
                 {
                     Id = entidad.Persona.Id,
-                    Nombre = entidad.Persona.Nombre,
-                    Apellido = entidad.Persona.Apellido,
-                    Dni = entidad.Persona.Dni,
+                    Apynom = entidad.Persona.Apynom,
+                    TipoDoc = entidad.Persona.TipoDoc,
+                    NroDoc = entidad.Persona.NroDoc,
                     Direccion = entidad.Persona.Direccion,
                     Telefono = entidad.Persona.Telefono,
                     Mail = entidad.Persona.Mail
@@ -114,9 +114,9 @@ namespace Servicios.UsuarioServicio
                 PersonaId = x.PersonaId,
                 Persona = new PersonaDTO {
                     Id = x.Persona.Id,
-                    Nombre = x.Persona.Nombre,
-                    Apellido = x.Persona.Apellido,
-                    Dni = x.Persona.Dni,
+                    Apynom = x.Persona.Apynom,
+                    TipoDoc = x.Persona.TipoDoc,
+                    NroDoc = x.Persona.NroDoc,
                     Direccion = x.Persona.Direccion,
                     Telefono = x.Persona.Telefono,
                     Mail = x.Persona.Mail
@@ -148,9 +148,9 @@ namespace Servicios.UsuarioServicio
                 Persona = new PersonaDTO
                 {
                     Id = x.Persona.Id,
-                    Nombre = x.Persona.Nombre,
-                    Apellido = x.Persona.Apellido,
-                    Dni = x.Persona.Dni,
+                    Apynom = x.Persona.Apynom,
+                    TipoDoc = x.Persona.TipoDoc,
+                    NroDoc = x.Persona.NroDoc,
                     Direccion = x.Persona.Direccion,
                     Telefono = x.Persona.Telefono,
                     Mail = x.Persona.Mail

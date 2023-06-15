@@ -1,4 +1,5 @@
 ﻿using IServicios.Carrera.Carrera_DTO;
+using IServicios.Pago.PagoDTO;
 
 namespace IServicios.Persona.DTO_s
 {
@@ -6,15 +7,15 @@ namespace IServicios.Persona.DTO_s
     {
         public AlumnoDTO()
         {
-            if (Carreras == null)
-                Carreras = new List<CarreraDto>();
+            if (Pagos == null)
+                Pagos = new List<PagoDTO>();
         }
 
         public string Legajo { get; set; }
-        public decimal PorcBeca { get; set; }
+
         public DateTime FechaIngreso { get; set; }
-        public List<int>? AlumnoCarreraId { get; set; }
-        public List<CarreraDto> Carreras { get; set; }
+
+        public List<PagoDTO> Pagos { get; set; }
 
     }
 }

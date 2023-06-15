@@ -9,47 +9,49 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     //[Authorize(Roles = "Admin")]
-    public class PrecioCuotaController : Controller
+    public class PrecioCarreraController : Controller
     {
-        private readonly IPrecioCuotaServicio _precioCuotaServicio;
+        private readonly IPrecioCarreraServicio _precioCarreraServicio;
 
-        public PrecioCuotaController(IPrecioCuotaServicio precioCuotaServicio)
+        public PrecioCarreraController(IPrecioCarreraServicio precioCarreraServicio)
         {
-            _precioCuotaServicio = precioCuotaServicio;
+            _precioCarreraServicio = precioCarreraServicio;
         }
 
         [HttpPost]
-        public async Task<IResult> Crear(PrecioCuotaModel precioCuota)
+        public async Task<IResult> Crear(PrecioCarreraModel precioCarrera)
         {
-            var entidad = new PrecioCuotaDTO
+            var entidad = new PrecioCarreraDTO
             {
-                Id = precioCuota.Id,
-                Monto = precioCuota.Monto,
-                Fecha = precioCuota.Fecha,
-                CarreraId = precioCuota.CarreraId,
+                Id = precioCarrera.Id,
+                Monto = precioCarrera.Monto,
+                Fecha = precioCarrera.Fecha,
+                Matricula = precioCarrera.Matricula,
+                CarreraId = precioCarrera.CarreraId,
                 Eliminado = false,
 
             };
 
-            long id = await _precioCuotaServicio.Crear(entidad);
+            long id = await _precioCarreraServicio.Crear(entidad);
 
             return Results.Ok(id);
 
         }
 
         [HttpPut]
-        public async Task<IResult> Modificar(PrecioCuotaModel precioCuota)
+        public async Task<IResult> Modificar(PrecioCarreraModel precioCarrera)
         {
-            var entidad = new PrecioCuotaDTO
+            var entidad = new PrecioCarreraDTO
             {
-                Id = precioCuota.Id,
-                Monto = precioCuota.Monto,
-                Fecha = precioCuota.Fecha,
-                CarreraId = precioCuota.CarreraId,
+                Id = precioCarrera.Id,
+                Monto = precioCarrera.Monto,
+                Fecha = precioCarrera.Fecha,
+                Matricula = precioCarrera.Matricula,
+                CarreraId = precioCarrera.CarreraId,
                 Eliminado = false,
             };
 
-            await _precioCuotaServicio.Modificar(entidad);
+            await _precioCarreraServicio.Modificar(entidad);
 
             return Results.Ok(entidad);
         }
@@ -57,7 +59,7 @@ namespace Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IResult> Eliminar(int id)
         {
-            await _precioCuotaServicio.Eliminar(id);
+            await _precioCarreraServicio.Eliminar(id);
 
             return Results.Ok("El Precio se eliminó correctamente");
         }
@@ -65,7 +67,7 @@ namespace Api.Controllers
         [HttpGet("{id}")]
         public async Task<IResult> Obtener(int id)
         {
-            var precioCuota = await _precioCuotaServicio.Obtener(id);
+            var precioCuota = await _precioCarreraServicio.Obtener(id);
 
             if (precioCuota == null)
             {
@@ -81,7 +83,7 @@ namespace Api.Controllers
         [Route("ObtenerTodos")]
         public async Task<IResult> ObtenerTodos()
         {
-            var precioCuota = await _precioCuotaServicio.ObtenerTodos();
+            var precioCuota = await _precioCarreraServicio.ObtenerTodos();
 
             if (precioCuota == null)
             {
@@ -97,7 +99,7 @@ namespace Api.Controllers
         [Route("ObtenerPorCarreraId")]
         public async Task<IResult> ObtenerPorCarreraId(int carreraId)
         {
-            var precioCuota = await _precioCuotaServicio.ObtenerPorCarreraId(carreraId);
+            var precioCuota = await _precioCarreraServicio.ObtenerPorCarreraId(carreraId);
 
             if (precioCuota == null)
             {
@@ -112,7 +114,7 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IResult> Obtener(string? cadenaBuscar)
         {
-            var precioCuota = await _precioCuotaServicio.Obtener(cadenaBuscar);
+            var precioCuota = await _precioCarreraServicio.Obtener(cadenaBuscar);
 
             if (precioCuota == null)
             {

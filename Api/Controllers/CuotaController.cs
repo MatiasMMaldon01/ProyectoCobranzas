@@ -26,8 +26,7 @@ namespace Api.Controllers
             {
                 Id = cuota.Id,
                 Numero = cuota.Numero,
-                AlumnoId = cuota.AlumnoId,
-                PrecioCuotaId = cuota.PrecioCuotaId,
+                PrecioCarreraId = cuota.PrecioCarreraId,
                 Eliminado = false,
             };
 
@@ -44,8 +43,7 @@ namespace Api.Controllers
             {
                 Id = cuota.Id,
                 Numero = cuota.Numero,
-                AlumnoId = cuota.AlumnoId,
-                PrecioCuotaId = cuota.PrecioCuotaId,
+                PrecioCarreraId = cuota.PrecioCarreraId,
                 Eliminado = false,
             };
 
@@ -93,21 +91,21 @@ namespace Api.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("ObtenerPorAlumnoYCarrera")]
-        public async Task<IResult> ObtenerPorAlumnoYCarrera(int alumnoId, int carreraId)
-        {
-            var cuota = await _cuotaServicio.ObtenerPorCarreraIdAlumnoId(alumnoId, carreraId);
+        //[HttpGet]
+        //[Route("ObtenerPorAlumnoYCarrera")]
+        //public async Task<IResult> ObtenerPorAlumnoYCarrera(int alumnoId, int carreraId)
+        //{
+        //    var cuota = await _cuotaServicio.ObtenerPorCarreraIdAlumnoId(alumnoId, carreraId);
 
-            if (cuota == null)
-            {
-                return Results.NotFound();
-            }
-            else
-            {
-                return Results.Ok(cuota);
-            }
-        }
+        //    if (cuota == null)
+        //    {
+        //        return Results.NotFound();
+        //    }
+        //    else
+        //    {
+        //        return Results.Ok(cuota);
+        //    }
+        //}
 
         [HttpGet]
         public async Task<IResult> Obtener(string? cadenaBuscar)

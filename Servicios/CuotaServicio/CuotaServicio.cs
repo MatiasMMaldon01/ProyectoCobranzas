@@ -1,11 +1,9 @@
-﻿using Aplicacion.Constantes.Enums;
-using Dominio.Entidades;
+﻿using Dominio.Entidades;
 using Dominio.Interfaces;
 using IServicios.Base.Base_DTO;
 using IServicios.Cuota;
 using IServicios.Cuota.CuotaDTO;
 using IServicios.Pago.PagoDTO;
-using IServicios.Persona.DTO_s;
 using IServicios.PrecioCuota.PrecioCuotaDTO;
 using Servicios.Base;
 using System.Linq.Expressions;
@@ -31,24 +29,42 @@ namespace Servicios.CuotaServicio
             var dto = (CuotaDTO)dtoEntidad;
 
             DateTime fecha = DateTime.Now;
+            int contador = 0;
 
-            var ultimaCuotaAlumno = (CuotaDTO?) await UltimaCuotaAlumno(dto.AlumnoId, dto.PrecioCuotaId);
+            Cuota entidad = new Cuota();
 
-            var entidad = new Cuota
+            var precioCarr = await _unidadDeTrabajo.PrecioCarreraRepositorio.Obtener(dto.PrecioCarreraId, "Carrera");
+
+            for(int i=0; i <= precioCarr.Carrera.CantidadCuotas; i++)
             {
-                Numero = ultimaCuotaAlumno != null ? ultimaCuotaAlumno.Numero + 1 : 1,
-                PorcAbonado = 0,
-                Fecha = fecha,
-                EstadoCuota = EstadoCuota.Pendiente,
-                PrecioCuotaId = dto.PrecioCuotaId,
-                AlumnoId = dto.AlumnoId,
-            };
+                if(contador == 0)
+                {
+                    entidad = new Cuota
+                    {
+                        Numero = contador++,
+                        MontoCuota = precioCarr.Matricula,
+                        Fecha = fecha,
+                        PrecioCarreraId = precioCarr.Id,
+                    };
+                }
+                else
+                {
+                    entidad = new Cuota
+                    {
+                        Numero = contador++,
+                        MontoCuota = precioCarr.Monto,
+                        Fecha = fecha,
+                        PrecioCarreraId = precioCarr.Id,
+                    };
+                }
 
-            await _unidadDeTrabajo.CuotaRepositorio.Crear(entidad);
+                await _unidadDeTrabajo.CuotaRepositorio.Crear(entidad);
+
+            }
 
             _unidadDeTrabajo.Commit();
 
-            return entidad.Id;
+            return 1;
         }
 
         public async Task Modificar(BaseDTO dtoEntidad)
@@ -60,11 +76,9 @@ namespace Servicios.CuotaServicio
             if (entidad == null) throw new Exception("No se encotró la cuota que quiere modificar");
 
             entidad.Id = dto.Id;
+            entidad.MontoCuota = dto.MontoCuota;
             entidad.Numero = dto.Numero;
-            entidad.EstadoCuota = dto.EstadoCuo;
-            entidad.PrecioCuotaId = dto.PrecioCuotaId;
-            entidad.AlumnoId = dto.AlumnoId;
-
+            entidad.PrecioCarreraId = dto.PrecioCarreraId;
 
             await _unidadDeTrabajo.CuotaRepositorio.Modificar(entidad);
 
@@ -73,7 +87,7 @@ namespace Servicios.CuotaServicio
 
         public async Task<BaseDTO> Obtener(int id)
         {
-            var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(id, "PrecioCuota.Carrera, Alumno, Pagos");
+            var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(id, "PrecioCarrera.Carrera, Pagos");
 
             if (entidad == null) throw new Exception("No se encotró la cuota que esta buscando");
 
@@ -81,29 +95,17 @@ namespace Servicios.CuotaServicio
             {
                 Id = entidad.Id,
                 Numero = entidad.Numero,
-                PorcAbonado = entidad.PorcAbonado,
+                MontoCuota = entidad.MontoCuota,
                 Fecha = entidad.Fecha,
-                EstadoCuo = entidad.EstadoCuota,
-                PrecioCuotaId = entidad.PrecioCuotaId,
-                PrecioCuota = new PrecioCuotaDTO {
-                    Id = entidad.PrecioCuota.Id,
-                    Monto = entidad.PrecioCuota.Monto,
-                    Fecha = entidad.PrecioCuota.Fecha,
-                    CarreraId = entidad.PrecioCuota.CarreraId,
-                    Carrera = entidad.PrecioCuota.Carrera.Descripcion,
+                PrecioCarreraId = entidad.PrecioCarreraId,
+                PrecioCarrera = new PrecioCarreraDTO {
+                    Id = entidad.PrecioCarrera.Id,
+                    Monto = entidad.PrecioCarrera.Monto,
+                    Fecha = entidad.PrecioCarrera.Fecha,
+                    CarreraId = entidad.PrecioCarrera.CarreraId,
+                    Carrera = entidad.PrecioCarrera.Carrera.Descripcion,
                 },
-                AlumnoId = entidad.AlumnoId,
-                Alumno = new AlumnoDTO
-                {
-                    Id = entidad.Alumno.Id,
-                    Legajo = entidad.Alumno.Legajo,
-                    Nombre = entidad.Alumno.Nombre,
-                    Apellido = entidad.Alumno.Apellido,
-                    Dni = entidad.Alumno.Dni,
-                    Mail = entidad.Alumno.Mail,
-                    FechaIngreso = entidad.Alumno.FechaIngreso,
 
-                },
                 NumeroDePagos = entidad.Pagos.Count(x => !x.EstaEliminado),
                 Pagos = ManejoDePagos(entidad.Pagos.ToList()),
                 Eliminado = entidad.EstaEliminado,
@@ -119,35 +121,22 @@ namespace Servicios.CuotaServicio
                 filtro = filtro.And(x => !x.EstaEliminado);
             }
 
-            var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(filtro, "PrecioCuota.Carrera, Alumno, Pagos");
+            var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(filtro, "PrecioCarrera.Carrera, Pagos");
 
             return entidad.Select(x => new CuotaDTO
             {
                 Id = x.Id,
+                MontoCuota = x.MontoCuota,
                 Numero = x.Numero,
-                PorcAbonado = x.PorcAbonado,
                 Fecha = x.Fecha,
-                EstadoCuo = x.EstadoCuota,
-                PrecioCuotaId = x.PrecioCuotaId,
-                PrecioCuota = new PrecioCuotaDTO
+                PrecioCarreraId = x.PrecioCarreraId,
+                PrecioCarrera = new PrecioCarreraDTO
                 {
-                    Id = x.PrecioCuota.Id,
-                    Monto = x.PrecioCuota.Monto,
-                    Fecha = x.PrecioCuota.Fecha,
-                    CarreraId = x.PrecioCuota.CarreraId,
-                    Carrera = x.PrecioCuota.Carrera.Descripcion,
-                },
-                AlumnoId = x.AlumnoId,
-                Alumno = new AlumnoDTO
-                {
-                    Id = x.Alumno.Id,
-                    Legajo = x.Alumno.Legajo,
-                    Nombre = x.Alumno.Nombre,
-                    Apellido = x.Alumno.Apellido,
-                    Dni = x.Alumno.Dni,
-                    Mail = x.Alumno.Mail,
-                    FechaIngreso = x.Alumno.FechaIngreso,
-
+                    Id = x.PrecioCarrera.Id,
+                    Monto = x.PrecioCarrera.Monto,
+                    Fecha = x.PrecioCarrera.Fecha,
+                    CarreraId = x.PrecioCarrera.CarreraId,
+                    Carrera = x.PrecioCarrera.Carrera.Descripcion,
                 },
                 NumeroDePagos = x.Pagos.Count(x => !x.EstaEliminado),
                 Pagos = ManejoDePagos(x.Pagos.ToList()),
@@ -167,35 +156,22 @@ namespace Servicios.CuotaServicio
                 filtro = x => !x.EstaEliminado;
             }
 
-            var entidad = await _unidadDeTrabajo.CuotaRepositorio.ObtenerTodos(filtro, "PrecioCuota.Carrera, Alumno, Pagos");
+            var entidad = await _unidadDeTrabajo.CuotaRepositorio.ObtenerTodos(filtro, "PrecioCarrera.Carrera, Pagos");
 
             return entidad.Select(x => new CuotaDTO
             {
                 Id = x.Id,
+                MontoCuota = x.MontoCuota,
                 Numero = x.Numero,
-                PorcAbonado = x.PorcAbonado,
                 Fecha = x.Fecha,
-                EstadoCuo = x.EstadoCuota,
-                PrecioCuotaId = x.PrecioCuotaId,
-                PrecioCuota = new PrecioCuotaDTO
+                PrecioCarreraId = x.PrecioCarreraId,
+                PrecioCarrera = new PrecioCarreraDTO
                 {
-                    Id = x.PrecioCuota.Id,
-                    Monto = x.PrecioCuota.Monto,
-                    Fecha = x.PrecioCuota.Fecha,
-                    CarreraId = x.PrecioCuota.CarreraId,
-                    Carrera = x.PrecioCuota.Carrera.Descripcion,
-                },
-                AlumnoId = x.AlumnoId,
-                Alumno = new AlumnoDTO
-                {
-                    Id = x.Alumno.Id,
-                    Legajo = x.Alumno.Legajo,
-                    Nombre = x.Alumno.Nombre,
-                    Apellido = x.Alumno.Apellido,
-                    Dni = x.Alumno.Dni,
-                    Mail = x.Alumno.Mail,
-                    FechaIngreso = x.Alumno.FechaIngreso,
-
+                    Id = x.PrecioCarrera.Id,
+                    Monto = x.PrecioCarrera.Monto,
+                    Fecha = x.PrecioCarrera.Fecha,
+                    CarreraId = x.PrecioCarrera.CarreraId,
+                    Carrera = x.PrecioCarrera.Carrera.Descripcion,
                 },
                 NumeroDePagos = x.Pagos.Count(x => !x.EstaEliminado),
                 Pagos = ManejoDePagos(x.Pagos.ToList()),
@@ -205,105 +181,105 @@ namespace Servicios.CuotaServicio
                 .ToList();
         }
 
-        public async Task<BaseDTO> UltimaCuotaAlumno(int alumnoId, int precioCuotaId, bool mostrarTodos = false)
-        {
-            Expression<Func<Cuota, bool>> filtro = x => x.AlumnoId == alumnoId & x.PrecioCuotaId == precioCuotaId;
+        //public async Task<BaseDTO> UltimaCuotaAlumno(int alumnoId, int precioCuotaId, bool mostrarTodos = false)
+        //{
+        //    Expression<Func<Cuota, bool>> filtro = x => x.AlumnoId == alumnoId & x.PrecioCuotaId == precioCuotaId;
 
-            if (!mostrarTodos)
-            {
-                filtro = filtro.And(x => !x.EstaEliminado);
-            }
+        //    if (!mostrarTodos)
+        //    {
+        //        filtro = filtro.And(x => !x.EstaEliminado);
+        //    }
 
-            var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(filtro, "PrecioCuota.Carrera, Alumno, Pagos");
+        //    var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(filtro, "PrecioCuota.Carrera, Alumno, Pagos");
 
-            if (entidad.Count() == 0)
-            {
-                return null;
-            }
+        //    if (entidad.Count() == 0)
+        //    {
+        //        return null;
+        //    }
 
-            Cuota ultimaCuota = entidad.OrderBy(x => x.Fecha).LastOrDefault();
+        //    Cuota ultimaCuota = entidad.OrderBy(x => x.Fecha).LastOrDefault();
 
-            return new CuotaDTO
-            {
-                Id = ultimaCuota.Id,
-                Numero = ultimaCuota.Numero,
-                PorcAbonado = ultimaCuota.PorcAbonado,
-                Fecha = ultimaCuota.Fecha,
-                EstadoCuo = ultimaCuota.EstadoCuota,
-                PrecioCuotaId = ultimaCuota.PrecioCuotaId,
-                PrecioCuota = new PrecioCuotaDTO
-                {
-                    Id = ultimaCuota.PrecioCuota.Id,
-                    Monto = ultimaCuota.PrecioCuota.Monto,
-                    Fecha = ultimaCuota.PrecioCuota.Fecha,
-                    CarreraId = ultimaCuota.PrecioCuota.CarreraId,
-                    Carrera = ultimaCuota.PrecioCuota.Carrera.Descripcion,
-                },
-                AlumnoId = ultimaCuota.AlumnoId,
-                Alumno = new AlumnoDTO
-                {
-                    Id = ultimaCuota.Alumno.Id,
-                    Legajo = ultimaCuota.Alumno.Legajo,
-                    Nombre = ultimaCuota.Alumno.Nombre,
-                    Apellido = ultimaCuota.Alumno.Apellido,
-                    Dni = ultimaCuota.Alumno.Dni,
-                    Mail = ultimaCuota.Alumno.Mail,
-                    FechaIngreso = ultimaCuota.Alumno.FechaIngreso,
+        //    return new CuotaDTO
+        //    {
+        //        Id = ultimaCuota.Id,
+        //        Numero = ultimaCuota.Numero,
+        //        PorcAbonado = ultimaCuota.PorcAbonado,
+        //        Fecha = ultimaCuota.Fecha,
+        //        EstadoCuo = ultimaCuota.EstadoCuota,
+        //        PrecioCuotaId = ultimaCuota.PrecioCuotaId,
+        //        PrecioCuota = new PrecioCarreraDTO
+        //        {
+        //            Id = ultimaCuota.PrecioCuota.Id,
+        //            Monto = ultimaCuota.PrecioCuota.Monto,
+        //            Fecha = ultimaCuota.PrecioCuota.Fecha,
+        //            CarreraId = ultimaCuota.PrecioCuota.CarreraId,
+        //            Carrera = ultimaCuota.PrecioCuota.Carrera.Descripcion,
+        //        },
+        //        AlumnoId = ultimaCuota.AlumnoId,
+        //        Alumno = new AlumnoDTO
+        //        {
+        //            Id = ultimaCuota.Alumno.Id,
+        //            Legajo = ultimaCuota.Alumno.Legajo,
+        //            Nombre = ultimaCuota.Alumno.Nombre,
+        //            Apellido = ultimaCuota.Alumno.Apellido,
+        //            Dni = ultimaCuota.Alumno.Dni,
+        //            Mail = ultimaCuota.Alumno.Mail,
+        //            FechaIngreso = ultimaCuota.Alumno.FechaIngreso,
 
-                },
-                NumeroDePagos = ultimaCuota.Pagos.Count(x => !x.EstaEliminado),
-                Pagos = ManejoDePagos(ultimaCuota.Pagos.ToList()),
-                Eliminado = ultimaCuota.EstaEliminado,
-            };
+        //        },
+        //        NumeroDePagos = ultimaCuota.Pagos.Count(x => !x.EstaEliminado),
+        //        Pagos = ManejoDePagos(ultimaCuota.Pagos.ToList()),
+        //        Eliminado = ultimaCuota.EstaEliminado,
+        //    };
 
-        }
+        //}
 
-        public async Task<IEnumerable<BaseDTO>> ObtenerPorCarreraIdAlumnoId(int alumnoId, int carreraId, bool mostrarTodos = false)
-        {
-            Expression<Func<Cuota, bool>> filtro = x => x.AlumnoId == alumnoId & x.PrecioCuota.CarreraId == carreraId;
+        //public async Task<IEnumerable<BaseDTO>> ObtenerPorCarreraIdAlumnoId(int alumnoId, int carreraId, bool mostrarTodos = false)
+        //{
+        //    Expression<Func<Cuota, bool>> filtro = x => x.AlumnoId == alumnoId & x.PrecioCuota.CarreraId == carreraId;
 
-            if (!mostrarTodos)
-            {
-                filtro = filtro.And(x => !x.EstaEliminado);
-            }
+        //    if (!mostrarTodos)
+        //    {
+        //        filtro = filtro.And(x => !x.EstaEliminado);
+        //    }
 
-            var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(filtro, "PrecioCuota.Carrera, Alumno, Pagos");
+        //    var entidad = await _unidadDeTrabajo.CuotaRepositorio.Obtener(filtro, "PrecioCuota.Carrera, Alumno, Pagos");
 
-            return entidad.Select(x => new CuotaDTO
-            {
-                Id = x.Id,
-                Numero = x.Numero,
-                PorcAbonado = x.PorcAbonado,
-                Fecha = x.Fecha,
-                EstadoCuo = x.EstadoCuota,
-                PrecioCuotaId = x.PrecioCuotaId,
-                PrecioCuota = new PrecioCuotaDTO
-                {
-                    Id = x.PrecioCuota.Id,
-                    Monto = x.PrecioCuota.Monto,
-                    Fecha = x.PrecioCuota.Fecha,
-                    CarreraId = x.PrecioCuota.CarreraId,
-                    Carrera = x.PrecioCuota.Carrera.Descripcion,
-                },
-                AlumnoId = x.AlumnoId,
-                Alumno = new AlumnoDTO
-                {
-                    Id = x.Alumno.Id,
-                    Legajo = x.Alumno.Legajo,
-                    Nombre = x.Alumno.Nombre,
-                    Apellido = x.Alumno.Apellido,
-                    Dni = x.Alumno.Dni,
-                    Mail = x.Alumno.Mail,
-                    FechaIngreso = x.Alumno.FechaIngreso,
+        //    return entidad.Select(x => new CuotaDTO
+        //    {
+        //        Id = x.Id,
+        //        Numero = x.Numero,
+        //        PorcAbonado = x.PorcAbonado,
+        //        Fecha = x.Fecha,
+        //        EstadoCuo = x.EstadoCuota,
+        //        PrecioCuotaId = x.PrecioCuotaId,
+        //        PrecioCuota = new PrecioCarreraDTO
+        //        {
+        //            Id = x.PrecioCuota.Id,
+        //            Monto = x.PrecioCuota.Monto,
+        //            Fecha = x.PrecioCuota.Fecha,
+        //            CarreraId = x.PrecioCuota.CarreraId,
+        //            Carrera = x.PrecioCuota.Carrera.Descripcion,
+        //        },
+        //        AlumnoId = x.AlumnoId,
+        //        Alumno = new AlumnoDTO
+        //        {
+        //            Id = x.Alumno.Id,
+        //            Legajo = x.Alumno.Legajo,
+        //            Nombre = x.Alumno.Nombre,
+        //            Apellido = x.Alumno.Apellido,
+        //            Dni = x.Alumno.Dni,
+        //            Mail = x.Alumno.Mail,
+        //            FechaIngreso = x.Alumno.FechaIngreso,
 
-                },
-                NumeroDePagos = x.Pagos.Count(x => !x.EstaEliminado),
-                Pagos = ManejoDePagos(x.Pagos.ToList()),
-                Eliminado = x.EstaEliminado,
-            })
-               .OrderBy(x => x.Numero)
-               .ToList();
-        }
+        //        },
+        //        NumeroDePagos = x.Pagos.Count(x => !x.EstaEliminado),
+        //        Pagos = ManejoDePagos(x.Pagos.ToList()),
+        //        Eliminado = x.EstaEliminado,
+        //    })
+        //       .OrderBy(x => x.Numero)
+        //       .ToList();
+        //}
 
         // =========================================== Metodos Privados =========================================== //
 
@@ -320,9 +296,11 @@ namespace Servicios.CuotaServicio
                     {
                         Id = p.Id,
                         Monto = p.Monto,
-                        FechaPago = p.FechaPago,
-                        PorcPago = p.PorcPago,
+                        NroRecibo = p.NroRecibo,
+                        FechaCarga = p.FechaCarga,
+                        FechaRecibo = p.FechaRecibo,
                         CuotaId = p.CuotaId,
+                        AlumnoId = p.AlumnoId,
                         Eliminado = p.EstaEliminado
                     };
 

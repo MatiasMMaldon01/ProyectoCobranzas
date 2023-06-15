@@ -8,21 +8,20 @@ using Servicios.UsuarioServicio;
 using IServicios.Usuario;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using IServicios.Seguridad;
 using Servicios.SeguridadServicio;
 using IServicios.Persona;
 using Servicios.PersonaServicio;
-using IServicios.PrecioCuota;
-using Servicios.PrecioCuotaServicio;
 using IServicios.Cuota;
 using Servicios.CuotaServicio;
 using IServicios.Pago;
 using Servicios.PagoServicio;
-using IServicios.AlumnoCarrera;
-using Servicios.AlumnoCarreraServicio;
+using IServicios.PrecioCuota;
+using Servicios.PrecioCuotaServicio;
+using IServicios.Extension;
+using Servicios.ExtensionServicio;
+using IServicios.Ciudad;
+using Servicios.CiudadServicio;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,10 +66,12 @@ builder.Services.AddScoped<ISeguridadServicio, SeguridadServicio>();
 builder.Services.AddScoped<IAlumnoServicio, AlumnoServicio>();
 builder.Services.AddScoped<IEmpleadoServicio, EmpleadoServicio>();
 builder.Services.AddScoped<IPersonaServicio, PersonaServicio>();
-builder.Services.AddScoped<IPrecioCuotaServicio, PrecioCuotaServicio>();
+builder.Services.AddScoped<IPrecioCarreraServicio, PrecioCarreraServicio>();
 builder.Services.AddScoped<ICuotaServicio, CuotaServicio>();
 builder.Services.AddScoped<IPagoServicio, PagoServicio>();
-builder.Services.AddScoped<IAlumnoCarreraServicio, AlumnoCarreraServicio>();
+builder.Services.AddScoped<IExtensionServicio, ExtensionServicio>();
+builder.Services.AddScoped<ICiudadServicio, CiudadServicio>();
+
 
 // DB Configuración
 builder.Services.AddDbContext<DataContext>(options => {

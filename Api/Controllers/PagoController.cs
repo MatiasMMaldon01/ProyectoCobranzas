@@ -25,6 +25,10 @@ namespace Api.Controllers
             var entidad = new PagoDTO
             {
                 Monto = pago.Monto,
+                NroRecibo = pago.NroRecibo,
+                FechaCarga = pago.FechaCarga,
+                FechaRecibo = pago.FechaRecibo,
+                AlumnoId = pago.AlumnoId,
                 CuotaId = pago.CuotaId,
             };
 
@@ -41,8 +45,11 @@ namespace Api.Controllers
             {
                 Id = pago.Id,
                 Monto = pago.Monto,
+                NroRecibo = pago.NroRecibo,
+                FechaCarga = pago.FechaCarga,
+                FechaRecibo = pago.FechaRecibo,
+                AlumnoId = pago.AlumnoId,
                 CuotaId = pago.CuotaId,
-                Eliminado = false,
             };
 
             await _pagoServicio.Modificar(entidad);

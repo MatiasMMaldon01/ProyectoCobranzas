@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructura.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230614181333_FirstMigration-0001")]
+    [Migration("20230615012717_FirstMigration-0001")]
     partial class FirstMigration0001
     {
         /// <inheritdoc />
@@ -24,32 +24,6 @@ namespace Infraestructura.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Dominio.Entidades.AlumnoCarrera", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AlumnoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CarreraId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("EstaEliminado")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AlumnoId");
-
-                    b.HasIndex("CarreraId");
-
-                    b.ToTable("AlumnoCarrera");
-                });
 
             modelBuilder.Entity("Dominio.Entidades.Carrera", b =>
                 {
@@ -77,6 +51,34 @@ namespace Infraestructura.Migrations
                     b.ToTable("Carrera");
                 });
 
+            modelBuilder.Entity("Dominio.Entidades.Ciudad", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EstaEliminado")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ciudad");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Descripcion = "Capital",
+                            EstaEliminado = false
+                        });
+                });
+
             modelBuilder.Entity("Dominio.Entidades.Cuota", b =>
                 {
                     b.Property<int>("Id")
@@ -85,34 +87,54 @@ namespace Infraestructura.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AlumnoId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("EstaEliminado")
                         .HasColumnType("bit");
-
-                    b.Property<int>("EstadoCuota")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("MontoCuota")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("Numero")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("PorcAbonado")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("PrecioCuotaId")
+                    b.Property<int>("PrecioCarreraId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AlumnoId");
-
-                    b.HasIndex("PrecioCuotaId");
+                    b.HasIndex("PrecioCarreraId");
 
                     b.ToTable("Cuota");
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.Extension", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EstaEliminado")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Extension");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Descripcion = "Casa Central",
+                            EstaEliminado = false
+                        });
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Pago", b =>
@@ -123,22 +145,30 @@ namespace Infraestructura.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AlumnoId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CuotaId")
                         .HasColumnType("int");
 
                     b.Property<bool>("EstaEliminado")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("FechaPago")
+                    b.Property<DateTime>("FechaCarga")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaRecibo")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("Monto")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("PorcPago")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<long>("NroRecibo")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AlumnoId");
 
                     b.HasIndex("CuotaId");
 
@@ -153,26 +183,31 @@ namespace Infraestructura.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Apellido")
+                    b.Property<string>("Apynom")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CiudadId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Direccion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Dni")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("EstaEliminado")
                         .HasColumnType("bit");
 
+                    b.Property<int>("ExtensionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaNacimiento")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Mail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Nombre")
+                    b.Property<string>("NroDoc")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -180,14 +215,21 @@ namespace Infraestructura.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TipoDoc")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CiudadId");
+
+                    b.HasIndex("ExtensionId");
 
                     b.ToTable("Persona");
 
                     b.UseTptMappingStrategy();
                 });
 
-            modelBuilder.Entity("Dominio.Entidades.PrecioCuota", b =>
+            modelBuilder.Entity("Dominio.Entidades.PrecioCarrera", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -204,6 +246,9 @@ namespace Infraestructura.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("Matricula")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal>("Monto")
                         .HasColumnType("decimal(18,2)");
 
@@ -212,42 +257,7 @@ namespace Infraestructura.Migrations
                     b.HasIndex("CarreraId")
                         .IsUnique();
 
-                    b.ToTable("PrecioCuota");
-                });
-
-            modelBuilder.Entity("Dominio.Entidades.Proceso", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Codigo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EntidadMovimiento")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EstaEliminado")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("Fecha")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Proceso");
+                    b.ToTable("PrecioCarrera");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Usuario", b =>
@@ -289,7 +299,7 @@ namespace Infraestructura.Migrations
                         {
                             Id = 1,
                             EstaEliminado = false,
-                            Fecha = new DateTime(2023, 6, 14, 15, 13, 28, 484, DateTimeKind.Local).AddTicks(8682),
+                            Fecha = new DateTime(2023, 6, 14, 22, 27, 16, 816, DateTimeKind.Local).AddTicks(8499),
                             Nombre = "Admin",
                             Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
                             PersonaId = 1,
@@ -328,86 +338,78 @@ namespace Infraestructura.Migrations
                         new
                         {
                             Id = 1,
-                            Apellido = "admin",
+                            Apynom = "Admin",
+                            CiudadId = 1,
                             Direccion = "Rivadavia 1050",
-                            Dni = "99999999",
                             EstaEliminado = false,
+                            ExtensionId = 1,
+                            FechaNacimiento = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Mail = "admin@gmail.com",
-                            Nombre = "Usuario",
+                            NroDoc = "99999999",
                             Telefono = "9999999",
+                            TipoDoc = 0,
                             AreaTrabajo = "Cobranzas"
                         });
                 });
 
-            modelBuilder.Entity("Dominio.Entidades.AlumnoCarrera", b =>
-                {
-                    b.HasOne("Dominio.Entidades.Alumno", "Alumno")
-                        .WithMany("AlumnoCarreras")
-                        .HasForeignKey("AlumnoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Dominio.Entidades.Carrera", "Carrera")
-                        .WithMany("AlumnoCarreras")
-                        .HasForeignKey("CarreraId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Alumno");
-
-                    b.Navigation("Carrera");
-                });
-
             modelBuilder.Entity("Dominio.Entidades.Cuota", b =>
                 {
-                    b.HasOne("Dominio.Entidades.Alumno", "Alumno")
+                    b.HasOne("Dominio.Entidades.PrecioCarrera", "PrecioCarrera")
                         .WithMany("Cuotas")
-                        .HasForeignKey("AlumnoId")
+                        .HasForeignKey("PrecioCarreraId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Dominio.Entidades.PrecioCuota", "PrecioCuota")
-                        .WithMany("Cuotas")
-                        .HasForeignKey("PrecioCuotaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Alumno");
-
-                    b.Navigation("PrecioCuota");
+                    b.Navigation("PrecioCarrera");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Pago", b =>
                 {
+                    b.HasOne("Dominio.Entidades.Alumno", "Alumnno")
+                        .WithMany("Pagos")
+                        .HasForeignKey("AlumnoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Dominio.Entidades.Cuota", "Cuota")
                         .WithMany("Pagos")
                         .HasForeignKey("CuotaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("Alumnno");
+
                     b.Navigation("Cuota");
                 });
 
-            modelBuilder.Entity("Dominio.Entidades.PrecioCuota", b =>
+            modelBuilder.Entity("Dominio.Entidades.Persona", b =>
+                {
+                    b.HasOne("Dominio.Entidades.Ciudad", "Ciudad")
+                        .WithMany("Personas")
+                        .HasForeignKey("CiudadId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Dominio.Entidades.Extension", "Extension")
+                        .WithMany("Personas")
+                        .HasForeignKey("ExtensionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Ciudad");
+
+                    b.Navigation("Extension");
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.PrecioCarrera", b =>
                 {
                     b.HasOne("Dominio.Entidades.Carrera", "Carrera")
-                        .WithOne("PrecioCuota")
-                        .HasForeignKey("Dominio.Entidades.PrecioCuota", "CarreraId")
+                        .WithOne("PrecioCarrera")
+                        .HasForeignKey("Dominio.Entidades.PrecioCarrera", "CarreraId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Carrera");
-                });
-
-            modelBuilder.Entity("Dominio.Entidades.Proceso", b =>
-                {
-                    b.HasOne("Dominio.Entidades.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Usuario", b =>
@@ -441,10 +443,13 @@ namespace Infraestructura.Migrations
 
             modelBuilder.Entity("Dominio.Entidades.Carrera", b =>
                 {
-                    b.Navigation("AlumnoCarreras");
-
-                    b.Navigation("PrecioCuota")
+                    b.Navigation("PrecioCarrera")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.Ciudad", b =>
+                {
+                    b.Navigation("Personas");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Cuota", b =>
@@ -452,16 +457,19 @@ namespace Infraestructura.Migrations
                     b.Navigation("Pagos");
                 });
 
-            modelBuilder.Entity("Dominio.Entidades.PrecioCuota", b =>
+            modelBuilder.Entity("Dominio.Entidades.Extension", b =>
+                {
+                    b.Navigation("Personas");
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.PrecioCarrera", b =>
                 {
                     b.Navigation("Cuotas");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Alumno", b =>
                 {
-                    b.Navigation("AlumnoCarreras");
-
-                    b.Navigation("Cuotas");
+                    b.Navigation("Pagos");
                 });
 #pragma warning restore 612, 618
         }

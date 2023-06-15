@@ -3,9 +3,10 @@
     public class CuotaModel : BaseModel
     {
         public int Numero { get; set; }
+              
+        public DateTime Fecha { get; set; }
 
-        public int AlumnoId { get; set; }
+        public int PrecioCarreraId { get; set; }
 
-        public int PrecioCuotaId { get; set; }
     }
 }

@@ -28,42 +28,109 @@ namespace Infraestructura.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Persona",
+                name: "Ciudad",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Apellido = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Dni = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Direccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Telefono = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Persona", x => x.Id);
+                    table.PrimaryKey("PK_Ciudad", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PrecioCuota",
+                name: "Extension",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Extension", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PrecioCarrera",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Monto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Matricula = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CarreraId = table.Column<int>(type: "int", nullable: false),
                     EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PrecioCuota", x => x.Id);
+                    table.PrimaryKey("PK_PrecioCarrera", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PrecioCuota_Carrera_CarreraId",
+                        name: "FK_PrecioCarrera_Carrera_CarreraId",
                         column: x => x.CarreraId,
                         principalTable: "Carrera",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Persona",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Apynom = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TipoDoc = table.Column<int>(type: "int", nullable: false),
+                    NroDoc = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Direccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Telefono = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExtensionId = table.Column<int>(type: "int", nullable: false),
+                    CiudadId = table.Column<int>(type: "int", nullable: false),
+                    EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Persona", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Persona_Ciudad_CiudadId",
+                        column: x => x.CiudadId,
+                        principalTable: "Ciudad",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Persona_Extension_ExtensionId",
+                        column: x => x.ExtensionId,
+                        principalTable: "Extension",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cuota",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Numero = table.Column<int>(type: "int", nullable: false),
+                    MontoCuota = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PrecioCarreraId = table.Column<int>(type: "int", nullable: false),
+                    EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cuota", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cuota_PrecioCarrera_PrecioCarreraId",
+                        column: x => x.PrecioCarreraId,
+                        principalTable: "PrecioCarrera",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -131,97 +198,17 @@ namespace Infraestructura.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AlumnoCarrera",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AlumnoId = table.Column<int>(type: "int", nullable: false),
-                    CarreraId = table.Column<int>(type: "int", nullable: false),
-                    EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AlumnoCarrera", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AlumnoCarrera_Carrera_CarreraId",
-                        column: x => x.CarreraId,
-                        principalTable: "Carrera",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AlumnoCarrera_Persona_Alumno_AlumnoId",
-                        column: x => x.AlumnoId,
-                        principalTable: "Persona_Alumno",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Cuota",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Numero = table.Column<int>(type: "int", nullable: false),
-                    PorcAbonado = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EstadoCuota = table.Column<int>(type: "int", nullable: false),
-                    AlumnoId = table.Column<int>(type: "int", nullable: false),
-                    PrecioCuotaId = table.Column<int>(type: "int", nullable: false),
-                    EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cuota", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cuota_Persona_Alumno_AlumnoId",
-                        column: x => x.AlumnoId,
-                        principalTable: "Persona_Alumno",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Cuota_PrecioCuota_PrecioCuotaId",
-                        column: x => x.PrecioCuotaId,
-                        principalTable: "PrecioCuota",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Proceso",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Codigo = table.Column<int>(type: "int", nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EntidadMovimiento = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UsuarioId = table.Column<int>(type: "int", nullable: false),
-                    EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Proceso", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Proceso_Usuario_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "Usuario",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Pago",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Monto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PorcPago = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    NroRecibo = table.Column<long>(type: "bigint", nullable: false),
+                    FechaCarga = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaRecibo = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CuotaId = table.Column<int>(type: "int", nullable: false),
-                    FechaPago = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AlumnoId = table.Column<int>(type: "int", nullable: false),
                     EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -233,12 +220,28 @@ namespace Infraestructura.Migrations
                         principalTable: "Cuota",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Pago_Persona_Alumno_AlumnoId",
+                        column: x => x.AlumnoId,
+                        principalTable: "Persona_Alumno",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
+                table: "Ciudad",
+                columns: new[] { "Id", "Descripcion", "EstaEliminado" },
+                values: new object[] { 1, "Capital", false });
+
+            migrationBuilder.InsertData(
+                table: "Extension",
+                columns: new[] { "Id", "Descripcion", "EstaEliminado" },
+                values: new object[] { 1, "Casa Central", false });
+
+            migrationBuilder.InsertData(
                 table: "Persona",
-                columns: new[] { "Id", "Apellido", "Direccion", "Dni", "EstaEliminado", "Mail", "Nombre", "Telefono" },
-                values: new object[] { 1, "admin", "Rivadavia 1050", "99999999", false, "admin@gmail.com", "Usuario", "9999999" });
+                columns: new[] { "Id", "Apynom", "CiudadId", "Direccion", "EstaEliminado", "ExtensionId", "FechaNacimiento", "Mail", "NroDoc", "Telefono", "TipoDoc" },
+                values: new object[] { 1, "Admin", 1, "Rivadavia 1050", false, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", "99999999", "9999999", 0 });
 
             migrationBuilder.InsertData(
                 table: "Persona_Empleado",
@@ -248,27 +251,17 @@ namespace Infraestructura.Migrations
             migrationBuilder.InsertData(
                 table: "Usuario",
                 columns: new[] { "Id", "EstaEliminado", "Fecha", "Nombre", "Password", "PersonaId", "Rol" },
-                values: new object[] { 1, false, new DateTime(2023, 6, 14, 15, 13, 28, 484, DateTimeKind.Local).AddTicks(8682), "Admin", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", 1, 1 });
+                values: new object[] { 1, false, new DateTime(2023, 6, 14, 22, 27, 16, 816, DateTimeKind.Local).AddTicks(8499), "Admin", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", 1, 1 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AlumnoCarrera_AlumnoId",
-                table: "AlumnoCarrera",
-                column: "AlumnoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AlumnoCarrera_CarreraId",
-                table: "AlumnoCarrera",
-                column: "CarreraId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cuota_AlumnoId",
+                name: "IX_Cuota_PrecioCarreraId",
                 table: "Cuota",
-                column: "AlumnoId");
+                column: "PrecioCarreraId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cuota_PrecioCuotaId",
-                table: "Cuota",
-                column: "PrecioCuotaId");
+                name: "IX_Pago_AlumnoId",
+                table: "Pago",
+                column: "AlumnoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pago_CuotaId",
@@ -276,15 +269,20 @@ namespace Infraestructura.Migrations
                 column: "CuotaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrecioCuota_CarreraId",
-                table: "PrecioCuota",
-                column: "CarreraId",
-                unique: true);
+                name: "IX_Persona_CiudadId",
+                table: "Persona",
+                column: "CiudadId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Proceso_UsuarioId",
-                table: "Proceso",
-                column: "UsuarioId");
+                name: "IX_Persona_ExtensionId",
+                table: "Persona",
+                column: "ExtensionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrecioCarrera_CarreraId",
+                table: "PrecioCarrera",
+                column: "CarreraId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Usuario_PersonaId",
@@ -296,34 +294,34 @@ namespace Infraestructura.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AlumnoCarrera");
-
-            migrationBuilder.DropTable(
                 name: "Pago");
 
             migrationBuilder.DropTable(
                 name: "Persona_Empleado");
 
             migrationBuilder.DropTable(
-                name: "Proceso");
+                name: "Usuario");
 
             migrationBuilder.DropTable(
                 name: "Cuota");
 
             migrationBuilder.DropTable(
-                name: "Usuario");
-
-            migrationBuilder.DropTable(
                 name: "Persona_Alumno");
 
             migrationBuilder.DropTable(
-                name: "PrecioCuota");
+                name: "PrecioCarrera");
 
             migrationBuilder.DropTable(
                 name: "Persona");
 
             migrationBuilder.DropTable(
                 name: "Carrera");
+
+            migrationBuilder.DropTable(
+                name: "Ciudad");
+
+            migrationBuilder.DropTable(
+                name: "Extension");
         }
     }
 }

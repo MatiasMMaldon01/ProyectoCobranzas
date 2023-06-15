@@ -71,7 +71,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = entidad.Descripcion,
                 CantCuotas =  entidad.CantidadCuotas,
                 Fecha = entidad.Fecha,
-               // PrecioCuo = entidad.PrecioCuota.Monto,
+                // PrecioCuo = entidad.PrecioCuota.Monto,
                 Eliminado = entidad.EstaEliminado
             };
 
@@ -87,7 +87,7 @@ namespace Servicios.CarreraServicio
                 filtro = x => !x.EstaEliminado;
             }
 
-            var entidad = await _unidadDeTrabajo.CarreraRepositorio.ObtenerTodos(filtro, "PrecioCuota");
+            var entidad = await _unidadDeTrabajo.CarreraRepositorio.ObtenerTodos(filtro, "PrecioCarrera");
 
             return entidad.Select(x => new CarreraDto
             {
@@ -95,7 +95,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = x.Descripcion,
                 CantCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
-                PrecioCuo = x.PrecioCuota != null ? x.PrecioCuota.Monto : 0 ,
+                PrecioCarrera = x.PrecioCarrera != null ? x.PrecioCarrera.Monto : 0 ,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)
@@ -111,7 +111,7 @@ namespace Servicios.CarreraServicio
                 filtro = filtro.And(x => !x.EstaEliminado);
             }
 
-            var entidad = await _unidadDeTrabajo.CarreraRepositorio.Obtener(filtro, "PrecioCuota");
+            var entidad = await _unidadDeTrabajo.CarreraRepositorio.Obtener(filtro, "PrecioCarrera");
 
             return entidad.Select(x => new CarreraDto
             {
@@ -119,7 +119,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = x.Descripcion,
                 CantCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
-                PrecioCuo = x.PrecioCuota.Monto,
+                PrecioCarrera = x.PrecioCarrera.Monto,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)

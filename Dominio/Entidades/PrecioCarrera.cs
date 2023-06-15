@@ -6,7 +6,7 @@ namespace Dominio.Entidades
 {
     [Table("PrecioCarrera")]
     [MetadataType(typeof(IPrecioCarrera))]
-    public class PrecioCuota : EntidadBase
+    public class PrecioCarrera : EntidadBase
     {
 
         public decimal Monto { get; set; }

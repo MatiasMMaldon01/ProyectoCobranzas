@@ -2,11 +2,13 @@
 
 namespace IServicios.PrecioCuota.PrecioCuotaDTO
 {
-    public class PrecioCuotaDTO : BaseDTO
+    public class PrecioCarreraDTO : BaseDTO
     {
         public decimal Monto { get; set; }
 
         public DateTime Fecha { get; set; }
+
+        public decimal Matricula { get; set; }
 
         public int CarreraId { get; set; }
 

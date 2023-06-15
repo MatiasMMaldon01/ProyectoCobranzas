@@ -104,8 +104,7 @@ namespace Api.Controllers
                 return Results.Ok(carreras);
             }
         }
-
-       
+      
 
     }
 }

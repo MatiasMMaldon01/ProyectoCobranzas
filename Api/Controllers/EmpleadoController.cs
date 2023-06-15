@@ -22,15 +22,17 @@ namespace Api.Controllers
         {
             var entidad = new EmpleadoDTO
             {
-                Nombre = empleado.Nombre,
-                Apellido = empleado.Apellido,
-                Dni = empleado.Dni,
+                Apynom = empleado.Apynom,
+                TipoDoc = empleado.TipoDoc,
+                NroDoc = empleado.NroDoc,
+                FechaNacimiento = empleado.FechaNacimiento,
                 Direccion = empleado.Direccion,
                 Telefono = empleado.Telefono,
                 Mail = empleado.Mail,
                 AreaTrabajo = empleado.AreaTrabajo,
+                CiudadId = empleado.CiudadId,
+                ExtensionId = empleado.ExtensionId,
                 Eliminado = false,
-
             };
 
             var id = await _empleadoServicio.Crear(entidad);
@@ -45,15 +47,17 @@ namespace Api.Controllers
             var entidad = new EmpleadoDTO
             {
                 Id = empleado.Id,
-                Nombre = empleado.Nombre,
-                Apellido = empleado.Apellido,
-                Dni = empleado.Dni,
+                Apynom = empleado.Apynom,
+                TipoDoc = empleado.TipoDoc,
+                NroDoc = empleado.NroDoc,
+                FechaNacimiento = empleado.FechaNacimiento,
                 Direccion = empleado.Direccion,
                 Telefono = empleado.Telefono,
                 Mail = empleado.Mail,
                 AreaTrabajo = empleado.AreaTrabajo,
+                CiudadId = empleado.CiudadId,
+                ExtensionId = empleado.ExtensionId,
                 Eliminado = false,
-
             };
 
             await _empleadoServicio.Modificar(entidad);
