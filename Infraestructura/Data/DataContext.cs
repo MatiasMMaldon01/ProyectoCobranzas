@@ -61,7 +61,7 @@ namespace Infraestructura.Data
         DbSet<PrecioCarrera> PrecioCuotas { get; set; }
         DbSet<Ciudad> Ciudades { get; set; }
         DbSet<Extension> Extensiones { get; set; }
-
+        DbSet<Contador> Contadores { get; set; }
 
     }
 }

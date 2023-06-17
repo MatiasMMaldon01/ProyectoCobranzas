@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Infraestructura.Migrations
 {
     /// <inheritdoc />
@@ -39,6 +41,21 @@ namespace Infraestructura.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ciudad", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Contador",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Entidad = table.Column<int>(type: "int", nullable: false),
+                    Valor = table.Column<int>(type: "int", nullable: false),
+                    EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contador", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,6 +110,7 @@ namespace Infraestructura.Migrations
                     Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ExtensionId = table.Column<int>(type: "int", nullable: false),
                     CiudadId = table.Column<int>(type: "int", nullable: false),
+                    CodigoPostal = table.Column<int>(type: "int", nullable: false),
                     EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -142,11 +160,18 @@ namespace Infraestructura.Migrations
                     Id = table.Column<int>(type: "int", nullable: false),
                     Legajo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FechaIngreso = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PorcBeca = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    PorcBeca = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CarreraId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Persona_Alumno", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Persona_Alumno_Carrera_CarreraId",
+                        column: x => x.CarreraId,
+                        principalTable: "Carrera",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Persona_Alumno_Persona_Id",
                         column: x => x.Id,
@@ -231,17 +256,34 @@ namespace Infraestructura.Migrations
             migrationBuilder.InsertData(
                 table: "Ciudad",
                 columns: new[] { "Id", "Descripcion", "EstaEliminado" },
-                values: new object[] { 1, "Capital", false });
+                values: new object[,]
+                {
+                    { 1, "Capital", false },
+                    { 2, "Concepción", false }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Contador",
+                columns: new[] { "Id", "Entidad", "EstaEliminado", "Valor" },
+                values: new object[,]
+                {
+                    { 1, 0, false, 1 },
+                    { 2, 1, false, 0 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Extension",
                 columns: new[] { "Id", "Descripcion", "EstaEliminado" },
-                values: new object[] { 1, "Casa Central", false });
+                values: new object[,]
+                {
+                    { 1, "Casa Central", false },
+                    { 2, "Anexo", false }
+                });
 
             migrationBuilder.InsertData(
                 table: "Persona",
-                columns: new[] { "Id", "Apynom", "CiudadId", "Direccion", "EstaEliminado", "ExtensionId", "FechaNacimiento", "Mail", "NroDoc", "Telefono", "TipoDoc" },
-                values: new object[] { 1, "Admin", 1, "Rivadavia 1050", false, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", "99999999", "9999999", 0 });
+                columns: new[] { "Id", "Apynom", "CiudadId", "CodigoPostal", "Direccion", "EstaEliminado", "ExtensionId", "FechaNacimiento", "Mail", "NroDoc", "Telefono", "TipoDoc" },
+                values: new object[] { 1, "Admin", 1, 4000, "Rivadavia 1050", false, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", "99999999", "9999999", 0 });
 
             migrationBuilder.InsertData(
                 table: "Persona_Empleado",
@@ -251,7 +293,7 @@ namespace Infraestructura.Migrations
             migrationBuilder.InsertData(
                 table: "Usuario",
                 columns: new[] { "Id", "EstaEliminado", "Fecha", "Nombre", "Password", "PersonaId", "Rol" },
-                values: new object[] { 1, false, new DateTime(2023, 6, 14, 22, 27, 16, 816, DateTimeKind.Local).AddTicks(8499), "Admin", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", 1, 1 });
+                values: new object[] { 1, false, new DateTime(2023, 6, 17, 16, 18, 31, 163, DateTimeKind.Local).AddTicks(767), "Admin", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cuota_PrecioCarreraId",
@@ -279,6 +321,11 @@ namespace Infraestructura.Migrations
                 column: "ExtensionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Persona_Alumno_CarreraId",
+                table: "Persona_Alumno",
+                column: "CarreraId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PrecioCarrera_CarreraId",
                 table: "PrecioCarrera",
                 column: "CarreraId",
@@ -293,6 +340,9 @@ namespace Infraestructura.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Contador");
+
             migrationBuilder.DropTable(
                 name: "Pago");
 

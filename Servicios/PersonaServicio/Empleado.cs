@@ -1,4 +1,4 @@
-﻿using Dominio.Entidades;
+﻿using Aplicacion.Constantes.Enums;
 using Dominio.Interfaces;
 using IServicios.Persona.DTO_s;
 using Servicios.Base;
@@ -35,7 +35,6 @@ namespace Servicios.PersonaServicio
             });
 
             _unidadDeTrabajo.Commit();
-
             return entidadId;
         }
 

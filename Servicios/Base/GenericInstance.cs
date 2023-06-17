@@ -27,7 +27,7 @@ namespace Servicios.Base
         {
             if (!_diccionario.TryGetValue(tipo, out var tipoEntidad))
                 throw new Exception($"No hay {tipoEntidad} para Instanciar.");
-            var T = InstanciarEntidad(tipoEntidad, unidadDeTrabajo );
+            var T = InstanciarEntidad(tipoEntidad, unidadDeTrabajo);
             if (T == null) throw new Exception($"Ocurrió un error al Instanciar {tipo}");
             return T;
         }

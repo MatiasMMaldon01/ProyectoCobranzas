@@ -22,6 +22,10 @@ using IServicios.Extension;
 using Servicios.ExtensionServicio;
 using IServicios.Ciudad;
 using Servicios.CiudadServicio;
+using IServicios.Persona.CargasMasivas;
+using Servicios.PersonaServicio.AlumnoCMServicio;
+using Servicios.Contador;
+using IServicios.Contador;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,6 +75,10 @@ builder.Services.AddScoped<ICuotaServicio, CuotaServicio>();
 builder.Services.AddScoped<IPagoServicio, PagoServicio>();
 builder.Services.AddScoped<IExtensionServicio, ExtensionServicio>();
 builder.Services.AddScoped<ICiudadServicio, CiudadServicio>();
+builder.Services.AddScoped<IAlumnoCargaMasiva, AlumnoCMServicio>();
+builder.Services.AddScoped<IContadorServicio, ContadorServicio>();
+
+
 
 
 // DB Configuración

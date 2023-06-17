@@ -15,7 +15,13 @@ namespace IServicios.Persona.DTO_s
 
         public DateTime FechaIngreso { get; set; }
 
+        public int CarreraId { get; set; }
+
+        public string Carrera { get; set; }
+
         public List<PagoDTO> Pagos { get; set; }
+
+
 
     }
 }

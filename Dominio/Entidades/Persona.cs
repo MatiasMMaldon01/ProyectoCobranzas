@@ -27,6 +27,8 @@ namespace Dominio.Entidades
 
         public int CiudadId { get; set; }
 
+        public int CodigoPostal { get; set; }
+
 
         public Ciudad Ciudad { get; set; }
 

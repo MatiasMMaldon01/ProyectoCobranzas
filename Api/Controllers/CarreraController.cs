@@ -28,7 +28,7 @@ namespace Api.Controllers
                 Eliminado = false,
             };
 
-            long id = await _carreraServicio.Crear(entidad);
+            int id = await _carreraServicio.Crear(entidad);
 
             return Results.Ok(id);
 

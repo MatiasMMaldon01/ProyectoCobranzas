@@ -6,6 +6,7 @@ namespace Servicios.PersonaServicio
     public class Persona
     {
         protected readonly IUnidadDeTrabajo _unidadDeTrabajo;
+
         public Persona(IUnidadDeTrabajo unidadDeTrabajo)
         {
             _unidadDeTrabajo = unidadDeTrabajo;

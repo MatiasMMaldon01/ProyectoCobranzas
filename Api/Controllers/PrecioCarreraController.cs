@@ -32,7 +32,7 @@ namespace Api.Controllers
 
             };
 
-            long id = await _precioCarreraServicio.Crear(entidad);
+            int id = await _precioCarreraServicio.Crear(entidad);
 
             return Results.Ok(id);
 

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructura.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230615012717_FirstMigration-0001")]
+    [Migration("20230617191837_FirstMigration-0001")]
     partial class FirstMigration0001
     {
         /// <inheritdoc />
@@ -76,6 +76,50 @@ namespace Infraestructura.Migrations
                             Id = 1,
                             Descripcion = "Capital",
                             EstaEliminado = false
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Descripcion = "Concepción",
+                            EstaEliminado = false
+                        });
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.Contador", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Entidad")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("EstaEliminado")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Valor")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contador");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Entidad = 0,
+                            EstaEliminado = false,
+                            Valor = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Entidad = 1,
+                            EstaEliminado = false,
+                            Valor = 0
                         });
                 });
 
@@ -134,6 +178,12 @@ namespace Infraestructura.Migrations
                             Id = 1,
                             Descripcion = "Casa Central",
                             EstaEliminado = false
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Descripcion = "Anexo",
+                            EstaEliminado = false
                         });
                 });
 
@@ -188,6 +238,9 @@ namespace Infraestructura.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CiudadId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CodigoPostal")
                         .HasColumnType("int");
 
                     b.Property<string>("Direccion")
@@ -299,7 +352,7 @@ namespace Infraestructura.Migrations
                         {
                             Id = 1,
                             EstaEliminado = false,
-                            Fecha = new DateTime(2023, 6, 14, 22, 27, 16, 816, DateTimeKind.Local).AddTicks(8499),
+                            Fecha = new DateTime(2023, 6, 17, 16, 18, 31, 163, DateTimeKind.Local).AddTicks(767),
                             Nombre = "Admin",
                             Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
                             PersonaId = 1,
@@ -311,6 +364,9 @@ namespace Infraestructura.Migrations
                 {
                     b.HasBaseType("Dominio.Entidades.Persona");
 
+                    b.Property<int>("CarreraId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("FechaIngreso")
                         .HasColumnType("datetime2");
 
@@ -320,6 +376,8 @@ namespace Infraestructura.Migrations
 
                     b.Property<decimal>("PorcBeca")
                         .HasColumnType("decimal(18,2)");
+
+                    b.HasIndex("CarreraId");
 
                     b.ToTable("Persona_Alumno");
                 });
@@ -340,6 +398,7 @@ namespace Infraestructura.Migrations
                             Id = 1,
                             Apynom = "Admin",
                             CiudadId = 1,
+                            CodigoPostal = 4000,
                             Direccion = "Rivadavia 1050",
                             EstaEliminado = false,
                             ExtensionId = 1,
@@ -425,11 +484,19 @@ namespace Infraestructura.Migrations
 
             modelBuilder.Entity("Dominio.Entidades.Alumno", b =>
                 {
+                    b.HasOne("Dominio.Entidades.Carrera", "Carrera")
+                        .WithMany("Alumnos")
+                        .HasForeignKey("CarreraId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Dominio.Entidades.Persona", null)
                         .WithOne()
                         .HasForeignKey("Dominio.Entidades.Alumno", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Carrera");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Empleado", b =>
@@ -443,6 +510,8 @@ namespace Infraestructura.Migrations
 
             modelBuilder.Entity("Dominio.Entidades.Carrera", b =>
                 {
+                    b.Navigation("Alumnos");
+
                     b.Navigation("PrecioCarrera")
                         .IsRequired();
                 });

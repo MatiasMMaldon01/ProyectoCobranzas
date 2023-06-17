@@ -25,7 +25,7 @@ namespace Api.Controllers
                 Eliminado = false,
             };
 
-            long id = await _ciudadServicio.Crear(entidad);
+            int id = await _ciudadServicio.Crear(entidad);
 
             return Results.Ok(id);
 

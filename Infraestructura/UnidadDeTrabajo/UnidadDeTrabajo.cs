@@ -80,6 +80,23 @@ namespace Infraestructura.UnidadDeTrabajo
 
         public IRepositorio<Extension> ExtensionRepositorio => _extensionRepositorio ?? (_extensionRepositorio = new Repositorio<Extension>(_context));
 
+        // ====================================================================================================================================== //
+
+        public ICargaMasivaRepositorio<Alumno> _cargaMasivaAlumnoRepositorio;
+
+        public ICargaMasivaRepositorio<Alumno> CargaMasivaAlumnoRepositorio => _cargaMasivaAlumnoRepositorio ?? (_cargaMasivaAlumnoRepositorio = new CargaMasivaRepositorio<Alumno>(_context));
+
+        // ====================================================================================================================================== //
+
+        public ICargaMasivaRepositorio<Persona> _cargaMasivaPersonaRepositorio;
+
+        public ICargaMasivaRepositorio<Persona> CargaMasivaPersonaRepositorio => _cargaMasivaPersonaRepositorio ?? (_cargaMasivaPersonaRepositorio = new CargaMasivaRepositorio<Persona>(_context));
+
+        // ============================================================================================================ //
+        private IRepositorio<Contador> contadorRepositorio;
+
+        public IRepositorio<Contador> ContadorRepositorio => contadorRepositorio ?? (contadorRepositorio = new Repositorio<Contador>(_context));
+
     }
 }
 

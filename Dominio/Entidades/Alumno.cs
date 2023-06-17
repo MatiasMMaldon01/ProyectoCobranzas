@@ -15,7 +15,11 @@ namespace Dominio.Entidades
 
         public decimal PorcBeca { get; set; }
 
+        public int CarreraId { get; set; }
+
         // Propiedades de Navegacion
         public virtual ICollection<Pago> Pagos { get; set; }
+
+        public virtual Carrera Carrera { get; set; }
     }
 }

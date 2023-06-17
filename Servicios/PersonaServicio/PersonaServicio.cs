@@ -13,6 +13,7 @@ namespace Servicios.PersonaServicio
         public PersonaServicio(IUnidadDeTrabajo unidadDeTrabajo)
         {
             _unidadDeTrabajo = unidadDeTrabajo;
+
             _diccionario = new Dictionary<Type, string>();
 
             InicializadorDiccionario();

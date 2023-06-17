@@ -2,6 +2,9 @@
 using IServicios.Persona;
 using Microsoft.AspNetCore.Mvc;
 using Api.PersistenceModels;
+using IServicios.Persona.CargasMasivas;
+using IServicios.Contador;
+using Aplicacion.Constantes.Enums;
 
 namespace Api.Controllers
 {
@@ -11,9 +14,14 @@ namespace Api.Controllers
     public class AlumnoController : Controller
     {
         private readonly IAlumnoServicio _alumnoServicio;
-        public AlumnoController(IAlumnoServicio alumnoServicio)
+        private readonly IAlumnoCargaMasiva _alumnoCargaMasiva;
+        private readonly IContadorServicio _contadorServicio;
+
+        public AlumnoController(IAlumnoServicio alumnoServicio, IAlumnoCargaMasiva alumnoCargaMasiva, IContadorServicio contadorServicio)
         {
             _alumnoServicio = alumnoServicio;
+            _alumnoCargaMasiva = alumnoCargaMasiva;
+            _contadorServicio = contadorServicio;
         }
 
         [HttpPost]
@@ -33,12 +41,26 @@ namespace Api.Controllers
                 FechaIngreso = alumno.FechaIngreso,
                 CiudadId = alumno.CiudadId,
                 ExtensionId = alumno.ExtensionId,
+                CarreraId = alumno.CarreraId,
                 Eliminado = false,
             };
 
             var id = await _alumnoServicio.Crear(entidad);
 
+            await _contadorServicio.CargarNumero(Entidad.Persona, id);
+
             return Results.Ok(id);
+
+        }
+
+        [HttpPost]
+        [Route("CargaMasiva")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IResult> CargaMasiva(AlumnoModel alumno)
+        {
+            await _alumnoCargaMasiva.CargaMasivaAlumno();
+
+            return Results.Ok("La carga masiva de alumnos se realizó con éxito");
 
         }
 
@@ -60,6 +82,7 @@ namespace Api.Controllers
                 FechaIngreso = alumno.FechaIngreso,
                 CiudadId = alumno.CiudadId,
                 ExtensionId = alumno.ExtensionId,
+                CarreraId = alumno.CarreraId,
                 Eliminado = false,
             };
 

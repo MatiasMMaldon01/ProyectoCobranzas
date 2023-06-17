@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Aplicacion.Constantes;
 using Aplicacion.Constantes.Enums;
+using System.Drawing;
 
 namespace Infraestructura.Data
 {
@@ -15,6 +16,12 @@ namespace Infraestructura.Data
                 Id = 1,
                 Descripcion = "Capital",
                 EstaEliminado = false,
+            },
+            new Ciudad
+            {
+                Id = 2,
+                Descripcion = "Concepción",
+                EstaEliminado = false,
             });
 
             modelBuilder.Entity<Extension>().HasData(new Extension
@@ -22,6 +29,27 @@ namespace Infraestructura.Data
                 Id = 1,
                 Descripcion = "Casa Central",
                 EstaEliminado = false,
+            },
+            new Extension
+            {
+                Id= 2,
+                Descripcion = "Anexo",
+                EstaEliminado = false
+            });
+
+            modelBuilder.Entity<Contador>().HasData(new  Contador
+            { 
+                Id = 1,
+                Entidad = Entidad.Persona,
+                Valor = 1, 
+                EstaEliminado = false
+            },
+            new Contador
+            { 
+                Id = 2,
+                Entidad = Entidad.Pago,
+                Valor = 0, 
+                EstaEliminado = false
             });
 
             modelBuilder.Entity<Empleado>().HasData(new Empleado
@@ -35,6 +63,7 @@ namespace Infraestructura.Data
                 Telefono = "9999999",
                 AreaTrabajo = "Cobranzas",
                 CiudadId = 1,
+                CodigoPostal = 4000,
                 ExtensionId = 1,
                 EstaEliminado = false,
             });

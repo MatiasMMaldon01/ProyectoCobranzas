@@ -20,6 +20,12 @@ namespace Dominio.Interfaces
         IRepositorio<Usuario> UsuarioRepositorio { get; }
         IRepositorio<Ciudad> CiudadRepositorio { get; }
         IRepositorio<Extension> ExtensionRepositorio { get; }
+        IRepositorio<Contador> ContadorRepositorio { get; }
+
+        // Repositorios de Carga Masiva
+        ICargaMasivaRepositorio<Alumno> CargaMasivaAlumnoRepositorio { get; }
+        ICargaMasivaRepositorio<Persona> CargaMasivaPersonaRepositorio { get; }
+
 
     }
 }

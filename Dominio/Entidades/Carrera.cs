@@ -18,5 +18,7 @@ namespace Dominio.Entidades
 
         public virtual PrecioCarrera PrecioCarrera { get; set; }
 
+        public ICollection<Alumno> Alumnos { get; set; }
+
     }
 }

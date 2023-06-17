@@ -30,7 +30,7 @@ namespace Api.Controllers
                 Eliminado = false,
             };
 
-            long id = await _cuotaServicio.Crear(entidad);
+            int id = await _cuotaServicio.Crear(entidad);
 
             return Results.Ok(id);
 

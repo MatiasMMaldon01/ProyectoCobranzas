@@ -9,8 +9,10 @@ namespace Servicios.PersonaServicio
 {
     internal class Alumno : Persona
     {
+        
         public Alumno(IUnidadDeTrabajo unidadDeTrabajo) : base(unidadDeTrabajo)
         {
+            
         }
 
         public override async Task<int> Crear(PersonaDTO entidad)
@@ -34,6 +36,7 @@ namespace Servicios.PersonaServicio
                 FechaIngreso = entidadNueva.FechaIngreso,
                 CiudadId = entidadNueva.CiudadId,
                 ExtensionId = entidadNueva.ExtensionId,
+                CarreraId = entidadNueva.CarreraId,
                 EstaEliminado = false,
             };
 
@@ -41,7 +44,7 @@ namespace Servicios.PersonaServicio
 
             _unidadDeTrabajo.Commit();
 
-            return entidad.Id;
+            return alumno.Id;
         }
 
         public override async Task Modificar(PersonaDTO entidad)
@@ -66,6 +69,7 @@ namespace Servicios.PersonaServicio
                 FechaIngreso = entidadModificar.FechaIngreso,
                 CiudadId = entidadModificar.CiudadId,
                 ExtensionId = entidadModificar.ExtensionId,
+                CarreraId = entidadModificar.CarreraId,
                 EstaEliminado = false,
             });
         }
@@ -88,7 +92,7 @@ namespace Servicios.PersonaServicio
                 filtro = filtro.And(x => !x.EstaEliminado);
             }
 
-            var respuesta = await _unidadDeTrabajo.AlumnoRepositorio.Obtener(filtro, "Pagos, Ciudad, Extension");
+            var respuesta = await _unidadDeTrabajo.AlumnoRepositorio.Obtener(filtro, "Pagos, Ciudad, Extension, Carrera");
 
             return respuesta
                     .Select(x => new AlumnoDTO
@@ -107,6 +111,8 @@ namespace Servicios.PersonaServicio
                         Extension = x.Extension.Descripcion,
                         CiudadId = x.CiudadId,
                         Ciudad = x.Ciudad.Descripcion,
+                        CarreraId = x.CarreraId,
+                        Carrera = x.Carrera.Descripcion,
                         Pagos = ManejoDePagos(x.Pagos.ToList()),
                         Eliminado = x.EstaEliminado,
                     }).OrderBy(x => x.Legajo).ThenBy(x => x.Apynom)
@@ -115,7 +121,7 @@ namespace Servicios.PersonaServicio
 
         public override async Task<PersonaDTO> Obtener(int id)
         {
-            var entidad = await _unidadDeTrabajo.AlumnoRepositorio.Obtener(id, "Pagos, Extension, Ciudad");
+            var entidad = await _unidadDeTrabajo.AlumnoRepositorio.Obtener(id, "Pagos, Extension, Ciudad, Carrera");
 
             return new AlumnoDTO
             {
@@ -133,6 +139,8 @@ namespace Servicios.PersonaServicio
                 Extension = entidad.Extension.Descripcion,
                 CiudadId = entidad.CiudadId,
                 Ciudad = entidad.Ciudad.Descripcion,
+                CarreraId = entidad.CarreraId,
+                Carrera = entidad.Carrera.Descripcion,
                 Pagos = ManejoDePagos(entidad.Pagos.ToList()),
                 Eliminado = entidad.EstaEliminado,
             };
@@ -142,7 +150,7 @@ namespace Servicios.PersonaServicio
         {
             Expression<Func<Dominio.Entidades.Alumno, bool>> filtro = x => !x.EstaEliminado;
 
-            var respuesta = await _unidadDeTrabajo.AlumnoRepositorio.ObtenerTodos(filtro, "Pagos, Extension, Ciudad");
+            var respuesta = await _unidadDeTrabajo.AlumnoRepositorio.ObtenerTodos(filtro, "Pagos, Extension, Ciudad, Carrera");
 
             return respuesta
                     .Select(x => new AlumnoDTO
@@ -161,6 +169,8 @@ namespace Servicios.PersonaServicio
                         Extension = x.Extension.Descripcion,
                         CiudadId = x.CiudadId,
                         Ciudad = x.Ciudad.Descripcion,
+                        CarreraId = x.CarreraId,
+                        Carrera = x.Carrera.Descripcion,
                         Pagos = ManejoDePagos(x.Pagos.ToList()),
                         Eliminado = x.EstaEliminado,
                     }).OrderBy(x => x.Legajo).ThenBy(x => x.Apynom)
