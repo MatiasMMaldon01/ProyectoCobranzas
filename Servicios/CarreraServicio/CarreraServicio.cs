@@ -61,7 +61,7 @@ namespace Servicios.CarreraServicio
 
         public async Task<BaseDTO> Obtener(int id)
         {
-            var entidad =  await _unidadDeTrabajo.CarreraRepositorio.Obtener(id, "PrecioCuota");
+            var entidad =  await _unidadDeTrabajo.CarreraRepositorio.Obtener(id, "PrecioCarrera");
 
             if (entidad == null) throw new Exception("No se encotró la carrera que esta buscando");
 
@@ -71,7 +71,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = entidad.Descripcion,
                 CantCuotas =  entidad.CantidadCuotas,
                 Fecha = entidad.Fecha,
-                // PrecioCuo = entidad.PrecioCuota.Monto,
+                PrecioCarrera = entidad.PrecioCarrera != null ? entidad.PrecioCarrera.Monto : 0,
                 Eliminado = entidad.EstaEliminado
             };
 
@@ -119,7 +119,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = x.Descripcion,
                 CantCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
-                PrecioCarrera = x.PrecioCarrera.Monto,
+                PrecioCarrera = x.PrecioCarrera != null ? x.PrecioCarrera.Monto : 0,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)

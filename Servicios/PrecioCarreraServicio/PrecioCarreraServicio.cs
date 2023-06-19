@@ -112,7 +112,7 @@ namespace Servicios.PrecioCuotaServicio
 
         public async Task<IEnumerable<BaseDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = false)
         {
-            Expression<Func<PrecioCarrera, bool>> filtro = x => x.Fecha.ToString().Contains(cadenaBuscar);
+            Expression<Func<PrecioCarrera, bool>> filtro = x => x.Fecha.ToString().Contains(cadenaBuscar) || x.Carrera.Descripcion.Contains(cadenaBuscar);
 
             if (!mostrarTodos)
             {

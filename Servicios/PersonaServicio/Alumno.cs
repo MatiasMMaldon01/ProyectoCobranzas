@@ -37,6 +37,7 @@ namespace Servicios.PersonaServicio
                 CiudadId = entidadNueva.CiudadId,
                 ExtensionId = entidadNueva.ExtensionId,
                 CarreraId = entidadNueva.CarreraId,
+                CodigoPostal = entidadNueva.CodigoPostal,
                 EstaEliminado = false,
             };
 
@@ -70,8 +71,11 @@ namespace Servicios.PersonaServicio
                 CiudadId = entidadModificar.CiudadId,
                 ExtensionId = entidadModificar.ExtensionId,
                 CarreraId = entidadModificar.CarreraId,
+                CodigoPostal = entidadModificar.CodigoPostal,
                 EstaEliminado = false,
             });
+
+            _unidadDeTrabajo.Commit();
         }
 
         public override async Task Eliminar(int id)
@@ -113,6 +117,7 @@ namespace Servicios.PersonaServicio
                         Ciudad = x.Ciudad.Descripcion,
                         CarreraId = x.CarreraId,
                         Carrera = x.Carrera.Descripcion,
+                        CodigoPostal = x.CodigoPostal,
                         Pagos = ManejoDePagos(x.Pagos.ToList()),
                         Eliminado = x.EstaEliminado,
                     }).OrderBy(x => x.Legajo).ThenBy(x => x.Apynom)
@@ -141,6 +146,7 @@ namespace Servicios.PersonaServicio
                 Ciudad = entidad.Ciudad.Descripcion,
                 CarreraId = entidad.CarreraId,
                 Carrera = entidad.Carrera.Descripcion,
+                CodigoPostal = entidad.CodigoPostal,
                 Pagos = ManejoDePagos(entidad.Pagos.ToList()),
                 Eliminado = entidad.EstaEliminado,
             };
@@ -171,6 +177,7 @@ namespace Servicios.PersonaServicio
                         Ciudad = x.Ciudad.Descripcion,
                         CarreraId = x.CarreraId,
                         Carrera = x.Carrera.Descripcion,
+                        CodigoPostal = x.CodigoPostal,
                         Pagos = ManejoDePagos(x.Pagos.ToList()),
                         Eliminado = x.EstaEliminado,
                     }).OrderBy(x => x.Legajo).ThenBy(x => x.Apynom)

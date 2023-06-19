@@ -19,7 +19,7 @@ namespace Servicios.PersonaServicio
 
             var entidadNueva = (EmpleadoDTO)entidad;
 
-            var entidadId = await _unidadDeTrabajo.EmpleadoRepositorio.Crear(new Dominio.Entidades.Empleado
+            var empleado = new Dominio.Entidades.Empleado
             {
                 Apynom = entidadNueva.Apynom,
                 TipoDoc = entidadNueva.TipoDoc,
@@ -32,10 +32,12 @@ namespace Servicios.PersonaServicio
                 CiudadId = entidadNueva.CiudadId,
                 ExtensionId = entidadNueva.ExtensionId,
                 EstaEliminado = false,
-            });
+            };
 
+            await _unidadDeTrabajo.EmpleadoRepositorio.Crear(empleado);
             _unidadDeTrabajo.Commit();
-            return entidadId;
+
+            return empleado.Id;
         }
 
         public override async Task Modificar(PersonaDTO entidad)
@@ -73,7 +75,8 @@ namespace Servicios.PersonaServicio
         public override async Task<IEnumerable<PersonaDTO>> Obtener(string cadenaBuscar, bool mostrarTodos)
         {
             Expression<Func<Dominio.Entidades.Empleado, bool>> filtro = empleado => (empleado.Apynom.Contains(cadenaBuscar)
-                    || empleado.NroDoc == cadenaBuscar);
+                    || empleado.NroDoc == cadenaBuscar
+                    || empleado.AreaTrabajo.Contains(cadenaBuscar));
 
             if (!mostrarTodos)
             {

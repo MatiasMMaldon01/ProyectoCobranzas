@@ -76,6 +76,7 @@ namespace Servicios.UsuarioServicio
                 Nombre = entidad.Nombre,
                 Password = entidad.Password,
                 Rol = entidad.Rol,
+                RolStr = entidad.Rol.ToString(),
                 PersonaId = entidad.PersonaId,
                 Persona = new PersonaDTO
                 {
@@ -111,6 +112,7 @@ namespace Servicios.UsuarioServicio
                 Nombre = x.Nombre,
                 Password = x.Password,
                 Rol = x.Rol,
+                RolStr = x.Rol.ToString(),
                 PersonaId = x.PersonaId,
                 Persona = new PersonaDTO {
                     Id = x.Persona.Id,
@@ -144,7 +146,8 @@ namespace Servicios.UsuarioServicio
                 Nombre = x.Nombre,
                 Password = x.Password,
                 Rol = x.Rol,
-                PersonaId=x.PersonaId,
+                RolStr = x.Rol.ToString(),
+                PersonaId = x.PersonaId,
                 Persona = new PersonaDTO
                 {
                     Id = x.Persona.Id,

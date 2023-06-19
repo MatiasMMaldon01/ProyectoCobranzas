@@ -2,6 +2,7 @@
 using Dominio.Interfaces;
 using Infraestructura.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Infraestructura.Repositorio
@@ -39,10 +40,12 @@ namespace Infraestructura.Repositorio
 
         public override async Task<IEnumerable<Empleado>> ObtenerTodos(Expression<Func<Empleado, bool>> filtro = null, string propiedadesNavegacion = "")
         {
-            var query = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+            var resultado = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                 .Aggregate<string, IQueryable<Empleado>>(_context.Set<Persona>().OfType<Empleado>(), (current, include) => current.Include(include.Trim()));
 
-            return await query.ToListAsync();
+            if (filtro != null) resultado = resultado.Where(filtro);
+
+            return await resultado.ToListAsync();
         }
     }
 }

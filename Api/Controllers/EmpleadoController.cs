@@ -84,6 +84,11 @@ namespace Api.Controllers
         {
             var empleado = await _empleadoServicio.Obtener(typeof(EmpleadoDTO),id);
 
+            if (empleado.Eliminado)
+            {
+                return Results.BadRequest("El empleado que está buscando fue eliminado");
+            }
+
             if (empleado == null)
             {
                 return Results.NotFound();

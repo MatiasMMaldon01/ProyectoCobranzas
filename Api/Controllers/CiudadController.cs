@@ -2,6 +2,8 @@
 using IServicios.Ciudad;
 using Microsoft.AspNetCore.Mvc;
 using IServicios.Ciudad.DTO_s;
+using Dominio.Entidades;
+using Dominio.Metadata;
 
 namespace Api.Controllers
 {
@@ -17,11 +19,11 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IResult> Crear(CiudadModel Ciudad)
+        public async Task<IResult> Crear(CiudadModel ciudad)
         {
             var entidad = new CiudadDTO
             {
-                Descripcion = Ciudad.Descripcion,
+                Descripcion = ciudad.Descripcion,
                 Eliminado = false,
             };
 
@@ -32,12 +34,12 @@ namespace Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IResult> Modificar(CiudadModel Ciudad)
+        public async Task<IResult> Modificar(CiudadModel ciudad)
         {
             var entidad = new CiudadDTO
             {
-                Id = Ciudad.Id,
-                Descripcion = Ciudad.Descripcion,
+                Id = ciudad.Id,
+                Descripcion = ciudad.Descripcion,
                 Eliminado = false,
 
             };
@@ -58,15 +60,21 @@ namespace Api.Controllers
         [HttpGet("{id}")]
         public async Task<IResult> Obtener(int id)
         {
-            var Ciudad = await _ciudadServicio.Obtener(id);
+            var ciudad = await _ciudadServicio.Obtener(id);
 
-            if (Ciudad == null)
+            if (ciudad.Eliminado)
+            {
+                return Results.BadRequest("La ciudad que está buscando fue eliminada");
+            }
+
+
+            if (ciudad == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Ciudad);
+                return Results.Ok(ciudad);
             }
         }
 
@@ -74,30 +82,30 @@ namespace Api.Controllers
         [Route("ObtenerTodos")]
         public async Task<IResult> ObtenerTodos()
         {
-            var Ciudads = await _ciudadServicio.ObtenerTodos();
+            var ciudades = await _ciudadServicio.ObtenerTodos();
 
-            if (Ciudads == null)
+            if (ciudades == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Ciudads);
+                return Results.Ok(ciudades);
             }
         }
 
         [HttpGet]
         public async Task<IResult> Obtener(string? cadenaBuscar)
         {
-            var Ciudads = await _ciudadServicio.Obtener(cadenaBuscar);
+            var ciudades = await _ciudadServicio.Obtener(cadenaBuscar);
 
-            if (Ciudads == null)
+            if (ciudades == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Ciudads);
+                return Results.Ok(ciudades);
             }
         }
     }

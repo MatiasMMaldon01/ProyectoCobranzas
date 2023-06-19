@@ -64,6 +64,11 @@ namespace Api.Controllers
         {
             var carrera =  await _carreraServicio.Obtener(id);
 
+            if (carrera.Eliminado)
+            {
+                return Results.BadRequest("La carrera que está buscando fue eliminada");
+            }
+
             if(carrera == null)
             {
                 return Results.NotFound();

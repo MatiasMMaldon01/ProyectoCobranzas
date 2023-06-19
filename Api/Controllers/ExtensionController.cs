@@ -17,11 +17,11 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IResult> Crear(ExtensionModel Extension)
+        public async Task<IResult> Crear(ExtensionModel extension)
         {
             var entidad = new ExtensionDTO
             {
-                Descripcion = Extension.Descripcion,
+                Descripcion = extension.Descripcion,
                 Eliminado = false,
             };
 
@@ -32,12 +32,12 @@ namespace Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IResult> Modificar(ExtensionModel Extension)
+        public async Task<IResult> Modificar(ExtensionModel extension)
         {
             var entidad = new ExtensionDTO
             {
-                Id = Extension.Id,
-                Descripcion = Extension.Descripcion,
+                Id = extension.Id,
+                Descripcion = extension.Descripcion,
                 Eliminado = false,
 
             };
@@ -58,15 +58,20 @@ namespace Api.Controllers
         [HttpGet("{id}")]
         public async Task<IResult> Obtener(int id)
         {
-            var Extension = await _extensionServicio.Obtener(id);
+            var extension = await _extensionServicio.Obtener(id);
 
-            if (Extension == null)
+            if (extension.Eliminado)
+            {
+                return Results.BadRequest("La extension que está buscando fue eliminada");
+            }
+
+            if (extension == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Extension);
+                return Results.Ok(extension);
             }
         }
 
@@ -74,30 +79,30 @@ namespace Api.Controllers
         [Route("ObtenerTodos")]
         public async Task<IResult> ObtenerTodos()
         {
-            var Extensions = await _extensionServicio.ObtenerTodos();
+            var extensiones = await _extensionServicio.ObtenerTodos();
 
-            if (Extensions == null)
+            if (extensiones == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Extensions);
+                return Results.Ok(extensiones);
             }
         }
 
         [HttpGet]
         public async Task<IResult> Obtener(string? cadenaBuscar)
         {
-            var Extensions = await _extensionServicio.Obtener(cadenaBuscar);
+            var extensiones = await _extensionServicio.Obtener(cadenaBuscar);
 
-            if (Extensions == null)
+            if (extensiones == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Extensions);
+                return Results.Ok(extensiones);
             }
         }
     }

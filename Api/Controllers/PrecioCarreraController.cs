@@ -67,15 +67,20 @@ namespace Api.Controllers
         [HttpGet("{id}")]
         public async Task<IResult> Obtener(int id)
         {
-            var precioCuota = await _precioCarreraServicio.Obtener(id);
+            var precioCarrera = await _precioCarreraServicio.Obtener(id);
 
-            if (precioCuota == null)
+            if (precioCarrera.Eliminado)
+            {
+                return Results.BadRequest("El precio de la carrera que está buscando fue eliminado");
+            }
+
+            if (precioCarrera == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(precioCuota);
+                return Results.Ok(precioCarrera);
             }
         }
 
@@ -83,15 +88,15 @@ namespace Api.Controllers
         [Route("ObtenerTodos")]
         public async Task<IResult> ObtenerTodos()
         {
-            var precioCuota = await _precioCarreraServicio.ObtenerTodos();
+            var precioCarrera = await _precioCarreraServicio.ObtenerTodos();
 
-            if (precioCuota == null)
+            if (precioCarrera == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(precioCuota);
+                return Results.Ok(precioCarrera);
             }
         }
 
@@ -99,30 +104,30 @@ namespace Api.Controllers
         [Route("ObtenerPorCarreraId")]
         public async Task<IResult> ObtenerPorCarreraId(int carreraId)
         {
-            var precioCuota = await _precioCarreraServicio.ObtenerPorCarreraId(carreraId);
+            var precioCarrera = await _precioCarreraServicio.ObtenerPorCarreraId(carreraId);
 
-            if (precioCuota == null)
+            if (precioCarrera == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(precioCuota);
+                return Results.Ok(precioCarrera);
             }
         }
 
         [HttpGet]
         public async Task<IResult> Obtener(string? cadenaBuscar)
         {
-            var precioCuota = await _precioCarreraServicio.Obtener(cadenaBuscar);
+            var precioCarrera = await _precioCarreraServicio.Obtener(cadenaBuscar);
 
-            if (precioCuota == null)
+            if (precioCarrera == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(precioCuota);
+                return Results.Ok(precioCarrera);
             }
         }
 

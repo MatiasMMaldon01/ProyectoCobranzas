@@ -65,6 +65,11 @@ namespace Api.Controllers
         {
             var cuota = await _cuotaServicio.Obtener(id);
 
+            if (cuota.Eliminado)
+            {
+                return Results.BadRequest("La cuota que está buscando fue elimindada");
+            }
+
             if (cuota == null)
             {
                 return Results.NotFound();

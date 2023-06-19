@@ -42,6 +42,7 @@ namespace Api.Controllers
                 CiudadId = alumno.CiudadId,
                 ExtensionId = alumno.ExtensionId,
                 CarreraId = alumno.CarreraId,
+                CodigoPostal = alumno.CodigoPostal,
                 Eliminado = false,
             };
 
@@ -83,6 +84,7 @@ namespace Api.Controllers
                 CiudadId = alumno.CiudadId,
                 ExtensionId = alumno.ExtensionId,
                 CarreraId = alumno.CarreraId,
+                CodigoPostal = alumno.CodigoPostal,
                 Eliminado = false,
             };
 
@@ -104,15 +106,20 @@ namespace Api.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<IResult> Obtener(int id)
         {
-            var Alumno = await _alumnoServicio.Obtener(typeof(AlumnoDTO), id);
+            var alumno = await _alumnoServicio.Obtener(typeof(AlumnoDTO), id);
 
-            if (Alumno == null)
+            if (alumno.Eliminado)
+            {
+                return Results.BadRequest("El alumno que está buscando fue eliminado");
+            }
+
+            if (alumno == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Alumno);
+                return Results.Ok(alumno);
             }
         }
 
@@ -120,15 +127,15 @@ namespace Api.Controllers
         //[Authorize(Roles = "Admin, Directivo")]
         public async Task<IResult> Obtener(string? cadenaBuscar, bool mostrarTodos = false)
         {
-            var Alumnos = await _alumnoServicio.Obtener(typeof(AlumnoDTO), cadenaBuscar, mostrarTodos);
+            var alumnos = await _alumnoServicio.Obtener(typeof(AlumnoDTO), cadenaBuscar, mostrarTodos);
 
-            if (Alumnos == null)
+            if (alumnos == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Alumnos);
+                return Results.Ok(alumnos);
             }
         }
 
@@ -137,15 +144,15 @@ namespace Api.Controllers
         //[Authorize(Roles = "Admin, Directivo")]
         public async Task<IResult> ObtenerTodos()
         {
-            var Alumnos = await _alumnoServicio.ObtenerTodos(typeof(AlumnoDTO));
+            var alumnos = await _alumnoServicio.ObtenerTodos(typeof(AlumnoDTO));
 
-            if (Alumnos == null)
+            if (alumnos == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Alumnos);
+                return Results.Ok(alumnos);
             }
         }
 

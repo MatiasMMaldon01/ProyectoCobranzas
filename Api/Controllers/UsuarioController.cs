@@ -9,47 +9,47 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class UsuarioController : Controller
     {
-        private readonly IUsuarioServicio _UsuarioServicio;
+        private readonly IUsuarioServicio _usuarioServicio;
 
         public UsuarioController(IUsuarioServicio UsuarioServicio)
         {
-            _UsuarioServicio = UsuarioServicio;
+            _usuarioServicio = UsuarioServicio;
         }
 
         [HttpPost]
-        public async Task<IResult> Crear(UsuarioModel Usuario)
+        public async Task<IResult> Crear(UsuarioModel usuario)
         {
             var entidad = new UsuarioDTO
             {
-                Nombre = Usuario.Nombre,
-                Password = Usuario.Password,
-                Rol = Usuario.Rol,
-                PersonaId = Usuario.PersonaId,
+                Nombre = usuario.Nombre,
+                Password = usuario.Password,
+                Rol = usuario.Rol,
+                PersonaId = usuario.PersonaId,
                 Eliminado = false,
 
             };
 
-            int id = await _UsuarioServicio.Crear(entidad);
+            int id = await _usuarioServicio.Crear(entidad);
 
             return Results.Ok(id);
 
         }
 
         [HttpPut]
-        public async Task<IResult> Modificar(UsuarioModel Usuario)
+        public async Task<IResult> Modificar(UsuarioModel usuario)
         {
             var entidad = new UsuarioDTO
             {
-                Id = Usuario.Id,
-                Nombre = Usuario.Nombre,
-                Password = Usuario.Password,
-                Rol = Usuario.Rol,
-                PersonaId=Usuario.PersonaId,
+                Id = usuario.Id,
+                Nombre = usuario.Nombre,
+                Password = usuario.Password,
+                Rol = usuario.Rol,
+                PersonaId= usuario.PersonaId,
                 Eliminado = false,
 
             };
 
-            await _UsuarioServicio.Modificar(entidad);
+            await _usuarioServicio.Modificar(entidad);
 
             return Results.Ok(entidad);
         }
@@ -57,7 +57,7 @@ namespace Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IResult> Eliminar(int id)
         {
-            await _UsuarioServicio.Eliminar(id);
+            await _usuarioServicio.Eliminar(id);
 
             return Results.Ok("La Usuario se eliminó correctamente");
         }
@@ -65,15 +65,20 @@ namespace Api.Controllers
         [HttpGet("{id}")]
         public async Task<IResult> Obtener(int id)
         {
-            var Usuario = await _UsuarioServicio.Obtener(id);
+            var usuario = await _usuarioServicio.Obtener(id);
 
-            if (Usuario == null)
+            if (usuario.Eliminado)
+            {
+                return Results.BadRequest("El usuario que está buscando fue eliminado");
+            }
+
+            if (usuario == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Usuario);
+                return Results.Ok(usuario);
             }
         }
 
@@ -81,30 +86,30 @@ namespace Api.Controllers
         [Route("ObtenerTodos")]
         public async Task<IResult> ObtenerTodos()
         {
-            var Usuarios = await _UsuarioServicio.ObtenerTodos();
+            var usuarios = await _usuarioServicio.ObtenerTodos();
 
-            if (Usuarios == null)
+            if (usuarios == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Usuarios);
+                return Results.Ok(usuarios);
             }
         }
 
         [HttpGet]
         public async Task<IResult> Obtener(string? cadenaBuscar)
         {
-            var Usuarios = await _UsuarioServicio.Obtener(cadenaBuscar);
+            var usuarios = await _usuarioServicio.Obtener(cadenaBuscar);
 
-            if (Usuarios == null)
+            if (usuarios == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Usuarios);
+                return Results.Ok(usuarios);
             }
         }
     }

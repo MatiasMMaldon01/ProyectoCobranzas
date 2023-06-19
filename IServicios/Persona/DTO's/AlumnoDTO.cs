@@ -21,7 +21,5 @@ namespace IServicios.Persona.DTO_s
 
         public List<PagoDTO> Pagos { get; set; }
 
-
-
     }
 }

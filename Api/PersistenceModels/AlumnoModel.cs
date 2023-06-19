@@ -26,6 +26,8 @@ namespace Api.PersistenceModels
 
         public int CiudadId { get; set; }
 
+        public int CodigoPostal { get; set; }
+
         public int CarreraId { get; set; }
 
     }

@@ -25,6 +25,8 @@ namespace IServicios.Persona.DTO_s
 
         public int CiudadId { get; set; }
 
+        public int CodigoPostal { get; set; }
+
         public string Ciudad { get; set; }
 
     }
