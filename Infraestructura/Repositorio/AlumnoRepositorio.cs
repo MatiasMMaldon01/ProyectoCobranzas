@@ -12,7 +12,7 @@ namespace Infraestructura.Repositorio
         {
         }
 
-        public override async Task<Alumno> Obtener(long id, string propiedadesNavegacion = "")
+        public override async Task<Alumno> Obtener(int id, string propiedadesNavegacion = "")
         {
             var query = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                  .Aggregate<string, IQueryable<Alumno>>(_context.Set<Persona>().OfType<Alumno>(), (current, include) => current.Include(include.Trim()));
@@ -37,10 +37,12 @@ namespace Infraestructura.Repositorio
 
         public override async Task<IEnumerable<Alumno>> ObtenerTodos(Expression<Func<Alumno, bool>> filtro = null, string propiedadesNavegacion = "")
         {
-            var query = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+            var resultado = propiedadesNavegacion.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                 .Aggregate<string, IQueryable<Alumno>>(_context.Set<Persona>().OfType<Alumno>(), (current, include) => current.Include(include.Trim()));
 
-            return await query.ToListAsync();
+            if (filtro != null) resultado = resultado.Where(filtro);
+
+            return await resultado.ToListAsync();
         }
     }
 }

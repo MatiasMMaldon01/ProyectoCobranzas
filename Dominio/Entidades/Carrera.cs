@@ -16,8 +16,9 @@ namespace Dominio.Entidades
 
         // Propiedades de Navegacion
 
-        public virtual PrecioCuota PrecioCuota { get; set; }
+        public virtual PrecioCarrera PrecioCarrera { get; set; }
 
-        public ICollection<AlumnoCarrera> AlumnoCarreras { get; set; }
+        public ICollection<Alumno> Alumnos { get; set; }
+
     }
 }

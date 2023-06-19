@@ -1,6 +1,6 @@
-﻿using IServicios.Carrera;
+﻿using Api.PersistenceModels;
+using IServicios.Carrera;
 using IServicios.Carrera.Carrera_DTO;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -19,40 +19,40 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async  Task<IResult> Crear(CarreraDto carrera)
+        public async  Task<IResult> Crear(CarreraModel carrera)
         {
             var entidad = new CarreraDto
             {
                 Descripcion = carrera.Descripcion,
                 CantCuotas = carrera.CantCuotas,
                 Eliminado = false,
-
             };
 
-            await _carreraServicio.Crear(carrera);
+            int id = await _carreraServicio.Crear(entidad);
 
-            return Results.Ok(carrera);
+            return Results.Ok(id);
 
         }
 
         [HttpPut]
-        public async Task<IResult> Modificar(CarreraDto carrera)
+        public async Task<IResult> Modificar(CarreraModel carrera)
         {
             var entidad = new CarreraDto
             {
+                Id = carrera.Id,
                 Descripcion = carrera.Descripcion,
                 CantCuotas = carrera.CantCuotas,
                 Eliminado = false,
 
             };
 
-            await _carreraServicio.Modificar(carrera);
+            await _carreraServicio.Modificar(entidad);
 
-            return Results.Ok(carrera);
+            return Results.Ok(entidad);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IResult> Eliminar(long id)
+        public async Task<IResult> Eliminar(int id)
         {
             await _carreraServicio.Eliminar(id);
 
@@ -60,9 +60,14 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IResult> Obtener(long id)
+        public async Task<IResult> Obtener(int id)
         {
             var carrera =  await _carreraServicio.Obtener(id);
+
+            if (carrera.Eliminado)
+            {
+                return Results.BadRequest("La carrera que está buscando fue eliminada");
+            }
 
             if(carrera == null)
             {
@@ -104,8 +109,7 @@ namespace Api.Controllers
                 return Results.Ok(carreras);
             }
         }
-
-       
+      
 
     }
 }

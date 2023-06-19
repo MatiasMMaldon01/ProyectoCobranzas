@@ -4,13 +4,13 @@ namespace IServicios.Persona
 {
     public interface IPersonaServicio
     {
-        Task<long> Crear(PersonaDTO persona);
+        Task<int> Crear(PersonaDTO persona);
 
         Task Modificar(PersonaDTO persona);
 
-        Task Eliminar(Type tipoEntidad, long id);
+        Task Eliminar(Type tipoEntidad, int id);
 
-        Task<PersonaDTO> Obtener(Type tipoEntidad, long id);
+        Task<PersonaDTO> Obtener(Type tipoEntidad, int id);
 
         Task<IEnumerable<PersonaDTO>> Obtener(Type tipoEntidad, string cadenaBuscar, bool mostrarTodos = false);
 

@@ -1,6 +1,7 @@
 ﻿using Dominio.Metadata;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Aplicacion.Constantes.Enums;
 
 namespace Dominio.Entidades
 {
@@ -8,17 +9,30 @@ namespace Dominio.Entidades
     [MetadataType(typeof(IPersona))]
     public class Persona : EntidadBase
     {
-        public string Apellido { get; set; }
+        public string Apynom { get; set; }
 
-        public string Nombre { get; set; }
+        public TipoDocumento TipoDoc { get; set; }
 
-        public string Dni { get; set; }
+        public string NroDoc { get; set; }
+
+        public DateTime FechaNacimiento { get; set; }
 
         public string Direccion { get; set; }
 
         public string Telefono { get; set; }
 
         public string Mail { get; set; }
+
+        public int ExtensionId { get; set; }
+
+        public int CiudadId { get; set; }
+
+        public int CodigoPostal { get; set; }
+
+
+        public Ciudad Ciudad { get; set; }
+
+        public Extension Extension { get; set; }
 
     }
 }

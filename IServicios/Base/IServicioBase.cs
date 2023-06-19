@@ -4,13 +4,13 @@ namespace IServicios.Base
 {
     public interface IServicioBase
     {
-        Task<long> Crear(BaseDTO dtoEntidad);
+        Task<int> Crear(BaseDTO dtoEntidad);
 
         Task Modificar(BaseDTO dtoEntidad);
 
-        Task Eliminar(long id);
+        Task Eliminar(int id);
 
-        Task<BaseDTO> Obtener(long id);
+        Task<BaseDTO> Obtener(int id);
 
         Task<IEnumerable<BaseDTO>> ObtenerTodos(bool mostrarTodos = false);
 

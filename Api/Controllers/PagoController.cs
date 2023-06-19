@@ -1,4 +1,5 @@
-﻿using IServicios.Cuota.CuotaDTO;
+﻿using Api.PersistenceModels;
+using IServicios.Cuota.CuotaDTO;
 using IServicios.Pago;
 using IServicios.Pago.PagoDTO;
 using Microsoft.AspNetCore.Authorization;
@@ -19,11 +20,15 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IResult> Crear(PagoDTO pago)
+        public async Task<IResult> Crear(PagoModel pago)
         {
             var entidad = new PagoDTO
             {
                 Monto = pago.Monto,
+                NroRecibo = pago.NroRecibo,
+                FechaCarga = pago.FechaCarga,
+                FechaRecibo = pago.FechaRecibo,
+                AlumnoId = pago.AlumnoId,
                 CuotaId = pago.CuotaId,
             };
 
@@ -34,14 +39,17 @@ namespace Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IResult> Modificar(PagoDTO pago)
+        public async Task<IResult> Modificar(PagoModel pago)
         {
             var entidad = new PagoDTO
             {
                 Id = pago.Id,
                 Monto = pago.Monto,
+                NroRecibo = pago.NroRecibo,
+                FechaCarga = pago.FechaCarga,
+                FechaRecibo = pago.FechaRecibo,
+                AlumnoId = pago.AlumnoId,
                 CuotaId = pago.CuotaId,
-                Eliminado = false,
             };
 
             await _pagoServicio.Modificar(entidad);
@@ -50,7 +58,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IResult> Eliminar(long id)
+        public async Task<IResult> Eliminar(int id)
         {
             await _pagoServicio.Eliminar(id);
 
@@ -58,7 +66,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IResult> Obtener(long id)
+        public async Task<IResult> Obtener(int id)
         {
             var pago = await _pagoServicio.Obtener(id);
 
@@ -90,7 +98,7 @@ namespace Api.Controllers
 
         [HttpGet]
         [Route("ObtenerPorAlumnoId")]
-        public async Task<IResult> ObtenerPorAlumnoId(long alumnoId)
+        public async Task<IResult> ObtenerPorAlumnoId(int alumnoId)
         {
             var pago = await _pagoServicio.ObtenerPorAlumnoId(alumnoId);
 

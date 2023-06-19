@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using IServicios.Persona.DTO_s;
 using Microsoft.AspNetCore.Authorization;
+using IServicios.Contador;
+using Aplicacion.Constantes.Enums;
+using Dominio.Entidades;
 
 namespace Api.Controllers
 {
@@ -12,9 +15,11 @@ namespace Api.Controllers
     public class EmpleadoController : Controller
     {
         private readonly IEmpleadoServicio _empleadoServicio;
-        public EmpleadoController(IEmpleadoServicio empleadoServicio)
+        private readonly IContadorServicio _contadorServicio;
+        public EmpleadoController(IEmpleadoServicio empleadoServicio, IContadorServicio contadorServicio)
         {
             _empleadoServicio = empleadoServicio;
+            _contadorServicio = contadorServicio;
         }
 
         [HttpPost]
@@ -22,18 +27,21 @@ namespace Api.Controllers
         {
             var entidad = new EmpleadoDTO
             {
-                Nombre = empleado.Nombre,
-                Apellido = empleado.Apellido,
-                Dni = empleado.Dni,
+                Apynom = empleado.Apynom,
+                TipoDoc = empleado.TipoDoc,
+                NroDoc = empleado.NroDoc,
+                FechaNacimiento = empleado.FechaNacimiento,
                 Direccion = empleado.Direccion,
                 Telefono = empleado.Telefono,
                 Mail = empleado.Mail,
                 AreaTrabajo = empleado.AreaTrabajo,
+                CiudadId = empleado.CiudadId,
+                ExtensionId = empleado.ExtensionId,
                 Eliminado = false,
-
             };
-
             var id = await _empleadoServicio.Crear(entidad);
+
+            await _contadorServicio.CargarNumero(Entidad.Persona, id);
 
             return Results.Ok(id);
 
@@ -45,15 +53,17 @@ namespace Api.Controllers
             var entidad = new EmpleadoDTO
             {
                 Id = empleado.Id,
-                Nombre = empleado.Nombre,
-                Apellido = empleado.Apellido,
-                Dni = empleado.Dni,
+                Apynom = empleado.Apynom,
+                TipoDoc = empleado.TipoDoc,
+                NroDoc = empleado.NroDoc,
+                FechaNacimiento = empleado.FechaNacimiento,
                 Direccion = empleado.Direccion,
                 Telefono = empleado.Telefono,
                 Mail = empleado.Mail,
                 AreaTrabajo = empleado.AreaTrabajo,
+                CiudadId = empleado.CiudadId,
+                ExtensionId = empleado.ExtensionId,
                 Eliminado = false,
-
             };
 
             await _empleadoServicio.Modificar(entidad);
@@ -62,7 +72,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IResult> Eliminar(long id)
+        public async Task<IResult> Eliminar(int id)
         {
             await _empleadoServicio.Eliminar(typeof(EmpleadoDTO),id);
 
@@ -70,9 +80,14 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IResult> Obtener(long id)
+        public async Task<IResult> Obtener(int id)
         {
             var empleado = await _empleadoServicio.Obtener(typeof(EmpleadoDTO),id);
+
+            if (empleado.Eliminado)
+            {
+                return Results.BadRequest("El empleado que está buscando fue eliminado");
+            }
 
             if (empleado == null)
             {

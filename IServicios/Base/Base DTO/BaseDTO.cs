@@ -2,7 +2,7 @@
 {
     public class BaseDTO
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
         public bool Eliminado { get; set; }
         public string EliminadoStr => Eliminado ? "SI" : "NO";
     }

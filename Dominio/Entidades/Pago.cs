@@ -11,14 +11,21 @@ namespace Dominio.Entidades
 
         public decimal Monto { get; set; }
 
-        public decimal PorcPago { get; set; }
+        public long NroRecibo { get; set; }
 
-        public long CuotaId { get; set; }
+        public DateTime FechaCarga { get; set; }
 
-        public DateTime FechaPago { get; set; }
+        public DateTime FechaRecibo { get; set; }
+
+        public int CuotaId { get; set; }
+
+        public int AlumnoId { get; set; }
 
 
         // Propiedades de Navegacion
         public virtual Cuota Cuota { get; set; }
+
+        public virtual Alumno Alumnno { get; set; }
+
     }
 }

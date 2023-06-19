@@ -8,13 +8,13 @@ namespace Dominio.Interfaces
 
         // Persistencia de Datos
 
-        Task<long> Crear(T entidad);
+        Task<int> Crear(T entidad);
         Task Modificar(T entidad);
-        Task Eliminar(long id);
+        Task Eliminar(int id);
 
         // Metodos de Lectura
 
-        Task<T> Obtener(long id, string propiedadesNavegacion = "");
+        Task<T> Obtener(int id, string propiedadesNavegacion = "");
 
         Task<IEnumerable<T>> Obtener(Expression<Func<T, bool>> filtro = null, string propiedadesNavegacion = "");
 

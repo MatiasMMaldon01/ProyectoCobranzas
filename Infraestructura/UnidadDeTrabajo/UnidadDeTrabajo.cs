@@ -39,12 +39,6 @@ namespace Infraestructura.UnidadDeTrabajo
         public IAlumnoRepositorio AlumnoRepositorio => _alumnoRepositorio ?? (_alumnoRepositorio = new AlumnoRepositorio(_context));
 
         // ====================================================================================================================================== //
-        
-        public IRepositorio<AlumnoCarrera> _alumnoCarreraRepositorio;
-
-        public IRepositorio<AlumnoCarrera> AlumnoCarreraRepositorio => _alumnoCarreraRepositorio ?? (_alumnoCarreraRepositorio = new Repositorio<AlumnoCarrera>(_context));
-
-        // ====================================================================================================================================== //
 
         public IEmpleadoRepositorio _empleadoRepositorio;
 
@@ -64,15 +58,44 @@ namespace Infraestructura.UnidadDeTrabajo
 
         // ====================================================================================================================================== //
 
-        public IRepositorio<PrecioCuota> _precioCuotaRepositorio;
+        public IRepositorio<PrecioCarrera> _precioCarreraRepositorio;
 
-        public IRepositorio<PrecioCuota>PrecioCuotaRepositorio => _precioCuotaRepositorio ?? (_precioCuotaRepositorio = new Repositorio<PrecioCuota>(_context));
+        public IRepositorio<PrecioCarrera> PrecioCarreraRepositorio => _precioCarreraRepositorio ?? (_precioCarreraRepositorio = new Repositorio<PrecioCarrera>(_context));
 
         // ====================================================================================================================================== //
 
         public IRepositorio<Usuario> _usuarioRepositorio;
 
         public IRepositorio<Usuario> UsuarioRepositorio => _usuarioRepositorio ?? (_usuarioRepositorio = new Repositorio<Usuario>(_context));
+
+        // ====================================================================================================================================== //
+
+        public IRepositorio<Ciudad> _ciudadRepositorio;
+
+        public IRepositorio<Ciudad> CiudadRepositorio => _ciudadRepositorio ?? (_ciudadRepositorio = new Repositorio<Ciudad>(_context));
+
+        // ====================================================================================================================================== //
+
+        public IRepositorio<Extension> _extensionRepositorio;
+
+        public IRepositorio<Extension> ExtensionRepositorio => _extensionRepositorio ?? (_extensionRepositorio = new Repositorio<Extension>(_context));
+
+        // ====================================================================================================================================== //
+
+        public ICargaMasivaRepositorio<Alumno> _cargaMasivaAlumnoRepositorio;
+
+        public ICargaMasivaRepositorio<Alumno> CargaMasivaAlumnoRepositorio => _cargaMasivaAlumnoRepositorio ?? (_cargaMasivaAlumnoRepositorio = new CargaMasivaRepositorio<Alumno>(_context));
+
+        // ====================================================================================================================================== //
+
+        public ICargaMasivaRepositorio<Persona> _cargaMasivaPersonaRepositorio;
+
+        public ICargaMasivaRepositorio<Persona> CargaMasivaPersonaRepositorio => _cargaMasivaPersonaRepositorio ?? (_cargaMasivaPersonaRepositorio = new CargaMasivaRepositorio<Persona>(_context));
+
+        // ============================================================================================================ //
+        private IRepositorio<Contador> contadorRepositorio;
+
+        public IRepositorio<Contador> ContadorRepositorio => contadorRepositorio ?? (contadorRepositorio = new Repositorio<Contador>(_context));
 
     }
 }

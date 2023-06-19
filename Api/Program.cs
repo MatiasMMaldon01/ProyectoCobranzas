@@ -8,21 +8,24 @@ using Servicios.UsuarioServicio;
 using IServicios.Usuario;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using IServicios.Seguridad;
 using Servicios.SeguridadServicio;
 using IServicios.Persona;
 using Servicios.PersonaServicio;
-using IServicios.PrecioCuota;
-using Servicios.PrecioCuotaServicio;
 using IServicios.Cuota;
 using Servicios.CuotaServicio;
 using IServicios.Pago;
 using Servicios.PagoServicio;
-using IServicios.AlumnoCarrera;
-using Servicios.AlumnoCarreraServicio;
+using IServicios.PrecioCuota;
+using Servicios.PrecioCuotaServicio;
+using IServicios.Extension;
+using Servicios.ExtensionServicio;
+using IServicios.Ciudad;
+using Servicios.CiudadServicio;
+using IServicios.Persona.CargasMasivas;
+using Servicios.PersonaServicio.AlumnoCMServicio;
+using Servicios.Contador;
+using IServicios.Contador;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,18 +48,18 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // JWT
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-    });
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddJwtBearer(options =>
+//    {
+//        options.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            ValidateIssuerSigningKey = true,
+//            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+//                .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
+//            ValidateIssuer = false,
+//            ValidateAudience = false
+//        };
+//    });
 
 
 // Inyección de Dependencias
@@ -67,10 +70,16 @@ builder.Services.AddScoped<ISeguridadServicio, SeguridadServicio>();
 builder.Services.AddScoped<IAlumnoServicio, AlumnoServicio>();
 builder.Services.AddScoped<IEmpleadoServicio, EmpleadoServicio>();
 builder.Services.AddScoped<IPersonaServicio, PersonaServicio>();
-builder.Services.AddScoped<IPrecioCuotaServicio, PrecioCuotaServicio>();
+builder.Services.AddScoped<IPrecioCarreraServicio, PrecioCarreraServicio>();
 builder.Services.AddScoped<ICuotaServicio, CuotaServicio>();
 builder.Services.AddScoped<IPagoServicio, PagoServicio>();
-builder.Services.AddScoped<IAlumnoCarreraServicio, AlumnoCarreraServicio>();
+builder.Services.AddScoped<IExtensionServicio, ExtensionServicio>();
+builder.Services.AddScoped<ICiudadServicio, CiudadServicio>();
+builder.Services.AddScoped<IAlumnoCargaMasiva, AlumnoCMServicio>();
+builder.Services.AddScoped<IContadorServicio, ContadorServicio>();
+
+
+
 
 // DB Configuración
 builder.Services.AddDbContext<DataContext>(options => {
@@ -82,11 +91,17 @@ builder.Services.AddDbContext<DataContext>(options => {
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+
+app.UseCors(x =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    x.AllowAnyHeader();
+    x.AllowAnyMethod();
+    x.AllowAnyOrigin();
+});
+
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 
 app.UseHttpsRedirection();

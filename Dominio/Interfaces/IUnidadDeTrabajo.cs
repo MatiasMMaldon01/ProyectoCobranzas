@@ -13,12 +13,18 @@ namespace Dominio.Interfaces
 
         IRepositorio<Carrera> CarreraRepositorio { get; }
         IAlumnoRepositorio AlumnoRepositorio { get; }
-        IRepositorio<AlumnoCarrera> AlumnoCarreraRepositorio { get; }
         IEmpleadoRepositorio EmpleadoRepositorio { get; }
         IRepositorio<Pago> PagoRepositorio { get; }
         IRepositorio<Cuota> CuotaRepositorio { get; }
-        IRepositorio<PrecioCuota> PrecioCuotaRepositorio { get; }
+        IRepositorio<PrecioCarrera> PrecioCarreraRepositorio { get; }
         IRepositorio<Usuario> UsuarioRepositorio { get; }
+        IRepositorio<Ciudad> CiudadRepositorio { get; }
+        IRepositorio<Extension> ExtensionRepositorio { get; }
+        IRepositorio<Contador> ContadorRepositorio { get; }
+
+        // Repositorios de Carga Masiva
+        ICargaMasivaRepositorio<Alumno> CargaMasivaAlumnoRepositorio { get; }
+        ICargaMasivaRepositorio<Persona> CargaMasivaPersonaRepositorio { get; }
 
 
     }

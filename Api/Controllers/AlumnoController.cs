@@ -1,8 +1,10 @@
 ﻿using IServicios.Persona.DTO_s;
 using IServicios.Persona;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using IServicios.Carrera.Carrera_DTO;
+using Api.PersistenceModels;
+using IServicios.Persona.CargasMasivas;
+using IServicios.Contador;
+using Aplicacion.Constantes.Enums;
 
 namespace Api.Controllers
 {
@@ -12,55 +14,78 @@ namespace Api.Controllers
     public class AlumnoController : Controller
     {
         private readonly IAlumnoServicio _alumnoServicio;
-        public AlumnoController(IAlumnoServicio alumnoServicio)
+        private readonly IAlumnoCargaMasiva _alumnoCargaMasiva;
+        private readonly IContadorServicio _contadorServicio;
+
+        public AlumnoController(IAlumnoServicio alumnoServicio, IAlumnoCargaMasiva alumnoCargaMasiva, IContadorServicio contadorServicio)
         {
             _alumnoServicio = alumnoServicio;
+            _alumnoCargaMasiva = alumnoCargaMasiva;
+            _contadorServicio = contadorServicio;
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IResult> Crear(AlumnoDTO alumno)
+        //[Authorize(Roles = "Admin")]
+        public async Task<IResult> Crear(AlumnoModel alumno)
         {
             var entidad = new AlumnoDTO
             {
-                Nombre = alumno.Nombre,
-                Apellido = alumno.Apellido,
-                Dni = alumno.Dni,
+                Legajo = alumno.Legajo,
+                Apynom = alumno.Apynom,
+                TipoDoc = alumno.TipoDoc,
+                NroDoc = alumno.NroDoc,
+                FechaNacimiento = alumno.FechaNacimiento,
                 Direccion = alumno.Direccion,
                 Telefono = alumno.Telefono,
                 Mail = alumno.Mail,
-                PorcBeca = alumno.PorcBeca, 
                 FechaIngreso = alumno.FechaIngreso,
-                Legajo = alumno.Legajo,
-                Carreras = ManejarCarreras(alumno.Carreras),
+                CiudadId = alumno.CiudadId,
+                ExtensionId = alumno.ExtensionId,
+                CarreraId = alumno.CarreraId,
+                CodigoPostal = alumno.CodigoPostal,
                 Eliminado = false,
-
             };
 
             var id = await _alumnoServicio.Crear(entidad);
+
+            await _contadorServicio.CargarNumero(Entidad.Persona, id);
 
             return Results.Ok(id);
 
         }
 
+        [HttpPost]
+        [Route("CargaMasiva")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IResult> CargaMasiva(AlumnoModel alumno)
+        {
+            await _alumnoCargaMasiva.CargaMasivaAlumno();
+
+            return Results.Ok("La carga masiva de alumnos se realizó con éxito");
+
+        }
+
         [HttpPut]
-        [Authorize(Roles = "Admin")]
-        public async Task<IResult> Modificar(AlumnoDTO alumno)
+        //[Authorize(Roles = "Admin")]
+        public async Task<IResult> Modificar(AlumnoModel alumno)
         {
             var entidad = new AlumnoDTO
             {
                 Id = alumno.Id,
-                Nombre = alumno.Nombre,
-                Apellido = alumno.Apellido,
-                Dni = alumno.Dni,
+                Legajo = alumno.Legajo,
+                Apynom = alumno.Apynom,
+                TipoDoc = alumno.TipoDoc,
+                NroDoc = alumno.NroDoc,
+                FechaNacimiento = alumno.FechaNacimiento,
                 Direccion = alumno.Direccion,
                 Telefono = alumno.Telefono,
                 Mail = alumno.Mail,
-                PorcBeca = alumno.PorcBeca,
                 FechaIngreso = alumno.FechaIngreso,
-                Legajo = alumno.Legajo,
+                CiudadId = alumno.CiudadId,
+                ExtensionId = alumno.ExtensionId,
+                CarreraId = alumno.CarreraId,
+                CodigoPostal = alumno.CodigoPostal,
                 Eliminado = false,
-
             };
 
             await _alumnoServicio.Modificar(entidad);
@@ -69,8 +94,8 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IResult> Eliminar(long id)
+        //[Authorize(Roles = "Admin")]
+        public async Task<IResult> Eliminar(int id)
         {
             await _alumnoServicio.Eliminar(typeof(AlumnoDTO), id);
 
@@ -78,75 +103,60 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IResult> Obtener(long id)
+        //[Authorize(Roles = "Admin")]
+        public async Task<IResult> Obtener(int id)
         {
-            var Alumno = await _alumnoServicio.Obtener(typeof(AlumnoDTO), id);
+            var alumno = await _alumnoServicio.Obtener(typeof(AlumnoDTO), id);
 
-            if (Alumno == null)
+            if (alumno.Eliminado)
+            {
+                return Results.BadRequest("El alumno que está buscando fue eliminado");
+            }
+
+            if (alumno == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Alumno);
+                return Results.Ok(alumno);
             }
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin, Directivo")]
+        //[Authorize(Roles = "Admin, Directivo")]
         public async Task<IResult> Obtener(string? cadenaBuscar, bool mostrarTodos = false)
         {
-            var Alumnos = await _alumnoServicio.Obtener(typeof(AlumnoDTO), cadenaBuscar, mostrarTodos);
+            var alumnos = await _alumnoServicio.Obtener(typeof(AlumnoDTO), cadenaBuscar, mostrarTodos);
 
-            if (Alumnos == null)
+            if (alumnos == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Alumnos);
+                return Results.Ok(alumnos);
             }
         }
 
         [HttpGet]
         [Route("ObtenerTodos")]
-        [Authorize(Roles = "Admin, Directivo")]
+        //[Authorize(Roles = "Admin, Directivo")]
         public async Task<IResult> ObtenerTodos()
         {
-            var Alumnos = await _alumnoServicio.ObtenerTodos(typeof(AlumnoDTO));
+            var alumnos = await _alumnoServicio.ObtenerTodos(typeof(AlumnoDTO));
 
-            if (Alumnos == null)
+            if (alumnos == null)
             {
                 return Results.NotFound();
             }
             else
             {
-                return Results.Ok(Alumnos);
+                return Results.Ok(alumnos);
             }
         }
 
         // ==================================== METODOS PRIVADOS ==================================== //
 
-        private List<CarreraDto> ManejarCarreras(List<CarreraDto> carreras)
-        {
-
-            var listaCarrera = new List<CarreraDto>();
-
-            foreach (var carrera in carreras)
-            {
-                var item = new CarreraDto
-                {
-                    Id = carrera.Id,
-                    CantCuotas = carrera.CantCuotas,
-                    Descripcion = carrera.Descripcion,
-                    Eliminado = carrera.Eliminado,
-                };
-
-                listaCarrera.Add(item);
-            }
-
-            return listaCarrera;
-        }
     }
 }

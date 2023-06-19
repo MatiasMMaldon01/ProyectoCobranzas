@@ -1,4 +1,5 @@
-﻿using IServicios.Cuota;
+﻿using Api.PersistenceModels;
+using IServicios.Cuota;
 using IServicios.Cuota.CuotaDTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,32 +20,30 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IResult> Crear(CuotaDTO cuota)
+        public async Task<IResult> Crear(CuotaModel cuota)
         {
             var entidad = new CuotaDTO
             {
                 Id = cuota.Id,
                 Numero = cuota.Numero,
-                AlumnoId = cuota.AlumnoId,
-                PrecioCuotaId = cuota.PrecioCuotaId,
+                PrecioCarreraId = cuota.PrecioCarreraId,
                 Eliminado = false,
             };
 
-            await _cuotaServicio.Crear(entidad);
+            int id = await _cuotaServicio.Crear(entidad);
 
-            return Results.Ok(entidad);
+            return Results.Ok(id);
 
         }
 
         [HttpPut]
-        public async Task<IResult> Modificar(CuotaDTO cuota)
+        public async Task<IResult> Modificar(CuotaModel cuota)
         {
             var entidad = new CuotaDTO
             {
                 Id = cuota.Id,
                 Numero = cuota.Numero,
-                AlumnoId = cuota.AlumnoId,
-                PrecioCuotaId = cuota.PrecioCuotaId,
+                PrecioCarreraId = cuota.PrecioCarreraId,
                 Eliminado = false,
             };
 
@@ -54,7 +53,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IResult> Eliminar(long id)
+        public async Task<IResult> Eliminar(int id)
         {
             await _cuotaServicio.Eliminar(id);
 
@@ -62,9 +61,14 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IResult> Obtener(long id)
+        public async Task<IResult> Obtener(int id)
         {
             var cuota = await _cuotaServicio.Obtener(id);
+
+            if (cuota.Eliminado)
+            {
+                return Results.BadRequest("La cuota que está buscando fue elimindada");
+            }
 
             if (cuota == null)
             {
@@ -92,21 +96,21 @@ namespace Api.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("ObtenerPorAlumnoYCarrera")]
-        public async Task<IResult> ObtenerPorAlumnoYCarrera(long alumnoId, long carreraId)
-        {
-            var cuota = await _cuotaServicio.ObtenerPorCarreraIdAlumnoId(alumnoId, carreraId);
+        //[HttpGet]
+        //[Route("ObtenerPorAlumnoYCarrera")]
+        //public async Task<IResult> ObtenerPorAlumnoYCarrera(int alumnoId, int carreraId)
+        //{
+        //    var cuota = await _cuotaServicio.ObtenerPorCarreraIdAlumnoId(alumnoId, carreraId);
 
-            if (cuota == null)
-            {
-                return Results.NotFound();
-            }
-            else
-            {
-                return Results.Ok(cuota);
-            }
-        }
+        //    if (cuota == null)
+        //    {
+        //        return Results.NotFound();
+        //    }
+        //    else
+        //    {
+        //        return Results.Ok(cuota);
+        //    }
+        //}
 
         [HttpGet]
         public async Task<IResult> Obtener(string? cadenaBuscar)

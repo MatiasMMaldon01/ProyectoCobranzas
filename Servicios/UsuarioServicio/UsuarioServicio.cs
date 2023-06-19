@@ -18,13 +18,13 @@ namespace Servicios.UsuarioServicio
             _unidadDeTrabajo = unidadDeTrabajo;
         }
 
-        public async Task Eliminar(long id)
+        public async Task Eliminar(int id)
         {
             await _unidadDeTrabajo.UsuarioRepositorio.Eliminar(id);
             _unidadDeTrabajo.Commit();
         }
 
-        public async Task<long> Crear(BaseDTO dtoEntidad)
+        public async Task<int> Crear(BaseDTO dtoEntidad)
         {
 
             var dto = (UsuarioDTO)dtoEntidad;
@@ -64,7 +64,7 @@ namespace Servicios.UsuarioServicio
             _unidadDeTrabajo.Commit();
         }
 
-        public async Task<BaseDTO> Obtener(long id)
+        public async Task<BaseDTO> Obtener(int id)
         {
             var entidad = await _unidadDeTrabajo.UsuarioRepositorio.Obtener(id, "Persona");
 
@@ -76,13 +76,14 @@ namespace Servicios.UsuarioServicio
                 Nombre = entidad.Nombre,
                 Password = entidad.Password,
                 Rol = entidad.Rol,
+                RolStr = entidad.Rol.ToString(),
                 PersonaId = entidad.PersonaId,
                 Persona = new PersonaDTO
                 {
                     Id = entidad.Persona.Id,
-                    Nombre = entidad.Persona.Nombre,
-                    Apellido = entidad.Persona.Apellido,
-                    Dni = entidad.Persona.Dni,
+                    Apynom = entidad.Persona.Apynom,
+                    TipoDoc = entidad.Persona.TipoDoc,
+                    NroDoc = entidad.Persona.NroDoc,
                     Direccion = entidad.Persona.Direccion,
                     Telefono = entidad.Persona.Telefono,
                     Mail = entidad.Persona.Mail
@@ -111,12 +112,13 @@ namespace Servicios.UsuarioServicio
                 Nombre = x.Nombre,
                 Password = x.Password,
                 Rol = x.Rol,
+                RolStr = x.Rol.ToString(),
                 PersonaId = x.PersonaId,
                 Persona = new PersonaDTO {
                     Id = x.Persona.Id,
-                    Nombre = x.Persona.Nombre,
-                    Apellido = x.Persona.Apellido,
-                    Dni = x.Persona.Dni,
+                    Apynom = x.Persona.Apynom,
+                    TipoDoc = x.Persona.TipoDoc,
+                    NroDoc = x.Persona.NroDoc,
                     Direccion = x.Persona.Direccion,
                     Telefono = x.Persona.Telefono,
                     Mail = x.Persona.Mail
@@ -144,13 +146,14 @@ namespace Servicios.UsuarioServicio
                 Nombre = x.Nombre,
                 Password = x.Password,
                 Rol = x.Rol,
-                PersonaId=x.PersonaId,
+                RolStr = x.Rol.ToString(),
+                PersonaId = x.PersonaId,
                 Persona = new PersonaDTO
                 {
                     Id = x.Persona.Id,
-                    Nombre = x.Persona.Nombre,
-                    Apellido = x.Persona.Apellido,
-                    Dni = x.Persona.Dni,
+                    Apynom = x.Persona.Apynom,
+                    TipoDoc = x.Persona.TipoDoc,
+                    NroDoc = x.Persona.NroDoc,
                     Direccion = x.Persona.Direccion,
                     Telefono = x.Persona.Telefono,
                     Mail = x.Persona.Mail

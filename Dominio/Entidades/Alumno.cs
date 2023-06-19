@@ -9,14 +9,17 @@ namespace Dominio.Entidades
     [MetadataType(typeof(IAlumno))]
     public class Alumno : Persona
     {
-        public int Legajo { get; set; }
+        public string Legajo { get; set; }
 
         public DateTime FechaIngreso { get; set; }
 
         public decimal PorcBeca { get; set; }
 
+        public int CarreraId { get; set; }
+
         // Propiedades de Navegacion
-        public virtual ICollection<AlumnoCarrera> AlumnoCarreras { get; set; }
-        public virtual ICollection<Cuota> Cuotas { get; set; }
+        public virtual ICollection<Pago> Pagos { get; set; }
+
+        public virtual Carrera Carrera { get; set; }
     }
 }

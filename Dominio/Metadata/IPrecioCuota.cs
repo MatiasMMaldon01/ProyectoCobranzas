@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dominio.Metadata
 {
-    public interface IPrecioCuota
+    public interface IPrecioCarrera
     {
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [Display(Name =@"Carrera")]
@@ -14,6 +14,11 @@ namespace Dominio.Metadata
         [Column(TypeName = "decimal(18,2)")]
         [DataType(DataType.Currency)]
         decimal Monto { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es Obligatorio")]
+        [Column(TypeName = "decimal(18,2)")]
+        [DataType(DataType.Currency)]
+        decimal Matricula { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [DataType(DataType.DateTime)]

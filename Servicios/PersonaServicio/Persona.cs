@@ -6,17 +6,18 @@ namespace Servicios.PersonaServicio
     public class Persona
     {
         protected readonly IUnidadDeTrabajo _unidadDeTrabajo;
+
         public Persona(IUnidadDeTrabajo unidadDeTrabajo)
         {
             _unidadDeTrabajo = unidadDeTrabajo;
         }
 
-        public virtual Task<long> Crear(PersonaDTO entidad)
+        public virtual Task<int> Crear(PersonaDTO entidad)
         {
             return null;
         }
 
-        public virtual Task Eliminar(long id)
+        public virtual Task Eliminar(int id)
         {
             return null;
         }
@@ -26,7 +27,7 @@ namespace Servicios.PersonaServicio
             return null;
         }
 
-        public virtual Task<PersonaDTO> Obtener(long id)
+        public virtual Task<PersonaDTO> Obtener(int id)
         {
             return null;
         }

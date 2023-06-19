@@ -1,22 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Aplicacion.Constantes.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dominio.Metadata
 {
     public interface IPersona
     {
         [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
-        [Display(Name = "Apellido")]
-        [StringLength(150, ErrorMessage = "El campo {0} debe ser menor a {1} caracteres.")]
-        string Apellido { get; set; }
+        [Display(Name = "Apynom")]
+        [StringLength(500, ErrorMessage = "El campo {0} debe ser menor a {1} caracteres.")]
+        string Apynom { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
-        [Display(Name = "Nombre")]
-        [StringLength(200, ErrorMessage = "El campo {0} debe ser menor a {1} caracteres.")]
-        string Nombre { get; set; }
+        TipoDocumento TipoDoc { get; set; }
 
-        [Display(Name = "DNI")]
+        [Display(Name = "NroDocumento")]
         [StringLength(8, ErrorMessage = "El campo {0} debe ser menor a {1} caracteres.")]
-        string Dni { get; set; }
+        string NroDoc { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
         [Display(Name = "Dirección")]
@@ -27,11 +26,23 @@ namespace Dominio.Metadata
         [StringLength(25, ErrorMessage = "El campo {0} debe ser menor a {1} caracteres.")]
         string Telefono { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es Obligatorio")]
+        [DataType(DataType.DateTime)]
+        DateTime FechaNacimiento { get; set; }
+
         [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
         [Display(Name = "E-Mail")]
         [StringLength(250, ErrorMessage = "El campo {0} debe ser menor a {1} caracteres.")]
         [DataType(DataType.EmailAddress, ErrorMessage = "El campo {0} no tiene el formato correcto")]
         string Mail { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
+        [Display(Name = "Extension")]
+        int ExtensionId { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
+        [Display(Name = "Ciudad")]
+        int CiudadId { get; set; }
 
     }
 }
