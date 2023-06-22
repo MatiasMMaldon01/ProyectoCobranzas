@@ -1,5 +1,6 @@
 ﻿using Dominio.Interfaces;
 using IServicios.Persona;
+using IServicios.Persona.DTO_s;
 using System.Linq.Expressions;
 
 namespace Servicios.PersonaServicio
@@ -27,6 +28,11 @@ namespace Servicios.PersonaServicio
             var alumnoId = alumno.Id;
 
             return (cantidadDeCuotas, alumnoId);
+        }
+
+        public async Task<IEnumerable<FiltroAlumnosDTO>> FiltrarAlumnos(int mes)
+        {
+            throw new NotImplementedException();
         }
     }
 }
