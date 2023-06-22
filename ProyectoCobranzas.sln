@@ -11,19 +11,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servicios", "Servicios", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dominio", "Dominio", "{103211A2-74C1-430B-9DB2-683A60732865}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dominio", "Dominio\Dominio.csproj", "{1194A7AB-9AE0-445C-99EF-B407FC787A0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dominio", "src\Dominio\Dominio.csproj", "{1194A7AB-9AE0-445C-99EF-B407FC787A0B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IServicios", "IServicios\IServicios.csproj", "{09A69509-CEBE-41F4-AF46-952CD726E643}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IServicios", "src\IServicios\IServicios.csproj", "{09A69509-CEBE-41F4-AF46-952CD726E643}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servicios", "Servicios\Servicios.csproj", "{A388D2FC-97AB-4BFB-B111-EE1B27AC0B7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servicios", "src\Servicios\Servicios.csproj", "{A388D2FC-97AB-4BFB-B111-EE1B27AC0B7B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infraestructura", "Infraestructura\Infraestructura.csproj", "{C963E55A-2851-4006-B3A8-F55D84331F31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infraestructura", "src\Infraestructura\Infraestructura.csproj", "{C963E55A-2851-4006-B3A8-F55D84331F31}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aplicacion", "Aplicacion", "{A1AB4500-E67D-422A-A0A5-B1E079FBD207}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aplicacion", "Aplicacion\Aplicacion.csproj", "{A634883D-1B8B-4DE9-85FD-0819A8032CCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aplicacion", "src\Aplicacion\Aplicacion.csproj", "{A634883D-1B8B-4DE9-85FD-0819A8032CCA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{6273D55F-6E0E-41A2-940A-C71BC55D69BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "src\Api\Api.csproj", "{6273D55F-6E0E-41A2-940A-C71BC55D69BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
