@@ -1,4 +1,5 @@
 ﻿using Dominio.Metadata;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,8 +7,12 @@ namespace Dominio.Entidades
 {
     [Table("Pago")]
     [MetadataType(typeof(IPago))]
+    [Index(nameof(Legajo), nameof(NroRecibo))]
     public class Pago : EntidadBase
     {
+        public string Legajo { get; set; }
+
+        public int NroCuota { get; set; }
 
         public decimal Monto { get; set; }
 
@@ -17,15 +22,12 @@ namespace Dominio.Entidades
 
         public DateTime FechaRecibo { get; set; }
 
-        public int CuotaId { get; set; }
-
         public int AlumnoId { get; set; }
 
 
         // Propiedades de Navegacion
-        public virtual Cuota Cuota { get; set; }
 
-        public virtual Alumno Alumnno { get; set; }
+        public virtual Alumno Alumno { get; set; }
 
     }
 }

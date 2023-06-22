@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructura.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230617191837_FirstMigration-0001")]
-    partial class FirstMigration0001
+    [Migration("20230621230256_MapeoInicial-0001")]
+    partial class MapeoInicial0001
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,36 +123,6 @@ namespace Infraestructura.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Dominio.Entidades.Cuota", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("EstaEliminado")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("Fecha")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("MontoCuota")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Numero")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PrecioCarreraId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PrecioCarreraId");
-
-                    b.ToTable("Cuota");
-                });
-
             modelBuilder.Entity("Dominio.Entidades.Extension", b =>
                 {
                     b.Property<int>("Id")
@@ -198,9 +168,6 @@ namespace Infraestructura.Migrations
                     b.Property<int>("AlumnoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CuotaId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("EstaEliminado")
                         .HasColumnType("bit");
 
@@ -210,8 +177,15 @@ namespace Infraestructura.Migrations
                     b.Property<DateTime>("FechaRecibo")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Legajo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<decimal>("Monto")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("NroCuota")
+                        .HasColumnType("int");
 
                     b.Property<long>("NroRecibo")
                         .HasColumnType("bigint");
@@ -220,7 +194,7 @@ namespace Infraestructura.Migrations
 
                     b.HasIndex("AlumnoId");
 
-                    b.HasIndex("CuotaId");
+                    b.HasIndex("Legajo", "NroRecibo");
 
                     b.ToTable("Pago");
                 });
@@ -307,8 +281,7 @@ namespace Infraestructura.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarreraId")
-                        .IsUnique();
+                    b.HasIndex("CarreraId");
 
                     b.ToTable("PrecioCarrera");
                 });
@@ -352,7 +325,7 @@ namespace Infraestructura.Migrations
                         {
                             Id = 1,
                             EstaEliminado = false,
-                            Fecha = new DateTime(2023, 6, 17, 16, 18, 31, 163, DateTimeKind.Local).AddTicks(767),
+                            Fecha = new DateTime(2023, 6, 21, 20, 2, 49, 904, DateTimeKind.Local).AddTicks(8221),
                             Nombre = "Admin",
                             Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
                             PersonaId = 1,
@@ -372,12 +345,14 @@ namespace Infraestructura.Migrations
 
                     b.Property<string>("Legajo")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("PorcBeca")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasIndex("CarreraId");
+
+                    b.HasIndex("Legajo");
 
                     b.ToTable("Persona_Alumno");
                 });
@@ -411,34 +386,15 @@ namespace Infraestructura.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Dominio.Entidades.Cuota", b =>
-                {
-                    b.HasOne("Dominio.Entidades.PrecioCarrera", "PrecioCarrera")
-                        .WithMany("Cuotas")
-                        .HasForeignKey("PrecioCarreraId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("PrecioCarrera");
-                });
-
             modelBuilder.Entity("Dominio.Entidades.Pago", b =>
                 {
-                    b.HasOne("Dominio.Entidades.Alumno", "Alumnno")
+                    b.HasOne("Dominio.Entidades.Alumno", "Alumno")
                         .WithMany("Pagos")
                         .HasForeignKey("AlumnoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Dominio.Entidades.Cuota", "Cuota")
-                        .WithMany("Pagos")
-                        .HasForeignKey("CuotaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Alumnno");
-
-                    b.Navigation("Cuota");
+                    b.Navigation("Alumno");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Persona", b =>
@@ -463,8 +419,8 @@ namespace Infraestructura.Migrations
             modelBuilder.Entity("Dominio.Entidades.PrecioCarrera", b =>
                 {
                     b.HasOne("Dominio.Entidades.Carrera", "Carrera")
-                        .WithOne("PrecioCarrera")
-                        .HasForeignKey("Dominio.Entidades.PrecioCarrera", "CarreraId")
+                        .WithMany("PrecioCarreras")
+                        .HasForeignKey("CarreraId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -512,8 +468,7 @@ namespace Infraestructura.Migrations
                 {
                     b.Navigation("Alumnos");
 
-                    b.Navigation("PrecioCarrera")
-                        .IsRequired();
+                    b.Navigation("PrecioCarreras");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Ciudad", b =>
@@ -521,19 +476,9 @@ namespace Infraestructura.Migrations
                     b.Navigation("Personas");
                 });
 
-            modelBuilder.Entity("Dominio.Entidades.Cuota", b =>
-                {
-                    b.Navigation("Pagos");
-                });
-
             modelBuilder.Entity("Dominio.Entidades.Extension", b =>
                 {
                     b.Navigation("Personas");
-                });
-
-            modelBuilder.Entity("Dominio.Entidades.PrecioCarrera", b =>
-                {
-                    b.Navigation("Cuotas");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Alumno", b =>

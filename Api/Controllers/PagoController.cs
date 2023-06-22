@@ -1,8 +1,9 @@
 ﻿using Api.PersistenceModels;
-using IServicios.Cuota.CuotaDTO;
+using Aplicacion.Constantes.Enums;
+using IServicios.Contador;
 using IServicios.Pago;
+using IServicios.Pago.CargasMasivas;
 using IServicios.Pago.PagoDTO;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -13,10 +14,14 @@ namespace Api.Controllers
     public class PagoController : Controller
     {
         private readonly IPagoServicio _pagoServicio;
+        private readonly IPagoCargaMasiva _pagoCargaMasiva;
+        private readonly IContadorServicio _contadorServicio;
 
-        public PagoController(IPagoServicio pagoServicio)
+        public PagoController(IPagoServicio pagoServicio, IPagoCargaMasiva pagoCargaMasiva, IContadorServicio contadorServicio)
         {
             _pagoServicio = pagoServicio;
+            _pagoCargaMasiva = pagoCargaMasiva;
+            _contadorServicio = contadorServicio;
         }
 
         [HttpPost]
@@ -24,15 +29,17 @@ namespace Api.Controllers
         {
             var entidad = new PagoDTO
             {
+                Legajo = pago.Legajo,
+                CantCuota = pago.CantCuota,
                 Monto = pago.Monto,
                 NroRecibo = pago.NroRecibo,
                 FechaCarga = pago.FechaCarga,
                 FechaRecibo = pago.FechaRecibo,
-                AlumnoId = pago.AlumnoId,
-                CuotaId = pago.CuotaId,
             };
 
             var id = await _pagoServicio.Crear(entidad);
+
+            await _contadorServicio.CargarNumero(Entidad.Pago, id);
 
             return Results.Ok(id);
 
@@ -48,13 +55,22 @@ namespace Api.Controllers
                 NroRecibo = pago.NroRecibo,
                 FechaCarga = pago.FechaCarga,
                 FechaRecibo = pago.FechaRecibo,
-                AlumnoId = pago.AlumnoId,
-                CuotaId = pago.CuotaId,
             };
 
             await _pagoServicio.Modificar(entidad);
 
             return Results.Ok(entidad);
+        }
+
+        [HttpPost]
+        [Route("CargaMasiva")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IResult> CargaMasiva()
+        {
+            await _pagoCargaMasiva.CargaMasivaPago();
+
+            return Results.Ok("La carga masiva de pagos se realizó con éxito");
+
         }
 
         [HttpDelete("{id}")]
@@ -97,6 +113,21 @@ namespace Api.Controllers
         }
 
         [HttpGet]
+        public async Task<IResult> Obtener(string? cadenaBuscar)
+        {
+            var pagos = await _pagoServicio.Obtener(cadenaBuscar);
+
+            if (pagos == null)
+            {
+                return Results.NotFound();
+            }
+            else
+            {
+                return Results.Ok(pagos);
+            }
+        }
+
+        [HttpGet]
         [Route("ObtenerPorAlumnoId")]
         public async Task<IResult> ObtenerPorAlumnoId(int alumnoId)
         {
@@ -111,6 +142,7 @@ namespace Api.Controllers
                 return Results.Ok(pago);
             }
         }
+
 
     }
 }

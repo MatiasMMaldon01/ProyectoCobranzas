@@ -57,7 +57,7 @@ namespace Api.Controllers
         [HttpPost]
         [Route("CargaMasiva")]
         //[Authorize(Roles = "Admin")]
-        public async Task<IResult> CargaMasiva(AlumnoModel alumno)
+        public async Task<IResult> CargaMasiva()
         {
             await _alumnoCargaMasiva.CargaMasivaAlumno();
 

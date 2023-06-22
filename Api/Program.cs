@@ -12,8 +12,6 @@ using IServicios.Seguridad;
 using Servicios.SeguridadServicio;
 using IServicios.Persona;
 using Servicios.PersonaServicio;
-using IServicios.Cuota;
-using Servicios.CuotaServicio;
 using IServicios.Pago;
 using Servicios.PagoServicio;
 using IServicios.PrecioCuota;
@@ -26,6 +24,8 @@ using IServicios.Persona.CargasMasivas;
 using Servicios.PersonaServicio.AlumnoCMServicio;
 using Servicios.Contador;
 using IServicios.Contador;
+using IServicios.Pago.CargasMasivas;
+using Servicios.PagoServicio.PagoCMServicio;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,19 +71,20 @@ builder.Services.AddScoped<IAlumnoServicio, AlumnoServicio>();
 builder.Services.AddScoped<IEmpleadoServicio, EmpleadoServicio>();
 builder.Services.AddScoped<IPersonaServicio, PersonaServicio>();
 builder.Services.AddScoped<IPrecioCarreraServicio, PrecioCarreraServicio>();
-builder.Services.AddScoped<ICuotaServicio, CuotaServicio>();
 builder.Services.AddScoped<IPagoServicio, PagoServicio>();
 builder.Services.AddScoped<IExtensionServicio, ExtensionServicio>();
 builder.Services.AddScoped<ICiudadServicio, CiudadServicio>();
-builder.Services.AddScoped<IAlumnoCargaMasiva, AlumnoCMServicio>();
 builder.Services.AddScoped<IContadorServicio, ContadorServicio>();
+builder.Services.AddScoped<IAlumnoCargaMasiva, AlumnoCMServicio>();
+builder.Services.AddScoped<IPagoCargaMasiva, PagoCMServicio>();
+
 
 
 
 
 // DB Configuración
 builder.Services.AddDbContext<DataContext>(options => {
-     options.UseSqlServer(builder.Configuration.GetConnectionString("CobranzasDB"));
+     options.UseSqlServer(builder.Configuration.GetConnectionString("TesisDB"));
      options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
 );

@@ -61,7 +61,7 @@ namespace Servicios.CarreraServicio
 
         public async Task<BaseDTO> Obtener(int id)
         {
-            var entidad =  await _unidadDeTrabajo.CarreraRepositorio.Obtener(id, "PrecioCarrera");
+            var entidad =  await _unidadDeTrabajo.CarreraRepositorio.Obtener(id, "PrecioCarreras");
 
             if (entidad == null) throw new Exception("No se encotró la carrera que esta buscando");
 
@@ -71,7 +71,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = entidad.Descripcion,
                 CantCuotas =  entidad.CantidadCuotas,
                 Fecha = entidad.Fecha,
-                PrecioCarrera = entidad.PrecioCarrera != null ? entidad.PrecioCarrera.Monto : 0,
+                PrecioCarrera = entidad.PrecioCarreras != null?entidad.PrecioCarreras.LastOrDefault().Monto : 0,
                 Eliminado = entidad.EstaEliminado
             };
 
@@ -87,7 +87,7 @@ namespace Servicios.CarreraServicio
                 filtro = x => !x.EstaEliminado;
             }
 
-            var entidad = await _unidadDeTrabajo.CarreraRepositorio.ObtenerTodos(filtro, "PrecioCarrera");
+            var entidad = await _unidadDeTrabajo.CarreraRepositorio.ObtenerTodos(filtro, "PrecioCarreras");
 
             return entidad.Select(x => new CarreraDto
             {
@@ -95,7 +95,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = x.Descripcion,
                 CantCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
-                PrecioCarrera = x.PrecioCarrera != null ? x.PrecioCarrera.Monto : 0 ,
+                PrecioCarrera = x.PrecioCarreras != null ? x.PrecioCarreras.LastOrDefault().Monto : 0,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)
@@ -111,7 +111,7 @@ namespace Servicios.CarreraServicio
                 filtro = filtro.And(x => !x.EstaEliminado);
             }
 
-            var entidad = await _unidadDeTrabajo.CarreraRepositorio.Obtener(filtro, "PrecioCarrera");
+            var entidad = await _unidadDeTrabajo.CarreraRepositorio.Obtener(filtro, "PrecioCarreras");
 
             return entidad.Select(x => new CarreraDto
             {
@@ -119,7 +119,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = x.Descripcion,
                 CantCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
-                PrecioCarrera = x.PrecioCarrera != null ? x.PrecioCarrera.Monto : 0,
+                PrecioCarrera = x.PrecioCarreras != null ? x.PrecioCarreras.LastOrDefault().Monto : 0,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)

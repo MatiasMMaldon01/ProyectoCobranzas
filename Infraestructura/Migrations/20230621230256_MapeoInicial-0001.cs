@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infraestructura.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration0001 : Migration
+    public partial class MapeoInicial0001 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -131,34 +131,11 @@ namespace Infraestructura.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cuota",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Numero = table.Column<int>(type: "int", nullable: false),
-                    MontoCuota = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PrecioCarreraId = table.Column<int>(type: "int", nullable: false),
-                    EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cuota", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cuota_PrecioCarrera_PrecioCarreraId",
-                        column: x => x.PrecioCarreraId,
-                        principalTable: "PrecioCarrera",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Persona_Alumno",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    Legajo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Legajo = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FechaIngreso = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PorcBeca = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CarreraId = table.Column<int>(type: "int", nullable: false)
@@ -228,23 +205,18 @@ namespace Infraestructura.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Legajo = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    NroCuota = table.Column<int>(type: "int", nullable: false),
                     Monto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     NroRecibo = table.Column<long>(type: "bigint", nullable: false),
                     FechaCarga = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FechaRecibo = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CuotaId = table.Column<int>(type: "int", nullable: false),
                     AlumnoId = table.Column<int>(type: "int", nullable: false),
                     EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pago", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pago_Cuota_CuotaId",
-                        column: x => x.CuotaId,
-                        principalTable: "Cuota",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Pago_Persona_Alumno_AlumnoId",
                         column: x => x.AlumnoId,
@@ -293,12 +265,7 @@ namespace Infraestructura.Migrations
             migrationBuilder.InsertData(
                 table: "Usuario",
                 columns: new[] { "Id", "EstaEliminado", "Fecha", "Nombre", "Password", "PersonaId", "Rol" },
-                values: new object[] { 1, false, new DateTime(2023, 6, 17, 16, 18, 31, 163, DateTimeKind.Local).AddTicks(767), "Admin", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", 1, 1 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cuota_PrecioCarreraId",
-                table: "Cuota",
-                column: "PrecioCarreraId");
+                values: new object[] { 1, false, new DateTime(2023, 6, 21, 20, 2, 49, 904, DateTimeKind.Local).AddTicks(8221), "Admin", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pago_AlumnoId",
@@ -306,9 +273,9 @@ namespace Infraestructura.Migrations
                 column: "AlumnoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pago_CuotaId",
+                name: "IX_Pago_Legajo_NroRecibo",
                 table: "Pago",
-                column: "CuotaId");
+                columns: new[] { "Legajo", "NroRecibo" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Persona_CiudadId",
@@ -326,10 +293,14 @@ namespace Infraestructura.Migrations
                 column: "CarreraId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Persona_Alumno_Legajo",
+                table: "Persona_Alumno",
+                column: "Legajo");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PrecioCarrera_CarreraId",
                 table: "PrecioCarrera",
-                column: "CarreraId",
-                unique: true);
+                column: "CarreraId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Usuario_PersonaId",
@@ -350,22 +321,19 @@ namespace Infraestructura.Migrations
                 name: "Persona_Empleado");
 
             migrationBuilder.DropTable(
-                name: "Usuario");
+                name: "PrecioCarrera");
 
             migrationBuilder.DropTable(
-                name: "Cuota");
+                name: "Usuario");
 
             migrationBuilder.DropTable(
                 name: "Persona_Alumno");
 
             migrationBuilder.DropTable(
-                name: "PrecioCarrera");
+                name: "Carrera");
 
             migrationBuilder.DropTable(
                 name: "Persona");
-
-            migrationBuilder.DropTable(
-                name: "Carrera");
 
             migrationBuilder.DropTable(
                 name: "Ciudad");

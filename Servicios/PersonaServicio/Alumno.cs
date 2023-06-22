@@ -184,6 +184,7 @@ namespace Servicios.PersonaServicio
                     .ToList();
         }
 
+
         // ==================================== METODOS PRIVADOS ==================================== //
 
         private List<PagoDTO> ManejoDePagos(List<Pago> pagos)
@@ -202,7 +203,6 @@ namespace Servicios.PersonaServicio
                         NroRecibo = p.NroRecibo,
                         FechaCarga = p.FechaCarga,
                         FechaRecibo = p.FechaRecibo,
-                        CuotaId = p.CuotaId,
                         AlumnoId = p.AlumnoId,
                         Eliminado = p.EstaEliminado
                     };

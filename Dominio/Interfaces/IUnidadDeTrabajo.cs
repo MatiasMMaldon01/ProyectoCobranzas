@@ -15,7 +15,6 @@ namespace Dominio.Interfaces
         IAlumnoRepositorio AlumnoRepositorio { get; }
         IEmpleadoRepositorio EmpleadoRepositorio { get; }
         IRepositorio<Pago> PagoRepositorio { get; }
-        IRepositorio<Cuota> CuotaRepositorio { get; }
         IRepositorio<PrecioCarrera> PrecioCarreraRepositorio { get; }
         IRepositorio<Usuario> UsuarioRepositorio { get; }
         IRepositorio<Ciudad> CiudadRepositorio { get; }
@@ -25,6 +24,8 @@ namespace Dominio.Interfaces
         // Repositorios de Carga Masiva
         ICargaMasivaRepositorio<Alumno> CargaMasivaAlumnoRepositorio { get; }
         ICargaMasivaRepositorio<Persona> CargaMasivaPersonaRepositorio { get; }
+        ICargaMasivaRepositorio<Pago> CargaMasivaPagoRepositorio { get; }
+
 
 
     }

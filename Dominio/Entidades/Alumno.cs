@@ -1,4 +1,5 @@
 ﻿using Dominio.Metadata;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,6 +8,7 @@ namespace Dominio.Entidades
 
     [Table("Persona_Alumno")]
     [MetadataType(typeof(IAlumno))]
+    [Index(nameof(Legajo))]
     public class Alumno : Persona
     {
         public string Legajo { get; set; }

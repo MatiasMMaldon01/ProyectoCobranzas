@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,7 +8,7 @@ namespace Dominio.Metadata
     public  interface IAlumno : IPersona
     {
         [Required(ErrorMessage = "El campo {0} es Obligatorio.")]
-        [Display(Name = "Carrera")]
+        [Display(Name = "Legajo")]
         int Legajo { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
