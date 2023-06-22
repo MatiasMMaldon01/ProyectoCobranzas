@@ -5,6 +5,6 @@ namespace IServicios.Pago
 {
     public interface IPagoServicio : IServicioBase
     {
-        Task<IEnumerable<BaseDTO>> ObtenerPorAlumnoId(int alumnoId, bool mostrarTodos = true);
+        Task<IEnumerable<BaseDTO>> ObtenerPorAlumnoId(int alumnoId, bool mostrarTodos = false);
     }
 }

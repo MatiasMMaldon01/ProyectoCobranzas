@@ -5,6 +5,12 @@ namespace IServicios.Pago.PagoDTO
 {
     public class PagoDTO : BaseDTO
     {
+        public string Legajo { get; set; }
+
+        public int CantCuota { get; set; }
+
+        public int NroCuota { get; set; } 
+
         public decimal Monto { get; set; }
 
         public long NroRecibo { get; set; }
@@ -12,8 +18,6 @@ namespace IServicios.Pago.PagoDTO
         public DateTime FechaCarga { get; set; }
 
         public DateTime FechaRecibo { get; set; }
-
-        public int CuotaId { get; set; }
 
         public int AlumnoId { get; set; }
 

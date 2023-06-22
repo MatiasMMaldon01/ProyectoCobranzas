@@ -20,7 +20,6 @@ namespace Dominio.Entidades
         // Propiedades de Navegacion
         public virtual Carrera Carrera { get; set; }
 
-        public virtual ICollection<Cuota> Cuotas { get; set; }
 
     }
 }

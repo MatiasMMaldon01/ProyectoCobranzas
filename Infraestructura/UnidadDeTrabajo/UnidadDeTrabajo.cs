@@ -52,12 +52,6 @@ namespace Infraestructura.UnidadDeTrabajo
 
         // ====================================================================================================================================== //
 
-        public IRepositorio<Cuota> _cuotaRepositorio;
-
-        public IRepositorio<Cuota> CuotaRepositorio => _cuotaRepositorio ?? (_cuotaRepositorio = new Repositorio<Cuota>(_context));
-
-        // ====================================================================================================================================== //
-
         public IRepositorio<PrecioCarrera> _precioCarreraRepositorio;
 
         public IRepositorio<PrecioCarrera> PrecioCarreraRepositorio => _precioCarreraRepositorio ?? (_precioCarreraRepositorio = new Repositorio<PrecioCarrera>(_context));
@@ -91,6 +85,12 @@ namespace Infraestructura.UnidadDeTrabajo
         public ICargaMasivaRepositorio<Persona> _cargaMasivaPersonaRepositorio;
 
         public ICargaMasivaRepositorio<Persona> CargaMasivaPersonaRepositorio => _cargaMasivaPersonaRepositorio ?? (_cargaMasivaPersonaRepositorio = new CargaMasivaRepositorio<Persona>(_context));
+
+        // ====================================================================================================================================== //
+
+        public ICargaMasivaRepositorio<Pago> _cargaMasivaPagoRepositorio;
+
+        public ICargaMasivaRepositorio<Pago> CargaMasivaPagoRepositorio => _cargaMasivaPagoRepositorio ?? (_cargaMasivaPagoRepositorio = new CargaMasivaRepositorio<Pago>(_context));
 
         // ============================================================================================================ //
         private IRepositorio<Contador> contadorRepositorio;

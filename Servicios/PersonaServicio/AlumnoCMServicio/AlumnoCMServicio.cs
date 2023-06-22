@@ -28,7 +28,7 @@ namespace Servicios.PersonaServicio.AlumnoCMServicio
                     List<Dominio.Entidades.Alumno> alumnos = new List<Dominio.Entidades.Alumno>();
                     List<Dominio.Entidades.Persona> personas = new List<Dominio.Entidades.Persona>();
 
-                    string path = @"C:\Users\matia\OneDrive\Escritorio\CargaMasiva\CargaMasivaAlumnos.xlsx";
+                    string path = @"C:\Users\matia\OneDrive\Escritorio\Proyectos\CargaMasiva\CargaMasivaAlumnos.xlsx";
                     SLDocument document = new SLDocument(path);
 
                     int contador = await _contadorServicio.ObtenerSiguienteNumero(Entidad.Persona);
@@ -76,7 +76,7 @@ namespace Servicios.PersonaServicio.AlumnoCMServicio
                 catch
                 {
                     tran.Dispose();
-                    throw new Exception("Ocurrio un error grave al grabar el Alumno");
+                    throw new Exception("Ocurrio un error grave al grabar los Alumnos");
                 }
             }
 

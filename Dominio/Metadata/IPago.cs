@@ -7,6 +7,10 @@ namespace Dominio.Metadata
     public interface IPago
     {
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
+        [Display(Name = @"NroCuota")]
+        int NroCuota { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [Column(TypeName = "decimal(18,2)")]
         [DataType(DataType.Currency)]
         decimal Monto { get; set; }
@@ -21,10 +25,6 @@ namespace Dominio.Metadata
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [DataType(DataType.DateTime)]
         DateTime FechaCarga { get; set; }
-
-        [Required(ErrorMessage = "El campo {0} es Obligatorio")]
-        [Display(Name = @"Cuota")]
-        int CuotaId { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [Display(Name = @"Alumno")]
