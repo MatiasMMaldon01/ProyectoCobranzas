@@ -29,6 +29,7 @@ namespace Servicios.PagoServicio.PagoCMServicio
                 try
                 {
                     List<Pago> pagos = new List<Pago>();
+                    Dictionary<string, int> cuotas = new Dictionary<string, int>();
 
                     string path = @"C:\Users\matia\OneDrive\Escritorio\Proyectos\CargaMasiva\CargaMasivaPago.xlsx";
                     SLDocument document = new SLDocument(path);
@@ -39,16 +40,27 @@ namespace Servicios.PagoServicio.PagoCMServicio
                     while (!string.IsNullOrEmpty(document.GetCellValueAsString(fila, 1)))
                     {
                         var legajo = document.GetCellValueAsString(fila, 1);
-                        var (cantidadPago, alumnoId) = await _alumnoServicio.ObtenerNroCuotasYId(legajo);
+                        int cantidadPago;
+                        int value;
+
+                        (cantidadPago, var alumnoId) = await _alumnoServicio.ObtenerNroCuotasYId(legajo);
+
+                        if (cuotas.TryGetValue(legajo, out value))
+                        {
+                            cantidadPago = value;
+                        }
+
                         var cantidadDeCuotas = document.GetCellValueAsInt32(fila, 2);
 
                         for (int i = 0; i < cantidadDeCuotas; i++)
                         {
+
+                            cantidadPago += i;
                             var pago = new Pago()
                             {
                                 Id = contador,
                                 Legajo = legajo,
-                                NroCuota = cantidadPago + i,
+                                NroCuota = cantidadPago,
                                 FechaCarga = document.GetCellValueAsDateTime(fila, 3),
                                 NroRecibo = document.GetCellValueAsInt32(fila, 4),
                                 Monto = document.GetCellValueAsInt32(fila, 5) / cantidadDeCuotas,
@@ -59,7 +71,10 @@ namespace Servicios.PagoServicio.PagoCMServicio
                             pagos.Add(pago);
                             contador++;
                         }
-                        
+
+                        cuotas[legajo] = cantidadPago + 1;
+
+
                         fila++;
 
                     }
