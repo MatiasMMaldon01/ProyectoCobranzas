@@ -4,6 +4,7 @@ using IServicios.Contador;
 using IServicios.Pago;
 using IServicios.Pago.CargasMasivas;
 using IServicios.Pago.PagoDTO;
+using IServicios.Persona.CargasMasivas;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -79,6 +80,17 @@ namespace Api.Controllers
             await _pagoServicio.Eliminar(id);
 
             return Results.Ok("El Pago se eliminó correctamente");
+        }
+
+        [HttpDelete]
+        [Route("EliminarMasivo")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IResult> EliminarMasivo(DateTime desde, DateTime hasta)
+        {
+            await _pagoCargaMasiva.EliminacionMasivaPagos(desde, hasta);
+
+            return Results.Ok("La eliminación masiva de pagos se realizó con éxito");
+
         }
 
         [HttpGet("{id}")]

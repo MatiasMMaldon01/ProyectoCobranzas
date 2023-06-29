@@ -30,9 +30,35 @@ namespace Servicios.PersonaServicio
             return (cantidadDeCuotas, alumnoId);
         }
 
-        public async Task<IEnumerable<FiltroAlumnosDTO>> FiltrarAlumnos(int mes)
+        // ==================================== FILTRO DE ALUMNOS ==================================== //
+
+        public async Task<IEnumerable<FiltroAlumnosDTO>> FiltrarAlumnos(int corte)
         {
-            throw new NotImplementedException();
+            Expression<Func<Dominio.Entidades.Alumno, bool>> filtro = alumno => !alumno.EstaEliminado &&
+                              ((alumno.Pagos.Count <= 10 && alumno.Pagos.Any(c => c.NroCuota == corte))
+                              || (alumno.Pagos.Count > 10 && alumno.Pagos.Count <= 20 && alumno.Pagos.Any(c => c.NroCuota == 10 + corte))
+                              || (alumno.Pagos.Count > 20 && alumno.Pagos.Count <= 30 && alumno.Pagos.Any(c => c.NroCuota == 20 + corte))
+                              || (alumno.Pagos.Count > 30 && alumno.Pagos.Count <= 40 && alumno.Pagos.Any(c => c.NroCuota == 30 + corte)));
+
+            var alumnos = await _unidadDeTrabajo.AlumnoRepositorio.ObtenerTodos(filtro, "Pagos, Extension, Ciudad, Carrera");
+
+            //var alumnosActivos = from alumno in alumnos
+            //                     where (alumno.Pagos.Count < 10 && alumno.Pagos.Any(c => c.NroCuota == corte))
+            //                         || (alumno.Pagos.Count > 10 && alumno.Pagos.Count <= 20 && alumno.Pagos.Any(c => c.NroCuota == 10 + corte))
+            //                         || (alumno.Pagos.Count > 20 && alumno.Pagos.Count <= 30 && alumno.Pagos.Any(c => c.NroCuota == 20 + corte))
+            //                         || (alumno.Pagos.Count > 30 && alumno.Pagos.Count <= 40 && alumno.Pagos.Any(c => c.NroCuota == 30 + corte))
+            //                     select alumno;
+
+            return alumnos.Select(x => new FiltroAlumnosDTO()
+            {
+                Apynom = x.Apynom,
+                Legajo = x.Legajo,
+                Mail = x.Mail,
+                NroDoc = x.NroDoc,
+                Carrera = x.Carrera.Descripcion,
+                Extension = x.Extension.Descripcion,
+                Activo = true,
+            }).ToList();
         }
     }
 }

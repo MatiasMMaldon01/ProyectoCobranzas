@@ -1,5 +1,4 @@
 ﻿using IServicios.Persona;
-using IServicios.Persona.DTO_s;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -18,9 +17,10 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IResult> FiltroAlumnos(DateTime fechaDeCorte)
         {
-            int mes = fechaDeCorte.Month;
+            int cuotasDeCorte = fechaDeCorte.Month - 2;
 
-            return Results.Ok(mes);
+            var alumnos = await _alumnoServicio.FiltrarAlumnos(cuotasDeCorte);
+            return Results.Ok(alumnos);
         }
     }
 }

@@ -71,7 +71,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = entidad.Descripcion,
                 CantCuotas =  entidad.CantidadCuotas,
                 Fecha = entidad.Fecha,
-                PrecioCarrera = entidad.PrecioCarreras != null?entidad.PrecioCarreras.LastOrDefault().Monto : 0,
+                PrecioCarrera = entidad.PrecioCarreras.Count() != 0 ? entidad.PrecioCarreras.LastOrDefault().Monto : 0,
                 Eliminado = entidad.EstaEliminado
             };
 
@@ -95,7 +95,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = x.Descripcion,
                 CantCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
-                PrecioCarrera = x.PrecioCarreras != null ? x.PrecioCarreras.LastOrDefault().Monto : 0,
+                PrecioCarrera = x.PrecioCarreras.Count() != 0 ? x.PrecioCarreras.LastOrDefault().Monto : 0,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)
@@ -119,7 +119,7 @@ namespace Servicios.CarreraServicio
                 Descripcion = x.Descripcion,
                 CantCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
-                PrecioCarrera = x.PrecioCarreras != null ? x.PrecioCarreras.LastOrDefault().Monto : 0,
+                PrecioCarrera = x.PrecioCarreras.Count() != 0 ? x.PrecioCarreras.LastOrDefault().Monto : 0,
                 Eliminado = x.EstaEliminado
             })
                 .OrderBy(x => x.Descripcion)

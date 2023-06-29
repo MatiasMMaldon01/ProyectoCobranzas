@@ -6,5 +6,6 @@ namespace Dominio.Interfaces
     {
 
         Task CargaMasiva(List<T> registros);
+        Task EliminarMasivo(List<T> registros);
     }
 }

@@ -2,6 +2,7 @@
 using Dominio.Interfaces;
 using IServicios.Pago.PagoDTO;
 using IServicios.Persona.DTO_s;
+using Microsoft.EntityFrameworkCore;
 using Servicios.Base;
 using System.Linq.Expressions;
 
@@ -38,6 +39,7 @@ namespace Servicios.PersonaServicio
                 ExtensionId = entidadNueva.ExtensionId,
                 CarreraId = entidadNueva.CarreraId,
                 CodigoPostal = entidadNueva.CodigoPostal,
+                FechaCreacion = DateTime.Now,
                 EstaEliminado = false,
             };
 
@@ -72,6 +74,7 @@ namespace Servicios.PersonaServicio
                 ExtensionId = entidadModificar.ExtensionId,
                 CarreraId = entidadModificar.CarreraId,
                 CodigoPostal = entidadModificar.CodigoPostal,
+                FechaCreacion = DateTime.Now,
                 EstaEliminado = false,
             });
 

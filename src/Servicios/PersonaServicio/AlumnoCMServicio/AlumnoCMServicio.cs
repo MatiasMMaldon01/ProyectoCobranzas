@@ -1,8 +1,10 @@
 ﻿using Aplicacion.Constantes.Enums;
+using Dominio.Entidades;
 using Dominio.Interfaces;
 using IServicios.Contador;
 using IServicios.Persona.CargasMasivas;
 using SpreadsheetLight;
+using System.Linq.Expressions;
 using System.Transactions;
 
 namespace Servicios.PersonaServicio.AlumnoCMServicio
@@ -27,8 +29,9 @@ namespace Servicios.PersonaServicio.AlumnoCMServicio
 
                     List<Dominio.Entidades.Alumno> alumnos = new List<Dominio.Entidades.Alumno>();
                     List<Dominio.Entidades.Persona> personas = new List<Dominio.Entidades.Persona>();
+                    DateTime fecha = DateTime.Now;
 
-                    string path = @"C:\Users\matia\OneDrive\Escritorio\Proyectos\CargaMasiva\CargaMasivaAlumnos.xlsx";
+                    string path = @"C:\CargaMasiva\CargaMasivaAlumnos.xlsx";
                     SLDocument document = new SLDocument(path);
 
                     int contador = await _contadorServicio.ObtenerSiguienteNumero(Entidad.Persona);
@@ -50,12 +53,14 @@ namespace Servicios.PersonaServicio.AlumnoCMServicio
                             Mail = document.GetCellValueAsString(fila, 11),
                             ExtensionId = document.GetCellValueAsInt32(fila, 14),
                         };
+
                         var alumno = new Dominio.Entidades.Alumno()
                         {
                             Id = contador,
                             Legajo = document.GetCellValueAsString(fila, 1),
                             CarreraId = document.GetCellValueAsInt32(fila, 12),
-                            FechaIngreso = document.GetCellValueAsDateTime(fila, 16)
+                            FechaIngreso = document.GetCellValueAsDateTime(fila, 16),
+                            FechaCreacion = fecha
                         };
 
                         alumnos.Add(alumno);
@@ -66,7 +71,7 @@ namespace Servicios.PersonaServicio.AlumnoCMServicio
 
                     await _unidadDeTrabajo.CargaMasivaAlumnoRepositorio.CargaMasiva(alumnos);
                     await _unidadDeTrabajo.CargaMasivaPersonaRepositorio.CargaMasiva(personas);
-                    await _contadorServicio.CargarNumero(Entidad.Persona, contador);
+                    await _contadorServicio.CargarNumero(Entidad.Persona, contador - 1);
 
                     _unidadDeTrabajo.Commit();
 
@@ -81,6 +86,32 @@ namespace Servicios.PersonaServicio.AlumnoCMServicio
             }
 
                  
+        }
+
+        public async Task EliminacionMasivaAlumnos(DateTime desde, DateTime hasta)
+        {
+            Expression<Func<Dominio.Entidades.Alumno, bool>> filtro = alumno => alumno.FechaCreacion >= desde && alumno.FechaCreacion <= hasta;
+
+            var alumnos =  await _unidadDeTrabajo.AlumnoRepositorio.Obtener(filtro) ;
+
+            var personasEliminar = alumnos.Select(x => new Dominio.Entidades.Persona(){
+                Id = x.Id,
+                Apynom = x.Apynom,
+                CiudadId = x.CiudadId,
+                CodigoPostal = x.CodigoPostal,
+                Direccion = x.Direccion,
+                ExtensionId = x.ExtensionId,
+                FechaNacimiento = x.FechaNacimiento,
+                Mail = x.Mail,
+                NroDoc = x.NroDoc,
+                Telefono = x.Telefono,
+                TipoDoc = x.TipoDoc,
+                EstaEliminado = !x.EstaEliminado,
+            }).ToList();
+
+
+            await _unidadDeTrabajo.CargaMasivaPersonaRepositorio.EliminarMasivo(personasEliminar);
+            _unidadDeTrabajo.Commit();
         }
     }
 }

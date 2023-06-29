@@ -171,6 +171,9 @@ namespace Infraestructura.Migrations
                     b.Property<DateTime>("FechaCarga")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("FechaRecibo")
                         .HasColumnType("datetime2");
 
@@ -322,7 +325,7 @@ namespace Infraestructura.Migrations
                         {
                             Id = 1,
                             EstaEliminado = false,
-                            Fecha = new DateTime(2023, 6, 21, 20, 2, 49, 904, DateTimeKind.Local).AddTicks(8221),
+                            Fecha = new DateTime(2023, 6, 28, 20, 26, 12, 699, DateTimeKind.Local).AddTicks(6838),
                             Nombre = "Admin",
                             Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
                             PersonaId = 1,
@@ -336,6 +339,9 @@ namespace Infraestructura.Migrations
 
                     b.Property<int>("CarreraId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaIngreso")
                         .HasColumnType("datetime2");
