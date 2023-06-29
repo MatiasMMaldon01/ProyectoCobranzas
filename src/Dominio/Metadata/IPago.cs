@@ -27,6 +27,10 @@ namespace Dominio.Metadata
         DateTime FechaCarga { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
+        [DataType(DataType.DateTime)]
+        DateTime FechaCreacion { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [Display(Name = @"Alumno")]
         int AlumnoId { get; set; }
     }

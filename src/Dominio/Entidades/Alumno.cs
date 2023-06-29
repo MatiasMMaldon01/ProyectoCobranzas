@@ -19,6 +19,8 @@ namespace Dominio.Entidades
 
         public int CarreraId { get; set; }
 
+        public DateTime FechaCreacion { get; set; }
+
         // Propiedades de Navegacion
         public virtual ICollection<Pago> Pagos { get; set; }
 

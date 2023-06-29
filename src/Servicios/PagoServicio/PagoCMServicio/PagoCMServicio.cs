@@ -5,6 +5,7 @@ using IServicios.Contador;
 using IServicios.Pago.CargasMasivas;
 using IServicios.Persona;
 using SpreadsheetLight;
+using System.Linq.Expressions;
 using System.Transactions;
 
 namespace Servicios.PagoServicio.PagoCMServicio
@@ -30,8 +31,9 @@ namespace Servicios.PagoServicio.PagoCMServicio
                 {
                     List<Pago> pagos = new List<Pago>();
                     Dictionary<string, int> cuotas = new Dictionary<string, int>();
+                    DateTime fecha = DateTime.Now;
 
-                    string path = @"C:\Users\matia\OneDrive\Escritorio\Proyectos\CargaMasiva\CargaMasivaPago.xlsx";
+                    string path = @"C:\CargaMasiva\CargaMasivaPago.xlsx";
                     SLDocument document = new SLDocument(path);
 
                     int contador = await _contadorServicio.ObtenerSiguienteNumero(Entidad.Pago);
@@ -66,6 +68,7 @@ namespace Servicios.PagoServicio.PagoCMServicio
                                 Monto = document.GetCellValueAsInt32(fila, 5) / cantidadDeCuotas,
                                 FechaRecibo = document.GetCellValueAsDateTime(fila,6),
                                 AlumnoId = alumnoId,
+                                FechaCreacion = fecha
                             };
 
                             pagos.Add(pago);
@@ -93,6 +96,22 @@ namespace Servicios.PagoServicio.PagoCMServicio
                     throw new Exception("Ocurrio un error grave al grabar los Pagos");
                 }
             }
+        }
+
+        public async Task EliminacionMasivaPagos(DateTime desde, DateTime hasta)
+        {
+            Expression<Func<Pago, bool>> filtro = pago => pago.FechaCreacion >= desde && pago.FechaCreacion <= hasta;
+
+            var pagosEliminar = (List<Pago>) await _unidadDeTrabajo.PagoRepositorio.Obtener(filtro);
+
+            foreach (var pago in pagosEliminar)
+            {
+                pago.EstaEliminado = !pago.EstaEliminado;
+            }
+
+
+            await _unidadDeTrabajo.CargaMasivaPagoRepositorio.EliminarMasivo(pagosEliminar);
+            _unidadDeTrabajo.Commit();
         }
     }
 }

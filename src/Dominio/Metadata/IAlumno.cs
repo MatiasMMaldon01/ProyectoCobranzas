@@ -16,6 +16,10 @@ namespace Dominio.Metadata
         DateTime FechaIngreso { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
+        [DataType(DataType.DateTime)]
+        DateTime FechaCreacion { get; set; }
+        
+        [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [Column(TypeName = "decimal(18,2)")]
         decimal PorcBeca { get; set; }
     }

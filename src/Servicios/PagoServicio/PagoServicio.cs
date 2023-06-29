@@ -43,6 +43,7 @@ namespace Servicios.PagoServicio
                             FechaRecibo = dto.FechaRecibo,
                             NroRecibo = dto.NroRecibo,
                             AlumnoId = alumnoId,
+                            FechaCreacion = DateTime.Now
                         };
 
                         await _unidadDeTrabajo.PagoRepositorio.Crear(pago);
@@ -96,7 +97,7 @@ namespace Servicios.PagoServicio
 
         public async Task<IEnumerable<BaseDTO>> Obtener(string cadenaBuscar, bool mostrarTodos = false)
         {
-            Expression<Func<Pago, bool>> filtro = x => x.NroRecibo.ToString() == cadenaBuscar;
+            Expression<Func<Pago, bool>> filtro = x => x.NroRecibo.ToString() == cadenaBuscar || x.Legajo == cadenaBuscar;
 
             if (!mostrarTodos)
             {

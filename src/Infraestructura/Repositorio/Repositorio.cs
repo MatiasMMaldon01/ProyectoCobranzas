@@ -13,6 +13,7 @@ namespace Infraestructura.Repositorio
         {   
             _context = context;
         }
+
         #region Metodos Persistencia
         public async Task<int> Crear(T entidad)
         {

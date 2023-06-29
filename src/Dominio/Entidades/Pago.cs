@@ -22,6 +22,8 @@ namespace Dominio.Entidades
 
         public DateTime FechaRecibo { get; set; }
 
+        public DateTime FechaCreacion { get; set; }
+
         public int AlumnoId { get; set; }
 
 

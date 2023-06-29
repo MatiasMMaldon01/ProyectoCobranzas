@@ -138,7 +138,8 @@ namespace Infraestructura.Migrations
                     Legajo = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FechaIngreso = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PorcBeca = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CarreraId = table.Column<int>(type: "int", nullable: false)
+                    CarreraId = table.Column<int>(type: "int", nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -211,6 +212,7 @@ namespace Infraestructura.Migrations
                     NroRecibo = table.Column<long>(type: "bigint", nullable: false),
                     FechaCarga = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FechaRecibo = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AlumnoId = table.Column<int>(type: "int", nullable: false),
                     EstaEliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -265,7 +267,7 @@ namespace Infraestructura.Migrations
             migrationBuilder.InsertData(
                 table: "Usuario",
                 columns: new[] { "Id", "EstaEliminado", "Fecha", "Nombre", "Password", "PersonaId", "Rol" },
-                values: new object[] { 1, false, new DateTime(2023, 6, 21, 20, 2, 49, 904, DateTimeKind.Local).AddTicks(8221), "Admin", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", 1, 1 });
+                values: new object[] { 1, false, new DateTime(2023, 6, 28, 20, 26, 12, 699, DateTimeKind.Local).AddTicks(6838), "Admin", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pago_AlumnoId",

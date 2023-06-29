@@ -102,6 +102,17 @@ namespace Api.Controllers
             return Results.Ok("La Alumno se eliminó correctamente");
         }
 
+        [HttpDelete]
+        [Route("EliminarMasivo")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IResult> EliminarMasivo(DateTime desde, DateTime hasta)
+        {
+            await _alumnoCargaMasiva.EliminacionMasivaAlumnos(desde, hasta);
+
+            return Results.Ok("La eliminación masiva de alumnos se realizó con éxito");
+
+        }
+
         [HttpGet("{id}")]
         //[Authorize(Roles = "Admin")]
         public async Task<IResult> Obtener(int id)

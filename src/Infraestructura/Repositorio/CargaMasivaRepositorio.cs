@@ -21,5 +21,12 @@ namespace Infraestructura.Repositorio
             await _context.BulkInsertAsync<T>(registros);
 
         }
+
+        public async Task EliminarMasivo(List<T> registros)
+        {
+            if (registros == null) throw new Exception("No se encontraron registros en la eliminación masiva");
+
+            await _context.BulkUpdateAsync<T>(registros);
+        }
     }
 }

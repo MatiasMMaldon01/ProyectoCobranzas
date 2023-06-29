@@ -3,5 +3,6 @@
     public interface IAlumnoCargaMasiva
     {
         Task CargaMasivaAlumno();
+        Task EliminacionMasivaAlumnos(DateTime desde, DateTime hasta);
     }
 }

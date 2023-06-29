@@ -6,6 +6,6 @@ namespace IServicios.Persona
     {
         Task<(int, int)> ObtenerNroCuotasYId(string legajo);
 
-        Task<IEnumerable<FiltroAlumnosDTO>> FiltrarAlumnos(int mes);
+        Task<IEnumerable<FiltroAlumnosDTO>> FiltrarAlumnos(int corte);
     }
 }
