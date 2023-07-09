@@ -123,7 +123,7 @@ namespace Servicios.PagoServicio
 
         public async Task<IEnumerable<BaseDTO>> ObtenerPorAlumnoId(int alumnoId, bool mostrarTodos = false)
         {
-            Expression<Func<Pago, bool>> filtro = x => x.AlumnoId == alumnoId;
+            Expression<Func<Pago, bool>> filtro = x => x.AlumnoId == alumnoId && !x.Alumno.EstaEliminado;
 
             if (!mostrarTodos)
             {
