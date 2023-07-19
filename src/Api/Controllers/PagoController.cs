@@ -4,7 +4,6 @@ using IServicios.Contador;
 using IServicios.Pago;
 using IServicios.Pago.CargasMasivas;
 using IServicios.Pago.PagoDTO;
-using IServicios.Persona.CargasMasivas;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -52,10 +51,9 @@ namespace Api.Controllers
             var entidad = new PagoDTO
             {
                 Id = pago.Id,
+                Legajo = pago.Legajo,
                 Monto = pago.Monto,
                 NroRecibo = pago.NroRecibo,
-                FechaCarga = pago.FechaCarga,
-                FechaRecibo = pago.FechaRecibo,
             };
 
             await _pagoServicio.Modificar(entidad);
