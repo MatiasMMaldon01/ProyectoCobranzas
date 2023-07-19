@@ -1,4 +1,5 @@
-﻿using Dominio.Entidades;
+﻿using Aplicacion.Constantes.Enums;
+using Dominio.Entidades;
 using Dominio.Interfaces;
 using IServicios.Base.Base_DTO;
 using IServicios.Pago;
@@ -69,9 +70,21 @@ namespace Servicios.PagoServicio
             _unidadDeTrabajo.Commit();
         }
 
-        public Task Modificar(BaseDTO dtoEntidad)
+        public async Task Modificar(BaseDTO dtoEntidad)
         {
-            throw new NotImplementedException();
+            var pagoModificar = (PagoDTO)dtoEntidad;
+
+            var entidad = await _unidadDeTrabajo.PagoRepositorio.Obtener(dtoEntidad.Id);
+
+            if (entidad == null) throw new Exception("No se encotró el pago que quiere modificar");
+            
+            entidad.Monto = pagoModificar.Monto;
+            entidad.Legajo = pagoModificar.Legajo;
+            entidad.NroRecibo = pagoModificar.NroRecibo;
+
+            await _unidadDeTrabajo.PagoRepositorio.Modificar(entidad);
+            _unidadDeTrabajo.Commit();
+
         }
 
         public async Task<BaseDTO> Obtener(int id)

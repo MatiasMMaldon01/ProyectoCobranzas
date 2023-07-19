@@ -52,6 +52,7 @@ namespace Api.Controllers
             var entidad = new PagoDTO
             {
                 Id = pago.Id,
+                Legajo = pago.Legajo,
                 Monto = pago.Monto,
                 NroRecibo = pago.NroRecibo,
                 FechaCarga = pago.FechaCarga,
