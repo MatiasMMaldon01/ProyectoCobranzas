@@ -4,7 +4,6 @@ using IServicios.Contador;
 using IServicios.Pago;
 using IServicios.Pago.CargasMasivas;
 using IServicios.Pago.PagoDTO;
-using IServicios.Persona.CargasMasivas;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers

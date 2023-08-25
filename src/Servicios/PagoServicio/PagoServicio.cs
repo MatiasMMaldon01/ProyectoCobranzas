@@ -1,4 +1,5 @@
-﻿using Dominio.Entidades;
+﻿using Aplicacion.Constantes.Enums;
+using Dominio.Entidades;
 using Dominio.Interfaces;
 using IServicios.Base.Base_DTO;
 using IServicios.Pago;
