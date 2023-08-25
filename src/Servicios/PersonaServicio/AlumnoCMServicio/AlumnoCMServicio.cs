@@ -31,7 +31,7 @@ namespace Servicios.PersonaServicio.AlumnoCMServicio
                     List<Dominio.Entidades.Persona> personas = new List<Dominio.Entidades.Persona>();
                     DateTime fecha = DateTime.Now;
 
-                    string path = @"C:\CargaMasiva\CargaMasivaAlumnos.xlsx";
+                    string path = @"C:\Gott\TesisSchn\ImportacionMasivaAlumnos.xlsx";
                     SLDocument document = new SLDocument(path);
 
                     int contador = await _contadorServicio.ObtenerSiguienteNumero(Entidad.Persona);
@@ -90,7 +90,7 @@ namespace Servicios.PersonaServicio.AlumnoCMServicio
 
         public async Task EliminacionMasivaAlumnos(DateTime desde, DateTime hasta)
         {
-            Expression<Func<Dominio.Entidades.Alumno, bool>> filtro = alumno => alumno.FechaCreacion >= desde && alumno.FechaCreacion <= hasta;
+            Expression<Func<Dominio.Entidades.Alumno, bool>> filtro = alumno => alumno.FechaCreacion.Date >= desde.Date && alumno.FechaCreacion.Date <= hasta.Date;
 
             var alumnos =  await _unidadDeTrabajo.AlumnoRepositorio.Obtener(filtro) ;
 
@@ -106,7 +106,7 @@ namespace Servicios.PersonaServicio.AlumnoCMServicio
                 NroDoc = x.NroDoc,
                 Telefono = x.Telefono,
                 TipoDoc = x.TipoDoc,
-                EstaEliminado = !x.EstaEliminado,
+                EstaEliminado = true,
             }).ToList();
 
 

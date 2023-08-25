@@ -33,7 +33,7 @@ namespace Servicios.PagoServicio.PagoCMServicio
                     Dictionary<string, int> cuotas = new Dictionary<string, int>();
                     DateTime fecha = DateTime.Now;
 
-                    string path = @"C:\CargaMasiva\CargaMasivaPago.xlsx";
+                    string path = @"C:\Gott\TesisSchn\CargaMasivaPago.xlsx";
                     SLDocument document = new SLDocument(path);
 
                     int contador = await _contadorServicio.ObtenerSiguienteNumero(Entidad.Pago);
@@ -100,13 +100,13 @@ namespace Servicios.PagoServicio.PagoCMServicio
 
         public async Task EliminacionMasivaPagos(DateTime desde, DateTime hasta)
         {
-            Expression<Func<Pago, bool>> filtro = pago => pago.FechaCreacion >= desde && pago.FechaCreacion <= hasta;
+            Expression<Func<Pago, bool>> filtro = pago => pago.FechaCreacion.Date >= desde.Date && pago.FechaCreacion.Date <= hasta.Date;
 
             var pagosEliminar = (List<Pago>) await _unidadDeTrabajo.PagoRepositorio.Obtener(filtro);
 
             foreach (var pago in pagosEliminar)
             {
-                pago.EstaEliminado = !pago.EstaEliminado;
+                pago.EstaEliminado = true;
             }
 
 

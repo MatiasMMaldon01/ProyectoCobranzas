@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using IServicios.Contador;
 using Aplicacion.Constantes.Enums;
 using Dominio.Entidades;
+using Api.PersistenceModels;
 
 namespace Api.Controllers
 {
@@ -23,7 +24,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IResult> Crear(EmpleadoDTO empleado)
+        public async Task<IResult> Crear(EmpleadoModel empleado)
         {
             var entidad = new EmpleadoDTO
             {
@@ -48,7 +49,7 @@ namespace Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IResult> Modificar(EmpleadoDTO empleado)
+        public async Task<IResult> Modificar(EmpleadoModel empleado)
         {
             var entidad = new EmpleadoDTO
             {
