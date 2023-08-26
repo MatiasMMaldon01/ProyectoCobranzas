@@ -11,9 +11,9 @@ namespace IServicios.Pago.PagoDTO
 
         public int NroCuota { get; set; } 
 
-        public decimal Monto { get; set; }
+        public int Monto { get; set; }
 
-        public long NroRecibo { get; set; }
+        public int NroRecibo { get; set; }
 
         public DateTime FechaCarga { get; set; }
 

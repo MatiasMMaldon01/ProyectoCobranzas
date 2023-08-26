@@ -47,7 +47,7 @@ namespace Servicios.PersonaServicio
                                      || (alumno.Pagos.Where(x => !x.EstaEliminado).Count() > 30 && alumno.Pagos.Where(x => !x.EstaEliminado).Count() <= 40 && alumno.Pagos.Any(c => c.NroCuota == 30 + corte))
                                  select alumno).ToList();
 
-            string path = @$"C:\Reportes\Cohorte-Fecha{(corte + 2).ToString("00")}-{DateTime.Now.Year}.xlsx";
+            string path = @$"C:\Gott\TesisSchn\Reportes\Cohorte-Fecha{(corte + 2).ToString("00")}-{DateTime.Now.Year}.xlsx";
 
             SLDocument oSLDocument = new SLDocument();
 

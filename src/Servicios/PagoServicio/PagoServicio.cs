@@ -77,14 +77,13 @@ namespace Servicios.PagoServicio
             var entidad = await _unidadDeTrabajo.PagoRepositorio.Obtener(dtoEntidad.Id);
 
             if (entidad == null) throw new Exception("No se encotró el pago que quiere modificar");
-            
+
             entidad.Monto = pagoModificar.Monto;
             entidad.Legajo = pagoModificar.Legajo;
             entidad.NroRecibo = pagoModificar.NroRecibo;
 
             await _unidadDeTrabajo.PagoRepositorio.Modificar(entidad);
             _unidadDeTrabajo.Commit();
-
         }
 
         public async Task<BaseDTO> Obtener(int id)
